@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "EPermissions" ADD VALUE 'TEAM_STORAGE_UPDATE';

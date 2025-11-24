@@ -1,0 +1,34 @@
+{
+  "name": "filelistshare-stack",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:backend": "pnpm --filter backend test",
+    "typecheck": "turbo run typecheck",
+    "prisma:migrate": "turbo run prisma:migrate",
+    "prisma:generate": "turbo run prisma:generate",
+    "api:spec": "turbo run api:spec",
+    "api:client:gen": "turbo run api:client:gen",
+    "refresh:contracts": "pnpm prisma:generate && pnpm api:spec && pnpm api:client:gen && pnpm typecheck",
+    "format": "pnpm prettier --write .",
+    "format:check": "pnpm prettier --check ."
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "prettier": "^3.6.2",
+    "turbo": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

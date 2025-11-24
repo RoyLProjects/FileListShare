@@ -1,0 +1,144 @@
+// prisma/schema.prisma (SQLite of Postgres werkt allebei)
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated/app"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EStorageType {
+  dropbox
+}
+
+enum EItemStatus {
+  published
+  draft
+}
+
+enum EPermissions {
+  LIST_CREATE
+  LIST_RENAME
+  LIST_DELETE
+  ITEM_CREATE
+  ITEM_UPDATE
+  ITEM_DELETE
+  TEAM_RENAME
+  TEAM_DELETE
+  TEAM_MEMBER_CREATE
+  TEAM_MEMBER_DELETE
+  TEAM_MEMBER_RIGHTS
+  TEAM_STORAGE_ADD
+  TEAM_STORAGE_UPDATE
+  TEAM_STORAGE_DELETE
+  TEAM_PUBLIC_LINK_CREATE
+  TEAM_PUBLIC_LINK_DELETE
+}
+
+model User {
+  id        String   @id
+  storage   Storage?
+  lists     List[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Storage {
+  id           String       @id @default(uuid())
+  type         EStorageType
+  displayName  String
+  storagePath  String?
+  refreshToken String
+  userId       String?      @unique
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId       String?      @unique
+  team         Team?        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now()) @updatedAt
+}
+
+model Team {
+  id        String       @id @default(uuid())
+  title     String       @unique
+  createdBy String
+  storage   Storage?
+  lists     List[]
+  members   TeamMember[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model TeamMember {
+  id          String                 @id @default(uuid())
+  teamId      String
+  userId      String
+  createdAt   DateTime               @default(now())
+  createdBy   String
+  team        Team                   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  permissions TeamMemberPermission[]
+
+  @@unique([teamId, userId])
+}
+
+model TeamMemberPermission {
+  teamMemberId String
+  permission   EPermissions
+
+  teamMember TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  // één record per (member, permission)
+  @@id([teamMemberId, permission])
+  @@index([permission])
+}
+
+model PublicLink {
+  id           String   @id @default(uuid())
+  listId       String   @unique
+  list         List     @relation("ListPublicLink", fields: [listId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  createdBy    String
+  updatedAt    DateTime @updatedAt
+}
+
+model List {
+  id        String   @id @default(uuid())
+  title     String
+  userId    String?
+  teamId    String?
+  createdAt DateTime @default(now())
+  createdBy String
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team Team? @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  items      List_item[]
+  publicLink PublicLink? @relation("ListPublicLink")
+
+  @@unique([userId, title])
+  @@unique([teamId, title])
+}
+
+model List_item {
+  id            String      @id @default(uuid())
+  itemnumber    Int
+  listId        String
+  description   String
+  uploadedFiles String[]    @default([])
+  comment       String?
+  status        EItemStatus @default(draft)
+  delivered     Boolean     @default(false)
+  deadline      DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  createdBy     String
+  updatedAt     DateTime    @updatedAt
+  list          List        @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+  @@unique([listId, itemnumber])
+}
