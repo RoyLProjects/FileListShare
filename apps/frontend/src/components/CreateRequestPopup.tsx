@@ -1,25 +1,26 @@
-import React, { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 import GetErrorMessage from "../lib/GetErrorMessage";
 
 export interface CreateRequestPopupProps {
-  isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
   listId: string;
   teamId?: string;
+  isOpen: boolean;
 }
 
 const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
-  isOpen,
   onClose,
   onSuccess,
   listId,
   teamId,
+  isOpen,
 }) => {
   const [description, setDescription] = useState("");
-  const [itemNumber, setItemNumber] = useState<number>(1);
+  const [suggestedItemNumber, setSuggestedItemNumber] = useState<number | null>(null);
+  
   const [status, setStatus] = useState<"published" | "draft">("published");
   const [deadline, setDeadline] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -35,33 +36,30 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
     teamId?: string;
   };
 
-  const queryParams = { listId: listId ?? "", page: 1, pageSize: 15 };
+const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
 
-  const queryKey = ["listdetails", queryParams] as const;
-
-  const {
-    isLoading,
-    isFetching,
-  } = useQuery({
-    queryKey: queryKey,
-    queryFn: async () => {
+    const fetchItemNumber = useMutation<number, unknown, void>({
+    mutationFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/listDetails", {
         params: { query: queryParams },
       });
-
       if (error) throw error;
       try {
-        const items = (data?.data?.Items as Array<{ itemnumber?: number }>) ?? [];
-        const maxItemNumber = items.length > 0 ? Math.max(...items.map((i) => i.itemnumber ?? 0)) : 0;
-        setItemNumber(maxItemNumber + 1);
+        const payload = data as { data?: { items?: Array<{ itemnumber?: number }> } } | undefined;
+        const firstItemNumber = payload?.data?.items?.[0]?.itemnumber;
+        return (firstItemNumber ?? 0) + 1;
       } catch {
-        // ignore and keep default
+        return 1;
       }
-      return data;
+    },
+    onSuccess: (nextNumber: number) => {
+      setSuggestedItemNumber(nextNumber);
+    },
+    onError: (err: unknown) => {
+      setError(GetErrorMessage(err));
     },
   });
 
-  const loading = isLoading || isFetching || isUpdating;
 
   const createMutation = useMutation<unknown, unknown, CreateItemBody>({
     mutationFn: async (itemData: CreateItemBody) => {
@@ -79,13 +77,33 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
     },
   });
 
+  const loading =  isUpdating || fetchItemNumber.status === "pending" || createMutation.status === "pending";
+
+  
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSuggestedItemNumber(null);
+      return;
+    }
+
+    // Fetch suggestion when the popup opens so user sees suggested value.
+    fetchItemNumber.mutateAsync().catch((err) => {
+      setError(GetErrorMessage(err));
+    });
+  }, [isOpen]);
+
   const handleCreateRequest = async () => {
+    const suggestion = await fetchItemNumber.mutateAsync();
+
     if (!description.trim()) {
       setError("Description is required");
       return;
     }
 
-    if (itemNumber < 1) {
+    const chosenNumber = suggestion;
+
+    if (!Number.isInteger(chosenNumber) || chosenNumber < 1) {
       setError("Item number must be at least 1");
       return;
     }
@@ -97,7 +115,7 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
       const itemData = {
         listId,
         description: description.trim(),
-        itemnumber: itemNumber,
+        itemnumber: chosenNumber,
         status,
         ...(deadline ? { deadline: new Date(deadline).toISOString() } : {}),
         ...(teamId ? { teamId } : {}),
@@ -107,7 +125,6 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
 
       // Reset form (handled in onSuccess too, but keep local reset)
       setDescription("");
-      setItemNumber(1);
       setStatus("published");
       setDeadline("");
     } catch (err) {
@@ -120,7 +137,6 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
 
   const handleClose = () => {
     setDescription("");
-    setItemNumber(1);
     setStatus("published");
     setDeadline("");
     setError(null);
@@ -180,6 +196,26 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
             />
           </div>
 
+          {/* Item Number Input (optional) */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              Item Number (optional)
+            </label>
+            <input
+              type="text"
+              value={suggestedItemNumber !== null ? String(suggestedItemNumber) : ""}
+              readOnly
+              placeholder={suggestedItemNumber === null ? "Loading..." : ""}
+              className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+              disabled={loading}
+            />
+            {suggestedItemNumber !== null && (
+              <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">
+                Suggested: <span className="font-semibold">{suggestedItemNumber}</span>.
+              </p>
+            )}
+          </div>
+
           {/* Status Selection */}
           <div>
             <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
@@ -216,7 +252,7 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
           <div className="flex gap-2 pt-2">
             <button
               onClick={handleCreateRequest}
-              disabled={loading || !description.trim()}
+                disabled={loading || !description.trim()}
               className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {loading ? "Creating..." : "Create Request"}
