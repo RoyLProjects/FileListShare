@@ -4,16 +4,13 @@ import { Api } from "../apiClient/apiClient";
 
 interface TeamMembersSectionProps {
   teamId: string;
-  teamName: string;
 }
 
 const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
   teamId,
-  teamName,
 }) => {
-
-  if(!teamId || !teamName) {
-    <>
+  if (!teamId) {
+    return (
       <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
         <p className="text-lg font-bold text-neutral-900 mb-4 dark:text-neutral-100">
           Team Members
@@ -22,33 +19,27 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
           <p>No team members found</p>
         </div>
       </div>
-    </>
+    );
   }
 
-
-  const queryParams = { teamId: teamId, page: 1, pageSize: 15 };
-
-  const queryKey = ["teamMembers", queryParams] as const;
-  
-    const {
-    data: response,
-    isLoading,
-    isFetching,
-  } = useQuery({
-    queryKey: queryKey,
+  // Query team list to resolve the team name (no single-team endpoint exists)
+  const teamQueryParams = { page: 1, pageSize: 100 };
+  const teamQueryKey = ["team", teamQueryParams] as const;
+  const { data: teamsResponse, isLoading: teamsLoading, isFetching: teamsFetching } = useQuery({
+    queryKey: teamQueryKey,
     queryFn: async () => {
-      const { data, error } = await Api.GET("/v1/dashboard/teammember", {
-        params: { query: queryParams },
+      const { data, error } = await Api.GET("/v1/dashboard/team", {
+        params: { query: teamQueryParams },
       });
-
       if (error) throw error;
-
       return data;
     },
   });
 
-  const members = response?.data?.items ?? [];
-  const loading = isLoading || isFetching;
+  const team = teamsResponse?.data?.items?.find((t: { teamId: string }) => t.teamId === teamId) ?? undefined;
+  const teamName = team?.title ?? "";
+  const members = team?.members ?? [];
+  const loading =  teamsLoading || teamsFetching;
 
   const getInitials = (userId: string) => {
     // Extract initials from userId or use first 2 characters
