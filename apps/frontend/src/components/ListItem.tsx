@@ -6,24 +6,22 @@ import LinkSharePopup from "./LinkSharePopup";
 type DashboardListResponse =
   paths["/v1/dashboard/list"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["Items"][number];
 
-const ListItem: React.FC<{ list: DashboardListResponse}> = ({
-  list
-}) => {
+const ListItem: React.FC<{ list: DashboardListResponse }> = ({ list }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Transform list data
-  const allDelivered = list.stats?.totalItems === list.stats?.totalDeliveredItems;
+  const allDelivered =
+    list.stats?.totalItems === list.stats?.totalDeliveredItems;
 
   const title = list.title;
   const filesRequested = list.stats?.totalItems || 0;
   const team = list.teamName || "Personal";
-  const status = (allDelivered && filesRequested > 0 ? "Completed" : "In Progress") as
-    | "Completed"
-    | "In Progress"
-    | "Pending";
+  const status = (
+    allDelivered && filesRequested > 0 ? "Completed" : "In Progress"
+  ) as "Completed" | "In Progress" | "Pending";
 
   const overdueItems = list.stats?.totalOverdueItems || 0;
   // Get comments (if any items have comments)

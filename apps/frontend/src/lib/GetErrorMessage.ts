@@ -1,7 +1,7 @@
 function getErrorMessage(err: unknown): string {
   if (err instanceof Error) return err.message;
   if (typeof err === "string") return err;
-    if (err && typeof err === "object") {
+  if (err && typeof err === "object") {
     try {
       const obj = err as Record<string, unknown>;
       const maybeMsg = obj?.message ?? obj?.error ?? obj?.detail;

@@ -18,7 +18,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const queryKey = ["link", listId];
+  const queryKey = ["link", listId] as const;
   const queryParams = { listId };
 
   type LinkData = {
@@ -31,7 +31,11 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     updatedAt?: unknown;
   };
 
-  const { data: response, isLoading: isQueryLoading, error: queryError } = useQuery({
+  const {
+    data: response,
+    isLoading: isQueryLoading,
+    error: queryError,
+  } = useQuery({
     queryKey,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/link", {
@@ -43,7 +47,8 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     enabled: isOpen && !!listId,
   });
 
-  const publicLink = (response as { data?: LinkData } | undefined)?.data ?? null;
+  const publicLink =
+    (response as { data?: LinkData } | undefined)?.data ?? null;
 
   const createMutation = useMutation({
     mutationFn: async (pwd: string) => {
@@ -74,7 +79,10 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     },
   });
 
-  const isLoading = isQueryLoading || createMutation.status === "pending" || deleteMutation.status === "pending";
+  const isLoading =
+    isQueryLoading ||
+    createMutation.status === "pending" ||
+    deleteMutation.status === "pending";
   const mutationPending = (m: unknown) => {
     if (!m || typeof m !== "object") return false;
     const mm = m as Record<string, unknown>;
@@ -136,7 +144,10 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     return String(err);
   };
 
-  const errorMessage = getErrMsg(queryError) ?? getErrMsg(createMutation.error) ?? getErrMsg(deleteMutation.error);
+  const errorMessage =
+    getErrMsg(queryError) ??
+    getErrMsg(createMutation.error) ??
+    getErrMsg(deleteMutation.error);
 
   return (
     <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50 p-4">
@@ -355,7 +366,9 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
             <div className="flex gap-2 pt-2">
               <button
                 onClick={handleCreate}
-                disabled={isLoading || (password.length > 0 && password.length < 6)}
+                disabled={
+                  isLoading || (password.length > 0 && password.length < 6)
+                }
                 className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
                 {creating ? "Creating..." : "Create Share Link"}

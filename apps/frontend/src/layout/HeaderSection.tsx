@@ -12,7 +12,11 @@ const HeaderSection: React.FC = () => {
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
       <nav className="mx-auto px-4 py-4 items-center justify-between max-w-screen-2xl flex">
-        <Link to="/" onClick={() => setIsMenuOpen(false)} className="items-center flex gap-2">
+        <Link
+          to="/"
+          onClick={() => setIsMenuOpen(false)}
+          className="items-center flex gap-2"
+        >
           <div className="w-10 h-10 bg-blue-600 dark:bg-blue-500 rounded-lg items-center justify-center flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"

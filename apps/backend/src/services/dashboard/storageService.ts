@@ -130,7 +130,7 @@ export class StorageService {
       };
 
       return {
-        items: [item]
+        items: [item],
       };
     } catch (e: unknown) {
       logger.error({ err: e }, "updateStorage unexpected error");

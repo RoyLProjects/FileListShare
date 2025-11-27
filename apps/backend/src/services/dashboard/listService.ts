@@ -75,13 +75,16 @@ export class ListService {
         const items = (list as unknown as { items?: ItemType[] }).items;
 
         const totalItems = items?.length ?? 0;
-        const totalDeliveredItems = items?.filter((i) => i.delivered).length ?? 0;
+        const totalDeliveredItems =
+          items?.filter((i) => i.delivered).length ?? 0;
         const totalOverdueItems =
-          items?.filter((i) => !i.delivered && i.deadline && i.deadline < new Date())
-            .length ?? 0;
+          items?.filter(
+            (i) => !i.delivered && i.deadline && i.deadline < new Date(),
+          ).length ?? 0;
         const totalComments =
-          items?.filter((i) => i && (i as any).comment && (i as any).comment.trim())
-            .length ?? 0;
+          items?.filter(
+            (i) => i && (i as any).comment && (i as any).comment.trim(),
+          ).length ?? 0;
 
         return {
           id: list.id,

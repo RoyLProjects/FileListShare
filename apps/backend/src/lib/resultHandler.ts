@@ -72,24 +72,26 @@ function ensureCustomHttpError(error: unknown): CustomHttpError {
         return new ConflictError("A record with this value already exists.");
 
       case "P2003":
-        return new ConflictError("This record is linked and cannot be deleted or updated.");
+        return new ConflictError(
+          "This record is linked and cannot be deleted or updated.",
+        );
 
       case "P2025":
         return new NotFoundError("The requested record does not exist.");
 
       case "P2000":
-        return new BadRequestError("Value provided is too long for this field.");
+        return new BadRequestError(
+          "Value provided is too long for this field.",
+        );
 
       default:
         return new InternalServerError("Database error.");
     }
   }
-    logger.error(e);
-    // Fallback to generic internal server error (never return error details to client)
-    return new InternalServerError();
-  
+  logger.error(e);
+  // Fallback to generic internal server error (never return error details to client)
+  return new InternalServerError();
 }
-
 
 export const resultHandler = new ResultHandler({
   // Positive responses: wrap in { success: true, data: ... }

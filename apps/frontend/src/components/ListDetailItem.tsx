@@ -5,7 +5,7 @@ import { paths } from "@api-client/index";
 import { Api } from "../apiClient/apiClient";
 
 export type ListItemDetail =
-  paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["Items"][number];
+  paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["items"][number];
 
 export interface ListDetailItemProps {
   item: ListItemDetail;

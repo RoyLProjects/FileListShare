@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Api } from "../apiClient/apiClient";
 import GetErrorMessage from "../lib/GetErrorMessage";
 
-
-
 export interface CreateTeamPopupProps {
   isOpen: boolean;
   onClose: () => void;
@@ -92,16 +90,16 @@ const CreateTeamPopup: React.FC<CreateTeamPopupProps> = ({
             </label>
             <form
               onSubmit={async (e) => {
-                  e.preventDefault();
-                  setError(null);
-                  const name = teamName.trim();
-                  if (!name) return;
-                  try {
-                    await createTeamMutation.mutateAsync(name);
-                  } catch (err) {
-                    setError(GetErrorMessage(err));
-                  }
-                }}
+                e.preventDefault();
+                setError(null);
+                const name = teamName.trim();
+                if (!name) return;
+                try {
+                  await createTeamMutation.mutateAsync(name);
+                } catch (err) {
+                  setError(GetErrorMessage(err));
+                }
+              }}
             >
               <input
                 type="text"

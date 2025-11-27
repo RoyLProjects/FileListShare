@@ -44,9 +44,6 @@ export const ListResponseSchema = z.object({
   stats: listStatsSchema.optional(),
 });
 
-
-
-
 export const CreateListRequestSchema = z.object({
   title: title,
   teamId: teamId.optional(),
