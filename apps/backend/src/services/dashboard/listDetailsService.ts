@@ -49,10 +49,11 @@ export class ListDetailsService {
           "Unauthorized: User does not have access to this list",
         );
       }
-      
+
       return {
         title: list.title,
-        Items: list.items.map((it) => ({
+        teamId: list.teamId,
+        items: list.items.map((it) => ({
           itemId: it.id,
           itemnumber: it.itemnumber,
           listId: it.listId,
@@ -73,7 +74,8 @@ export class ListDetailsService {
       logger.error({ err }, "ListService.getList failed");
       return {
         title: "",
-        Items: [],
+        teamId: null,
+        items: [],
         page: 1,
         pageSize: 10,
       };
@@ -136,8 +138,6 @@ export class ListDetailsService {
         );
       }
     }
-
-    try {
       const createdItem = await prisma.list_item.create({
         data: {
           listId: data.listId,
@@ -163,11 +163,6 @@ export class ListDetailsService {
         createdBy: createdItem.createdBy,
         updatedAt: createdItem.updatedAt,
       };
-
-    } catch (e: unknown) {
-      logger.error({ err: e }, "createListItem unexpected error");
-      throw new InternalServerError();
-    }
   }
 
   static async updateListItem(
@@ -235,13 +230,13 @@ export class ListDetailsService {
         );
       }
     }
-
     try {
       const updateData: {
         description?: string;
         itemnumber?: number;
         deadline?: Date;
-        status?: "published" | "draft";
+        status?: "published" | "draft" | undefined;
+        delivered?: boolean;
       } = {};
       if (data.description !== undefined)
         updateData.description = data.description;
@@ -250,6 +245,7 @@ export class ListDetailsService {
       if (data.deadline !== undefined)
         updateData.deadline = new Date(data.deadline);
       if (data.status !== undefined) updateData.status = data.status;
+      if (data.delivered !== undefined) updateData.delivered = data.delivered;
 
       const updated = await prisma.list_item.update({
         where: { id: data.itemId },
