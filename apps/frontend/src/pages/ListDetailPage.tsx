@@ -1,162 +1,54 @@
-import React, { useEffect, useState, useRef } from "react";
-import {
-  useParams,
-  useSearchParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-import { listApi, type ListDetail } from "@/api/endpoints/listApi";
-import { listItemApi, type ListItemDetail } from "@/api/endpoints/listItemApi";
-import TeamMembersSection from "@/components/TeamMembersSection";
-import ListQuickActionsSection from "@/components/ListQuickActionsSection";
-import ListDetailItem from "@/components/ListDetailItem";
-import CreateRequestPopup from "@/components/CreateRequestPopup";
-import ListSettingsPopup from "@/components/ListSettingsPopup";
-import StorageConfigurationPopup from "@/components/StorageConfigurationPopup";
-import StorageProviderSelector from "@/components/StorageProviderSelector";
-
-interface TeamMember {
-  id: string;
-  userId: string;
-  createdAt?: Date;
-  createdBy?: string;
-}
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Api } from "../apiClient/apiClient";
+import ListDetailItem from "../components/ListDetailItem";
+import CreateRequestPopup from "../components/CreateRequestPopup";
+import TeamMembersSection from "../components/TeamMembersSection";
+import ListQuickActionsSection from "../components/ListQuickActionsSection";
 
 const ListDetailPage: React.FC = () => {
   const { listId } = useParams<{ listId: string }>();
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [listDetail, setListDetail] = useState<ListDetail | null>(null);
-  const [listItems, setListItems] = useState<ListItemDetail[]>([]);
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [teamName, setTeamName] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [itemsLoading, setItemsLoading] = useState<boolean>(false);
   const [isCreateRequestPopupOpen, setIsCreateRequestPopupOpen] =
     useState(false);
-  const [isSettingsPopupOpen, setIsSettingsPopupOpen] = useState(false);
-  const [isStorageConfigPopupOpen, setIsStorageConfigPopupOpen] =
-    useState(false);
-  const [configStorageId, setConfigStorageId] = useState<string | null>(null);
-  const [isStorageProviderSelectorOpen, setIsStorageProviderSelectorOpen] =
-    useState(false);
-  const hasCheckedStorageRef = useRef(false);
 
-  // Check for openSettings or configureStorage query parameters
-  useEffect(() => {
-    const shouldOpenSettings = searchParams.get("openSettings") === "true";
-    const shouldConfigureStorage =
-      searchParams.get("configureStorage") === "true";
-    const storageId = searchParams.get("storageId");
+  const queryParams = { listId: listId ?? "", page: 1, pageSize: 15 };
 
-    if (shouldConfigureStorage && storageId) {
-      // Storage is now derived from user/team, no need to update list
-      // Just open the configurator
-      setConfigStorageId(storageId);
-      setIsStorageConfigPopupOpen(true);
-      // Mark that we've handled storage setup
-      hasCheckedStorageRef.current = true;
-      // Remove the query parameters after opening the popup
-      searchParams.delete("configureStorage");
-      searchParams.delete("storageId");
-      setSearchParams(searchParams);
-    } else if (shouldOpenSettings) {
-      setIsSettingsPopupOpen(true);
-      // Remove the query parameter after opening the popup
-      searchParams.delete("openSettings");
-      setSearchParams(searchParams);
-    }
-  }, [searchParams, setSearchParams, listId]);
+  const queryKey = ["listdetails", queryParams.listId, queryParams.page, queryParams.pageSize] as const;
 
-  useEffect(() => {
-    const fetchListDetails = async () => {
-      if (!listId) return;
+  const {
+    data: response,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: queryKey,
+    enabled: Boolean(listId),
+    queryFn: async () => {
+      const { data, error } = await Api.GET("/v1/dashboard/listDetails", {
+        params: { query: queryParams },
+      });
 
-      try {
-        setLoading(true);
-        const listResponse = await listApi.getById(listId);
-        setListDetail(listResponse.data);
+      if (error) throw error;
 
-        const team = listResponse.data.team;
-        if (team) {
-          setTeamMembers(team.members || []);
-          setTeamName(team.title);
-        }
-      } catch (error) {
-        console.error("Failed to fetch list details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      return data;
+    },
+  });
 
-    const fetchListItems = async () => {
-      if (!listId) return;
-
-      try {
-        setItemsLoading(true);
-        const itemsResponse = await listItemApi.getAll(listId);
-        setListItems(itemsResponse.data.items);
-      } catch (error) {
-        console.error("Failed to fetch list items:", error);
-      } finally {
-        setItemsLoading(false);
-      }
-    };
-
-    fetchListDetails();
-    fetchListItems();
-  }, [listId]);
+  const items = response?.data?.items ?? [];
+  const title = response?.data?.title;
+  const currentTeamId = response?.data?.teamId ?? "";
+  const loading = isLoading || isFetching;
 
   const handleCreateRequest = () => {
-    // Check if storage is configured (derived from user or team)
-    const hasStorage = listDetail?.user?.storage || listDetail?.team?.storage;
-    if (!hasStorage) {
-      // Open storage provider selector to prompt storage setup
-      setIsStorageProviderSelectorOpen(true);
-      return;
-    }
+    if(!listId) return;
     setIsCreateRequestPopupOpen(true);
   };
 
-  const handleCreateRequestSuccess = async () => {
-    // Refresh the list items after creating a new request
-    if (!listId) return;
-
-    try {
-      setItemsLoading(true);
-      const itemsResponse = await listItemApi.getAll(listId);
-      setListItems(itemsResponse.data.items);
-    } catch (error) {
-      console.error("Failed to refresh list items:", error);
-    } finally {
-      setItemsLoading(false);
-    }
-  };
-
-  const handleSettingsSuccess = async () => {
-    // Refresh both list details and items after settings changes
-    if (!listId) return;
-
-    try {
-      setLoading(true);
-      const listResponse = await listApi.getById(listId);
-      setListDetail(listResponse.data);
-
-      const team = listResponse.data.team;
-      if (team) {
-        setTeamMembers(team.members || []);
-        setTeamName(team.title);
-      }
-    } catch (error) {
-      console.error("Failed to refresh list details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
+  return (
+    <>
+  {loading === true && (
       <div className="mx-auto px-4 py-8 max-w-screen-2xl">
         <div className="text-center py-16">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -165,11 +57,9 @@ const ListDetailPage: React.FC = () => {
           </p>
         </div>
       </div>
-    );
-  }
+      )}
 
-  if (!listDetail) {
-    return (
+    {!response?.data && (
       <div className="mx-auto px-4 py-8 max-w-screen-2xl">
         <div className="text-center py-16">
           <p className="text-xl text-neutral-600 dark:text-neutral-400">
@@ -177,16 +67,14 @@ const ListDetailPage: React.FC = () => {
           </p>
         </div>
       </div>
-    );
-  }
-
-  return (
+    )}
+    {!loading && response?.data && (
     <div className="mx-auto px-4 py-8 max-w-screen-2xl">
       {/* Back Button */}
       <button
         onClick={() => {
           // Check if list belongs to a team and if we came from that team page
-          const teamId = listDetail?.team?.id;
+          const teamId = currentTeamId;
           const fromTeam = location.state?.fromTeam;
 
           if (
@@ -195,10 +83,10 @@ const ListDetailPage: React.FC = () => {
               document.referrer.includes(`/team/${teamId}`))
           ) {
             // Navigate back to team page if we came from there
-            navigate(`/team/${teamId}`);
+            navigate(`/dashboard/team/${teamId}`);
           } else {
             // Otherwise go to lists page
-            navigate("/lists");
+            navigate("/dashboard/lists");
           }
         }}
         className="mb-4 flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
@@ -222,11 +110,8 @@ const ListDetailPage: React.FC = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-          {listDetail.title}
+          {title}
         </h1>
-        <p className="text-neutral-600 dark:text-neutral-400">
-          Created on {new Date(listDetail.createdAt).toLocaleDateString()}
-        </p>
       </div>
 
       {/* Main Content Grid */}
@@ -239,7 +124,7 @@ const ListDetailPage: React.FC = () => {
             </h2>
 
             {/* Column Headers */}
-            {listItems.length > 0 && (
+            {items?.length > 0 && (
               <div className="hidden lg:grid grid-cols-15 gap-4 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700">
                 <div className="col-span-1 shrink-0 min-w-10 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
                   #
@@ -267,7 +152,7 @@ const ListDetailPage: React.FC = () => {
             )}
 
             {/* Loading State */}
-            {itemsLoading && (
+            {loading && (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -277,21 +162,20 @@ const ListDetailPage: React.FC = () => {
             )}
 
             {/* Empty State */}
-            {!itemsLoading && listItems.length === 0 && (
+            {!loading && items.length === 0 && (
               <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
                 <p>No requests yet. Create your first request!</p>
               </div>
             )}
 
             {/* List Items */}
-            {!itemsLoading && listItems.length > 0 && (
+            {!loading && items.length > 0 && (
               <div className="space-y-3">
-                {listItems.map((item) => (
+                {items.map((item) => (
                   <ListDetailItem
-                    key={item.id}
+                    key={item.itemId}
                     item={item}
                     listId={listId!}
-                    onUpdate={handleCreateRequestSuccess}
                   />
                 ))}
               </div>
@@ -307,18 +191,16 @@ const ListDetailPage: React.FC = () => {
               onCreateRequest={handleCreateRequest}
             />
           )}
-          {teamName && (
+          {currentTeamId && (
             <>
               <TeamMembersSection
-                members={teamMembers}
-                loading={loading}
-                teamName={teamName}
+                teamId={currentTeamId}
               />
             </>
           )}
           <button
             className="w-full py-2.5 px-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 font-medium rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2"
-            onClick={() => setIsSettingsPopupOpen(true)}
+            onClick={() => navigate(`/dashboard/settings/${listId}`)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -344,53 +226,18 @@ const ListDetailPage: React.FC = () => {
           </button>
         </div>
       </div>
-
-      {/* Create Request Popup */}
-      {listId && (
+    </div>
+    )}
+    {listId && (
         <CreateRequestPopup
           isOpen={isCreateRequestPopupOpen}
           onClose={() => setIsCreateRequestPopupOpen(false)}
-          onSuccess={handleCreateRequestSuccess}
           listId={listId}
-          teamId={listDetail?.teamId || undefined}
+          teamId={currentTeamId || undefined}
+
         />
       )}
-
-      {/* List Settings Popup */}
-      {listId && (
-        <ListSettingsPopup
-          isOpen={isSettingsPopupOpen}
-          onClose={() => setIsSettingsPopupOpen(false)}
-          onSuccess={handleSettingsSuccess}
-          listId={listId}
-        />
-      )}
-
-      {/* Storage Configuration Popup */}
-      {listId && configStorageId && (
-        <StorageConfigurationPopup
-          isOpen={isStorageConfigPopupOpen}
-          onClose={() => {
-            setIsStorageConfigPopupOpen(false);
-            setConfigStorageId(null);
-          }}
-          listId={listId}
-          storageId={configStorageId}
-        />
-      )}
-
-      {/* Storage Provider Selector */}
-      <StorageProviderSelector
-        isOpen={isStorageProviderSelectorOpen}
-        onClose={() => setIsStorageProviderSelectorOpen(false)}
-        teamId={listDetail?.team?.id}
-        onSuccess={async () => {
-          setIsStorageProviderSelectorOpen(false);
-          // Refresh list details to get the updated storage
-          await handleSettingsSuccess();
-        }}
-      />
-    </div>
+    </>
   );
 };
 
