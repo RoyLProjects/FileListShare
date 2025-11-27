@@ -8,6 +8,7 @@ import {
   listId,
   page,
   pageSize,
+  teamId,
   title,
   userId,
 } from "./domainSchema.js";
@@ -35,7 +36,8 @@ const listItemDetailSchema = z.object({
 
 export const ListDetailsResponseSchema = z.object({
   title: title,
-  Items: z.array(listItemDetailSchema),
+  teamId: teamId.nullable(),
+  items: z.array(listItemDetailSchema),
   page: page,
   pageSize: pageSize,
 });
@@ -55,6 +57,7 @@ export const UpdateListDetailsRequestSchema = z.object({
   description: description.optional(),
   itemnumber: itemnumber.optional(),
   deadline: z.string().optional(),
+  delivered: z.boolean().optional(),
   status: itemstatus.optional(),
 });
 
