@@ -19,38 +19,40 @@ const CreateListPopup: React.FC<CreateListPopupProps> = ({
   const qc = useQueryClient();
   const [listName, setListName] = useState("");
   const [error, setError] = useState<string | null>(null);
-    const [currentPage] = useState(1);
+  const [currentPage] = useState(1);
   const [pageSize] = useState(15);
-  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(initialTeamId ?? null);
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(
+    initialTeamId ?? null,
+  );
 
-  const queryParams =  { page: currentPage, pageSize: pageSize };
-const queryKey = ["teams", queryParams] as const;
+  const queryParams = { page: currentPage, pageSize: pageSize };
+  const queryKey = ["teams", queryParams.page, queryParams.pageSize] as const;
 
   const {
-      data: response,
-      isLoading,
-      isFetching,
-    } = useQuery({
-      queryKey: queryKey,
-      queryFn: async () => {
-        const { data, error } = await Api.GET("/v1/dashboard/team", {
-          query: queryParams,
-        });
-  
-        if (error) throw error; 
-  
-        return data;
-      },
-    });
-    
-    const allTeams = response?.data?.items || [];
+    data: response,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: queryKey,
+    queryFn: async () => {
+      const { data, error } = await Api.GET("/v1/dashboard/team", {
+        query: queryParams,
+      });
+
+      if (error) throw error;
+
+      return data;
+    },
+  });
+
+  const allTeams = response?.data?.items || [];
 
   const createListMutation = useMutation<unknown, unknown, string>({
     mutationFn: async (name: string) => {
       const { data, error } = await Api.POST("/v1/dashboard/list", {
         body: {
-            title: name,
-            teamId: selectedTeamId || undefined,
+          title: name,
+          teamId: selectedTeamId || undefined,
         },
       });
       if (error) throw error;
@@ -65,7 +67,8 @@ const queryKey = ["teams", queryParams] as const;
       setError(GetErrorMessage(err));
     },
   });
-  const loading = isLoading || isFetching || createListMutation.status === "pending";
+  const loading =
+    isLoading || isFetching || createListMutation.status === "pending";
 
   const handleClose = () => {
     setListName("");
@@ -119,16 +122,16 @@ const queryKey = ["teams", queryParams] as const;
             </label>
             <form
               onSubmit={async (e) => {
-                  e.preventDefault();
-                  setError(null);
-                  const name = listName.trim();
-                  if (!name) return;
-                  try {
-                    await createListMutation.mutateAsync(name);
-                  } catch (err) {
-                    setError(GetErrorMessage(err));
-                  }
-                }}
+                e.preventDefault();
+                setError(null);
+                const name = listName.trim();
+                if (!name) return;
+                try {
+                  await createListMutation.mutateAsync(name);
+                } catch (err) {
+                  setError(GetErrorMessage(err));
+                }
+              }}
             >
               <input
                 type="text"
