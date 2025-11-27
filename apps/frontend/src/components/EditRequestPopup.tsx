@@ -51,6 +51,7 @@ const EditRequestPopup: React.FC<EditRequestPopupProps> = ({
           itemnumber: item.itemnumber,
           deadline: deadline || undefined,
           status: status,
+          delivered: delivered,
         },
       });
       if (error) throw error;
