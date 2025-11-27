@@ -7,10 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 
 const ListsPage: React.FC = () => {
+  const queryParams = { page: 1, pageSize: 15 };
 
-const queryParams =  { page: 1, pageSize: 15 };
-
-const queryKey = ["lists", queryParams] as const;
+  const queryKey = ["lists", queryParams.page, queryParams.pageSize] as const;
 
   const {
     data: response,
@@ -20,10 +19,10 @@ const queryKey = ["lists", queryParams] as const;
     queryKey: queryKey,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/list", {
-        query: queryParams
+        query: queryParams,
       });
 
-      if (error) throw error; 
+      if (error) throw error;
 
       return data;
     },
@@ -31,7 +30,6 @@ const queryKey = ["lists", queryParams] as const;
 
   const listStats = response?.data?.stats ?? null;
   const loading = isLoading || isFetching;
-
 
   const getTotalLists = () => {
     if (!listStats?.totalOfLists) return 0;
@@ -63,10 +61,10 @@ const queryKey = ["lists", queryParams] as const;
       />
 
       <div className="lg:grid-cols-3 mb-8 grid grid-cols-1 gap-6">
-        <ListsSection  />
+        <ListsSection />
         <div className="space-y-6">
           <QuickActionsSection />
-          <TeamsSection  />
+          <TeamsSection />
         </div>
       </div>
     </div>

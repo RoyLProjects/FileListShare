@@ -7,17 +7,15 @@ interface ListsSectionProps {
   teamId?: string;
 }
 
-const ListsSection: React.FC<ListsSectionProps> = ({
-  teamId,
-}) => {
-const [currentPage, setCurrentPage] = useState(1);
-const [pageSize, setPageSize] = useState(15);
+const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
 
-const queryParams = teamId
-  ? { page: currentPage, pageSize, teamId }
-  : { page: currentPage, pageSize };
+  const queryParams = teamId
+    ? { page: currentPage, pageSize, teamId }
+    : { page: currentPage, pageSize };
 
-const queryKey = ["lists", queryParams] as const;
+  const queryKey = teamId ? ["lists", queryParams.page, queryParams.pageSize, queryParams.teamId] as const : ["lists", queryParams.page, queryParams.pageSize] as const;
 
   const {
     data: response,
@@ -27,11 +25,10 @@ const queryKey = ["lists", queryParams] as const;
     queryKey: queryKey,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/list", {
-        query: queryParams
-        }
-      );
+        query: queryParams,
+      });
 
-      if (error) throw error; 
+      if (error) throw error;
 
       return data;
     },
@@ -40,7 +37,7 @@ const queryKey = ["lists", queryParams] as const;
   const listItems = response?.data?.Items ?? [];
   const listStats = response?.data?.stats ?? null;
   const loading = isLoading || isFetching;
-  
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -48,21 +45,21 @@ const queryKey = ["lists", queryParams] as const;
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
     setCurrentPage(1); // Reset to first page when page size changes
-  }
+  };
 
   const totalItems = () => {
-    if(!listStats) return 0;
+    if (!listStats) return 0;
 
     const totalitems = listStats.totalOfLists;
     return totalitems || 0;
-  }
+  };
 
-const totalPages = () => {
-  const size = pageSize || 1;  
-  const total = Math.ceil(totalItems() / size);
-  return Math.max(1, total);
-};
-    
+  const totalPages = () => {
+    const size = pageSize || 1;
+    const total = Math.ceil(totalItems() / size);
+    return Math.max(1, total);
+  };
+
   return (
     <div className="lg:col-span-2 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
       <div className="items-center justify-between mb-6 flex">
@@ -76,14 +73,8 @@ const totalPages = () => {
           <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
             Loading...
           </div>
-        ) : 
-          listItems.length > 0 ? (
-          listItems.map((list) => (
-            <ListItem
-              key={list.id}
-              list={list}
-            />
-          ))
+        ) : listItems.length > 0 ? (
+          listItems.map((list) => <ListItem key={list.id} list={list} />)
         ) : (
           <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
             No lists found
@@ -95,7 +86,8 @@ const totalPages = () => {
         <div className="mt-6 flex items-center justify-between">
           <div className="text-sm text-neutral-600 dark:text-neutral-400">
             Showing {(currentPage - 1) * pageSize + 1} to{" "}
-            {Math.min(currentPage * pageSize, totalItems())} of {totalItems()} items
+            {Math.min(currentPage * pageSize, totalItems())} of {totalItems()}{" "}
+            items
           </div>
           <div className="flex gap-2 items-center">
             <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -152,7 +144,6 @@ const totalPages = () => {
       )}
     </div>
   );
-
-  };
+};
 
 export default ListsSection;

@@ -5,43 +5,42 @@ import TeamItem from "./TeamItem";
 
 const TeamsSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-const [pageSize] = useState(15);
+  const [pageSize] = useState(15);
 
-const queryParams =  { page: currentPage, pageSize: pageSize };
-const queryKey = ["teams", queryParams] as const;
+  const queryParams = { page: currentPage, pageSize: pageSize };
+  const queryKey = ["teams", queryParams.page, queryParams.pageSize] as const;
 
   const {
-      data: response,
-      isLoading,
-      isFetching,
-    } = useQuery({
-      queryKey: queryKey,
-      queryFn: async () => {
-        const { data, error } = await Api.GET("/v1/dashboard/team", {
-          query: queryParams,
-        });
-  
-        if (error) throw error; 
-  
-        return data;
-      },
-    });
-    const loading = isLoading || isFetching;
-    const allTeams = response?.data?.items || [];
+    data: response,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: queryKey,
+    queryFn: async () => {
+      const { data, error } = await Api.GET("/v1/dashboard/team", {
+        query: queryParams,
+      });
+
+      if (error) throw error;
+
+      return data;
+    },
+  });
+  const loading = isLoading || isFetching;
+  const allTeams = response?.data?.items || [];
 
   const totalItems = () => {
-    if(!response?.data?.total) return 0;
+    if (!response?.data?.total) return 0;
 
     const totalitems = response?.data?.total;
     return totalitems || 0;
-  }
+  };
 
-const totalPages = () => {
-  const size = pageSize || 1;  
-  const total = Math.ceil(totalItems() / size);
-  return Math.max(1, total);
-};
-
+  const totalPages = () => {
+    const size = pageSize || 1;
+    const total = Math.ceil(totalItems() / size);
+    return Math.max(1, total);
+  };
 
   // Calculate paginated items
 
@@ -84,8 +83,8 @@ const totalPages = () => {
             <div className="mt-6 space-y-3">
               <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
                 Showing {(currentPage - 1) * pageSize + 1} to{" "}
-                {Math.min(currentPage * pageSize,   totalItems())} of {totalItems()}{" "}
-                teams
+                {Math.min(currentPage * pageSize, totalItems())} of{" "}
+                {totalItems()} teams
               </div>
 
               <div className="flex gap-2 justify-center">

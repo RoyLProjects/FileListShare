@@ -24,7 +24,7 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
 
   // Query team list to resolve the team name (no single-team endpoint exists)
   const teamQueryParams = { page: 1, pageSize: 100 };
-  const teamQueryKey = ["team", teamQueryParams] as const;
+  const teamQueryKey = ["team", teamQueryParams.page, teamQueryParams.pageSize] as const;
   const { data: teamsResponse, isLoading: teamsLoading, isFetching: teamsFetching } = useQuery({
     queryKey: teamQueryKey,
     queryFn: async () => {
