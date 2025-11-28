@@ -34,6 +34,7 @@ const CreateListPopup: React.FC<CreateListPopupProps> = ({
     isFetching,
   } = useQuery({
     queryKey: queryKey,
+    enabled: isOpen,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/team", {
         query: queryParams,
