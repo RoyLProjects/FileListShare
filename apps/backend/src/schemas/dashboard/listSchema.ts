@@ -38,7 +38,7 @@ const listStatsSchema = z.object({
 });
 
 export const ListResponseSchema = z.object({
-  Items: z.array(listItemSchema),
+  Items: z.array(listItemSchema).optional(),
   page: page,
   pageSize: pageSize,
   stats: listStatsSchema.optional(),

@@ -21,7 +21,6 @@ export class ListService {
     userId: string,
   ): Promise<z.infer<typeof ListResponseSchema>> {
     const prisma = getAppPrismaClient();
-    try {
       const where: any = {};
 
       if (data.teamId) {
@@ -41,36 +40,43 @@ export class ListService {
         ];
       }
 
-      const lists = await prisma.list.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip:
-          data.page && data.pageSize
-            ? (data.page - 1) * data.pageSize
-            : undefined,
-        take: data.pageSize ?? undefined,
+const [lists, totalCount] = await prisma.$transaction([
+  prisma.list.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    skip:
+      data.page && data.pageSize
+        ? (data.page - 1) * data.pageSize
+        : undefined,
+    take: data.pageSize ?? undefined,
+    select: {
+      id: true,
+      title: true,
+      userId: true,
+      createdBy: true,
+      teamId: true,
+      team: {
+        select: {
+          title: true,
+        },
+      },
+      items: {
         select: {
           id: true,
-          title: true,
-          userId: true,
-          createdBy: true,
-          teamId: true,
-          team: {
-            select: {
-              title: true,
-            },
-          },
-          items: {
-            select: {
-              id: true,
-              delivered: true,
-              deadline: true,
-            },
-          },
+          delivered: true,
+          deadline: true,
         },
-      });
+      },
+    },
+  }),
 
-      const Items = lists.map((list) => {
+  prisma.list.count({
+    where, // same filter as findMany
+  }),
+]);
+
+
+const Items = lists.map((list) => {
         type ItemType = { delivered?: boolean; deadline?: Date };
         const items = (list as unknown as { items?: ItemType[] }).items;
 
@@ -114,7 +120,7 @@ export class ListService {
         (acc, l) => acc + (l.stats?.totalOverdueItems ?? 0),
         0,
       );
-      const totalOfLists = lists.length;
+      const totalOfLists = totalCount ?? 0;
 
       const page = data.page ?? 1;
       const pageSize = data.pageSize ?? Math.max(1, lists.length);
@@ -130,20 +136,6 @@ export class ListService {
           totalOfLists,
         },
       };
-    } catch (err) {
-      logger.error({ err }, "ListService.getList failed");
-      return {
-        Items: [],
-        page: data.page ?? 1,
-        pageSize: data.pageSize ?? 1,
-        stats: {
-          totalOfItems: 0,
-          totalOfDeliveredItems: 0,
-          totalOfOverdueItems: 0,
-          totalOfLists: 0,
-        },
-      };
-    }
   }
 
   static async createList(
