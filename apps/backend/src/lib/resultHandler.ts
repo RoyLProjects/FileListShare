@@ -88,7 +88,7 @@ function ensureCustomHttpError(error: unknown): CustomHttpError {
         return new InternalServerError("Database error.");
     }
   }
-  logger.error(e);
+  logger.error(e.message);
   // Fallback to generic internal server error (never return error details to client)
   return new InternalServerError();
 }
