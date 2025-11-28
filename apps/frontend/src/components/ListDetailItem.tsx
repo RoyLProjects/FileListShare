@@ -6,10 +6,12 @@ import { Api } from "../apiClient/apiClient";
 
 export type ListItemDetail =
   paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["items"][number];
+  export type response = paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"];
 
 export interface ListDetailItemProps {
   item: ListItemDetail;
   listId: string;
+  queryKey: readonly [string, string, number, number];
   onUpdate?: () => void;
 }
 
@@ -17,6 +19,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
   item,
   listId,
   onUpdate,
+  queryKey,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
@@ -50,8 +53,19 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["listdetails"] });
+    onSuccess: (data, variables) => {
+      queryClient.setQueryData(queryKey, (oldData: response) => {
+        if (!oldData) return oldData;
+        if(oldData.success && oldData.success === true) {
+          const updatedItems = oldData.data.items.map((it: ListItemDetail) => {
+            if (it.itemId === variables.itemId) {
+              return { ...it, delivered: variables.delivered };
+            }
+            return it;
+          });
+          return { ...oldData, data: { ...oldData.data, items: updatedItems } };
+        }
+      });
       onUpdate?.();
     },
     onError: (err: unknown) => {
@@ -72,7 +86,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["listdetails"] });
+      queryClient.invalidateQueries({ queryKey: queryKey });
       onUpdate?.();
     },
     onError: (err: unknown) => {
