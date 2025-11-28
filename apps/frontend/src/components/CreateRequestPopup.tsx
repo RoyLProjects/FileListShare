@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 import GetErrorMessage from "../lib/GetErrorMessage";
+import { paths } from "@api-client/api.gen";
 
 export interface CreateRequestPopupProps {
   onClose: () => void;
@@ -27,14 +28,7 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
   const [isUpdating, setIsUpdating] = useState(false);
   const queryClient = useQueryClient();
 
-  type CreateItemBody = {
-    listId: string;
-    description: string;
-    itemnumber: number;
-    status?: "published" | "draft";
-    deadline?: string;
-    teamId?: string;
-  };
+  type CreateItemBody = paths["/v1/dashboard/listDetails"]["post"]["requestBody"]["content"]["application/json"];
 
 const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
 
