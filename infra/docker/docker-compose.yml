@@ -1,0 +1,108 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: ./apps/backend/Dockerfile
+    container_name: my-backend
+    depends_on:
+      - postgres
+      - redis
+      - loki
+      - prometheus
+    environment:
+      # Run in default
+      NODE_ENV: production
+      PORT: 3001
+      BASE_URL: http://localhost:3001
+      # app database
+      APP_DB_Name: customdb
+      DATABASE_HOST: postgres:5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: mysecretpassword
+      # auth database
+      AUTH_DB_Name: authdb
+      AUTH_DATABASE_HOST: postgres:5432
+      AUTH_DATABASE_USER: postgres
+      AUTH_DATABASE_PASSWORD: mysecretpassword
+      # database passwords (for internal use in the app)
+      APP_DB_PASSWORD: mysecretpassword
+      AUTH_DB_PASSWORD: mysecretpassword
+      MIGRATOR_DB_PASSWORD: mysecretpassword
+      #auth secret
+      AUTH_SECRET: O0ZhRHEP8ccCq7wSfheBnhY5JIqkLjjJ
+      # other vars
+      REDIS_URL: redis://redis:6379
+      LOKI_URL: http://loki:3100
+      LOG_LEVEL: info
+      PROMETHEUS_ENABLED: true
+
+    volumes:
+      - ./generated:/shared
+    ports:
+      - "3001:3001" # Expose naar buiten (Coolify kan dit ook zelf mappen)
+    networks:
+      - backend-net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432" #REMOVE IN PRODUCTION, ONLY FOR LOCAL DEV
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      APP_DB_PASSWORD: mysecretpassword
+      AUTH_DB_PASSWORD: mysecretpassword
+      MIGRATOR_DB_PASSWORD: mysecretpassword
+      AUTH_DB_Name: authdb
+      APP_DB_Name: customdb
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - backend-net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379" #REMOVE IN PRODUCTION, ONLY FOR LOCAL DEV
+    container_name: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend-net
+
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki_data:/loki
+    networks:
+      - backend-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+      - backend-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  loki_data:
+  prometheus_data:
+
+networks:
+  backend-net:
+    driver: bridge

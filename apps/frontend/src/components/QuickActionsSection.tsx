@@ -5,11 +5,13 @@ import CreateTeamPopup from "./CreateTeamPopup";
 interface QuickActionsSectionProps {
   allowCreateList?: boolean;
   allowCreateTeam?: boolean;
+  teamId?: string;
 }
 
 const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
   allowCreateList = true,
   allowCreateTeam = true,
+  teamId,
 }) => {
   const [isListPopupOpen, setIsListPopupOpen] = useState(false);
   const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
@@ -78,6 +80,7 @@ const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
             // Optionally refresh the page or update state
             window.location.reload();
           }}
+          teamId={teamId}
         />
       )}
 

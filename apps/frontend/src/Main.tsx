@@ -10,6 +10,8 @@ import FooterSection from "./layout/FooterSection";
 import LandingPage from "./pages/LandingPage";
 import ListPage from "./pages/ListPage";
 import ListDetailPage from "./pages/ListDetailPage";
+import TeamPage from "./pages/TeamPage";
+
 
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -21,7 +23,9 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard/*" element={<ListPage />} />
-          <Route path="/dashboard/:list/:listId" element={<ListDetailPage />} />
+          <Route path="/dashboard/list/:listId" element={<ListDetailPage />} />
+          <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
+          <Route path="/dashboard/*" element={<ListPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <FooterSection />
@@ -30,3 +34,5 @@ createRoot(document.getElementById("root")!).render(
   </React.StrictMode>,
 );
 //          //<Route path="/" element={<LandingPage />} />
+
+//TODO: fix nested routes 

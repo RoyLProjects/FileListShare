@@ -652,7 +652,7 @@ export interface operations {
                                 /** Format: uuid */
                                 teamId?: string;
                                 teamName?: string;
-                                stats: {
+                                stats?: {
                                     totalItems: number;
                                     totalDeliveredItems: number;
                                     totalOverdueItems: number;
@@ -663,7 +663,7 @@ export interface operations {
                             page: number;
                             /** @default 20 */
                             pageSize: number;
-                            stats: {
+                            stats?: {
                                 totalOfItems: number;
                                 totalOfDeliveredItems: number;
                                 totalOfOverdueItems: number;
@@ -723,7 +723,7 @@ export interface operations {
                             /** Format: uuid */
                             teamId?: string;
                             teamName?: string;
-                            stats: {
+                            stats?: {
                                 totalItems: number;
                                 totalDeliveredItems: number;
                                 totalOverdueItems: number;
@@ -859,7 +859,7 @@ export interface operations {
                             /** Format: uuid */
                             teamId?: string;
                             teamName?: string;
-                            stats: {
+                            stats?: {
                                 totalItems: number;
                                 totalDeliveredItems: number;
                                 totalOverdueItems: number;
@@ -912,19 +912,18 @@ export interface operations {
                         success: true;
                         data: {
                             title: string;
-                            Items: {
+                            /** Format: uuid */
+                            teamId: string | null;
+                            items: {
                                 /** Format: uuid */
-                                itemId: string;
+                                itemId: string | null;
                                 itemnumber: number;
                                 /** Format: uuid */
-                                listId: string;
+                                listId: string | null;
                                 description: string;
                                 uploadedFiles: string[];
                                 comment?: string | null;
-                                /**
-                                 * @default draft
-                                 * @enum {string}
-                                 */
+                                /** @enum {string} */
                                 status: "published" | "draft";
                                 delivered: boolean;
                                 deadline: unknown;
@@ -972,11 +971,8 @@ export interface operations {
                     itemnumber: number;
                     /** Format: date-time */
                     deadline?: string;
-                    /**
-                     * @default draft
-                     * @enum {string}
-                     */
-                    status?: "published" | "draft";
+                    /** @enum {string} */
+                    status: "published" | "draft";
                 };
             };
         };
@@ -999,10 +995,7 @@ export interface operations {
                             description: string;
                             uploadedFiles: string[];
                             comment?: string | null;
-                            /**
-                             * @default draft
-                             * @enum {string}
-                             */
+                            /** @enum {string} */
                             status: "published" | "draft";
                             delivered: boolean;
                             deadline: unknown;
@@ -1119,10 +1112,8 @@ export interface operations {
                     description?: string;
                     itemnumber?: number;
                     deadline?: string;
-                    /**
-                     * @default draft
-                     * @enum {string}
-                     */
+                    delivered?: boolean;
+                    /** @enum {string} */
                     status?: "published" | "draft";
                 };
             };
@@ -1146,10 +1137,7 @@ export interface operations {
                             description: string;
                             uploadedFiles: string[];
                             comment?: string | null;
-                            /**
-                             * @default draft
-                             * @enum {string}
-                             */
+                            /** @enum {string} */
                             status: "published" | "draft";
                             delivered: boolean;
                             deadline: unknown;
@@ -2305,10 +2293,7 @@ export interface operations {
                                 description: string;
                                 uploadedFiles: string[];
                                 comment: string | null;
-                                /**
-                                 * @default draft
-                                 * @enum {string}
-                                 */
+                                /** @enum {string} */
                                 status: "published" | "draft";
                                 delivered: boolean;
                                 deadline: unknown;

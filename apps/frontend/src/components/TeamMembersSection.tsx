@@ -27,6 +27,7 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
   const teamQueryKey = ["team", teamQueryParams.page, teamQueryParams.pageSize] as const;
   const { data: teamsResponse, isLoading: teamsLoading, isFetching: teamsFetching } = useQuery({
     queryKey: teamQueryKey,
+    enabled: !!teamId,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/team", {
         params: { query: teamQueryParams },
