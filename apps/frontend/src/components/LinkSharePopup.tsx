@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
+import GetErrorMessage from "../lib/GetErrorMessage";
 
 export interface LinkSharePopupProps {
   listId: string;
@@ -17,38 +18,31 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const queryKey = ["link", listId] as const;
-  const queryParams = { listId };
-
-  type LinkData = {
-    listId: string;
-    linkId: string;
-    token: string;
-    hasPassword: boolean;
-    createdAt?: unknown;
-    createdBy?: string;
-    updatedAt?: unknown;
-  };
+  const [error, setError] = useState<string | null>(null);
 
   const {
     data: response,
     isLoading: isQueryLoading,
     error: queryError,
   } = useQuery({
-    queryKey,
+    queryKey: ["link", listId],
+    enabled: isOpen,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/link", {
-        params: { query: queryParams },
+        params: { query: { listId } },
       });
       if (error) throw error;
       return data;
     },
-    enabled: isOpen && !!listId,
   });
 
-  const publicLink =
-    (response as { data?: LinkData } | undefined)?.data ?? null;
+  useEffect(() => {
+    if (queryError) {
+      setError(GetErrorMessage(queryError));
+    } 
+  }, [queryError]);
+
+  const publicLink = response?.data;
 
   const createMutation = useMutation({
     mutationFn: async (pwd: string) => {
@@ -62,7 +56,11 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
       return data;
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey });
+      qc.invalidateQueries({ queryKey: ["link", listId] });
+    },
+    onError: (error) => {
+      console.error("Error creating link:", GetErrorMessage(error));
+      setError(GetErrorMessage(error));
     },
   });
 
@@ -75,8 +73,12 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
       return data;
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey });
+      qc.invalidateQueries({ queryKey: ["link", listId] });
     },
+    onError: (error) => {
+      console.error("Error deleting link:", GetErrorMessage(error));
+      setError(GetErrorMessage(error));
+    }
   });
 
   const isLoading =
@@ -92,7 +94,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   };
   const creating = mutationPending(createMutation);
   const deleting = mutationPending(deleteMutation);
-  const combinedLoading = isQueryLoading || creating || deleting;
+  const combinedLoading = isQueryLoading || creating || deleting; 
 
   const handleCreate = async () => {
     try {
@@ -138,17 +140,6 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
 
   if (!isOpen) return null;
 
-  const getErrMsg = (err: unknown) => {
-    if (!err) return null;
-    if (err instanceof Error) return err.message;
-    return String(err);
-  };
-
-  const errorMessage =
-    getErrMsg(queryError) ??
-    getErrMsg(createMutation.error) ??
-    getErrMsg(deleteMutation.error);
-
   return (
     <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-xl max-w-md w-full p-6">
@@ -178,9 +169,9 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
         </div>
 
         {/* Error Message */}
-        {errorMessage && (
+        {error && (
           <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-lg text-sm">
-            {errorMessage}
+            {error}
           </div>
         )}
 
@@ -188,7 +179,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
           <div className="flex items-center justify-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           </div>
-        ) : publicLink ? (
+        ) : publicLink?.linkId ? (
           // Existing link view
           <div className="space-y-4">
             <div>
@@ -310,9 +301,9 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password (min 6 characters)"
+                  placeholder="Enter password (min 8 characters)"
                   className="w-full px-3 py-2 pr-10 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
-                  minLength={6}
+                  minLength={8}
                 />
                 <button
                   type="button"
@@ -356,9 +347,9 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
                   )}
                 </button>
               </div>
-              {password && password.length < 6 && (
+              {password && password.length < 8 && (
                 <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                  Password must be at least 6 characters
+                  Password must be at least 8 characters
                 </p>
               )}
             </div>
@@ -367,7 +358,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
               <button
                 onClick={handleCreate}
                 disabled={
-                  isLoading || (password.length > 0 && password.length < 6)
+                  isLoading || (password.length > 0 && password.length < 8)
                 }
                 className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
