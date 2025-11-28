@@ -42,7 +42,7 @@ export const pageSize = z.coerce
   .int()
   .min(1, "Page size must be at least 1")
   .max(1000, "Page size must be at most 1000")
-  .default(20);
+  .default(15);
 
 export const itemnumber = z.coerce
   .number()
