@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Api } from "../apiClient/apiClient";
 import ListDetailItem from "../components/ListDetailItem";
@@ -7,12 +7,21 @@ import CreateRequestPopup from "../components/CreateRequestPopup";
 import TeamMembersSection from "../components/TeamMembersSection";
 import ListQuickActionsSection from "../components/ListQuickActionsSection";
 
+const uuidV4Regex =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const ListDetailPage: React.FC = () => {
   const { listId } = useParams<{ listId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const [isCreateRequestPopupOpen, setIsCreateRequestPopupOpen] =
     useState(false);
+
+useEffect(() => {
+  if (listId && !uuidV4Regex.test(listId)) {
+    navigate("/dashboard", { replace: true });
+  }
+}, [listId, navigate]);
 
   const queryParams = { listId: listId ?? "", page: 1, pageSize: 15 };
 
@@ -22,19 +31,32 @@ const ListDetailPage: React.FC = () => {
     data: response,
     isLoading,
     isFetching,
+    error,
   } = useQuery({
-    queryKey: queryKey,
-    enabled: Boolean(listId),
+    queryKey,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/listDetails", {
         params: { query: queryParams },
       });
 
-      if (error) throw error;
+      if (error) {
+        // Important: make sure this *throws*
+        throw error;
+      }
 
       return data;
     },
+    enabled: Boolean(listId),
+    retry: 3,
+    retryDelay: 500,
   });
+
+useEffect(() => {
+    if (error) {
+      // optionally: check status code/type here
+      navigate("/dashboard");
+    }
+  }, [error, navigate]);
 
   const items = response?.data?.items ?? [];
   const title = response?.data?.title;
@@ -176,6 +198,7 @@ const ListDetailPage: React.FC = () => {
                     key={item.itemId}
                     item={item}
                     listId={listId!}
+                    queryKey={queryKey}
                   />
                 ))}
               </div>
@@ -189,6 +212,7 @@ const ListDetailPage: React.FC = () => {
             <ListQuickActionsSection
               listId={listId}
               onCreateRequest={handleCreateRequest}
+              loading={loading}
             />
           )}
           {currentTeamId && (
@@ -234,7 +258,6 @@ const ListDetailPage: React.FC = () => {
           onClose={() => setIsCreateRequestPopupOpen(false)}
           listId={listId}
           teamId={currentTeamId || undefined}
-
         />
       )}
     </>

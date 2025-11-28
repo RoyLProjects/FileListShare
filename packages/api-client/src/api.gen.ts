@@ -465,8 +465,8 @@ export interface operations {
                             /** Format: uuid */
                             listId: string;
                             /** Format: uuid */
-                            linkId: string;
-                            token: string;
+                            linkId?: string;
+                            token?: string;
                             hasPassword: boolean;
                             createdAt?: unknown;
                             createdBy?: string;
@@ -521,8 +521,8 @@ export interface operations {
                             /** Format: uuid */
                             listId: string;
                             /** Format: uuid */
-                            linkId: string;
-                            token: string;
+                            linkId?: string;
+                            token?: string;
                             hasPassword: boolean;
                             createdAt?: unknown;
                             createdBy?: string;

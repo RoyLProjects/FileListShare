@@ -65,8 +65,6 @@
                       },
                       "required": [
                         "listId",
-                        "linkId",
-                        "token",
                         "hasPassword"
                       ],
                       "additionalProperties": false
@@ -211,8 +209,6 @@
                       },
                       "required": [
                         "listId",
-                        "linkId",
-                        "token",
                         "hasPassword"
                       ],
                       "additionalProperties": false

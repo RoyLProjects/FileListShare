@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 import ListItem from "./ListItem";
 
 interface ListsSectionProps {
   teamId?: string;
+  currentPage: number;
+  pageSize: number;
+  setCurrentPage: (page: number) => void;
+  setPageSize: (size: number) => void;
 }
 
-const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
+const ListsSection: React.FC<ListsSectionProps> = ({ teamId, currentPage, pageSize, setCurrentPage, setPageSize }) => {
 
   const queryParams = teamId
     ? { page: currentPage, pageSize, teamId }
     : { page: currentPage, pageSize };
 
-  const queryKey = teamId ? ["lists", queryParams.page, queryParams.pageSize, queryParams.teamId] as const : ["lists", queryParams.page, queryParams.pageSize] as const;
+  const queryKey = teamId ? ["lists", queryParams.page, queryParams.pageSize, queryParams.teamId] : ["lists", queryParams.page, queryParams.pageSize];
 
   const {
     data: response,
@@ -25,7 +27,9 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
     queryKey: queryKey,
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/list", {
+        params: {
         query: queryParams,
+        },
       });
 
       if (error) throw error;
@@ -44,7 +48,7 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1); // Reset to first page when page size changes
+    setCurrentPage(1);
   };
 
   const totalItems = () => {
@@ -64,7 +68,7 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
     <div className="lg:col-span-2 bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
       <div className="items-center justify-between mb-6 flex">
         <p className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-          Lists
+          {teamId ? "Team Lists" : "Lists"}
         </p>
       </div>
 
@@ -82,7 +86,7 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
         )}
       </div>
 
-      {totalPages() > 1 && (
+
         <div className="mt-6 flex items-center justify-between">
           <div className="text-sm text-neutral-600 dark:text-neutral-400">
             Showing {(currentPage - 1) * pageSize + 1} to{" "}
@@ -105,7 +109,9 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
               <option value={100}>100</option>
             </select>
           </div>
+          {totalPages() > 1 && (
           <div className="flex gap-2">
+                  
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -140,8 +146,8 @@ const ListsSection: React.FC<ListsSectionProps> = ({ teamId }) => {
               Next
             </button>
           </div>
+          )}
         </div>
-      )}
     </div>
   );
 };
