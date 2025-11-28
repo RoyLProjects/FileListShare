@@ -7,8 +7,8 @@ export const GetLinkRequestSchema = z.object({
 
 export const LinkResponseSchema = z.object({
   listId: listId,
-  linkId: linkId,
-  token: token,
+  linkId: linkId.optional(),
+  token: token.optional(),
   hasPassword: z.boolean(),
   createdAt: z.coerce.date().optional(),
   createdBy: userId.optional(),

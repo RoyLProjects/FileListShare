@@ -2,7 +2,6 @@ import { getAppPrismaClient } from "../../lib/db.js";
 import {
   ConflictError,
   ForbiddenError,
-  InternalServerError,
 } from "../../lib/resultHandler.js";
 import {
   CreateLinkRequestSchema,
@@ -54,15 +53,20 @@ export class LinkService {
       },
     });
 
+   
+    const linkId = result?.id;
+    const token = result?.token; 
+    const hasPassword = Boolean(result?.passwordHash);
+
     return {
       listId: listId,
-      linkId: result?.id || "",
-      token: result?.token || "",
-      hasPassword: Boolean(result?.passwordHash),
+      linkId: linkId,
+      token: token,
+      hasPassword: hasPassword,
       createdAt: result?.createdAt ?? undefined,
-      createdBy: result?.createdBy || "",
+      createdBy: result?.createdBy ?? undefined,
       updatedAt: result?.updatedAt ?? undefined,
-    } as z.infer<typeof LinkResponseSchema>;
+    } ;
   }
 
   static async createLink(
@@ -156,7 +160,7 @@ export class LinkService {
     while (true) {
       const slug = this.nanoid();
 
-      try {
+
         var creation = await prisma.publicLink.create({
           data: {
             listId: listId,
@@ -175,16 +179,6 @@ export class LinkService {
           createdBy: creation.createdBy,
           updatedAt: creation.updatedAt ?? undefined,
         };
-      } catch (e: any) {
-        // Prisma unique constraint violation
-        if (e.code === "P2002") {
-          // slug bestaat al → opnieuw proberen
-          continue;
-        }
-
-        logger.error({ err: e }, "createLink unexpected error");
-        throw new InternalServerError();
-      }
     }
   }
 
@@ -256,17 +250,11 @@ export class LinkService {
         );
       }
     }
-
-    try {
       await prisma.publicLink.delete({
         where: { listId: listId },
       });
       return {
         success: true,
       };
-    } catch (e: unknown) {
-      logger.error({ err: e }, "deleteLink unexpected error");
-      throw new InternalServerError();
-    }
   }
 }
