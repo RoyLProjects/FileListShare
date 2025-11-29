@@ -19,7 +19,9 @@ export const UpdateStorageRequestSchema = z.object({
   storagePath: pathSchema,
 });
 
-export const DeleteStorageRequestSchema = UpdateStorageRequestSchema;
+export const DeleteStorageRequestSchema = z.object({
+  storageId: storageId,
+});
 
 export const DeleteStorageResponseSchema = z.object({
   success: z.boolean(),
