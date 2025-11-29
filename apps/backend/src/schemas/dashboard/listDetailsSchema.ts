@@ -38,6 +38,7 @@ export const ListDetailsResponseSchema = z.object({
   title: title,
   teamId: teamId.nullable(),
   items: z.array(listItemDetailSchema),
+  totalItems: z.number().int(),
   page: page,
   pageSize: pageSize,
 });

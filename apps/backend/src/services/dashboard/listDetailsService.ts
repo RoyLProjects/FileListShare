@@ -26,22 +26,25 @@ export class ListDetailsService {
       const pageSize = data.pageSize ?? 10;
       const skip = (page - 1) * pageSize;
 
-      const list = await prisma.list.findFirst({
-        where: {
-          id: data.listId,
-          OR: [
-            { userId: userId },
-            { team: { members: { some: { userId: userId } } } },
-          ],
-        },
-        include: {
-          items: {
-            orderBy: { itemnumber: "desc" },
-            skip: skip,
-            take: pageSize,
-          },
-        },
-      });
+const list = await prisma.list.findFirst({
+  where: {
+    id: data.listId,
+    OR: [
+      { userId: userId },
+      { team: { members: { some: { userId: userId } } } },
+    ],
+  },
+  include: {
+    items: {
+      orderBy: { itemnumber: "desc" },
+      skip,
+      take: pageSize,
+    },
+    _count: {
+      select: { items: true }, 
+    },
+  },
+});
 
       if (!list) {
         logger.warn("Forbidden: user has no access to list or list not found");
@@ -67,6 +70,7 @@ export class ListDetailsService {
           createdBy: it.createdBy,
           updatedAt: it.updatedAt,
         })),
+        totalItems: list._count.items ?? 0,
         page,
         pageSize,
       };
@@ -76,6 +80,7 @@ export class ListDetailsService {
         title: "",
         teamId: null,
         items: [],
+        totalItems: 0,
         page: 1,
         pageSize: 10,
       };
