@@ -30,7 +30,7 @@ const startEndpoint = authedEndpointsFactory.build({
   tag: "dropbox-start",
 });
 
-const callbackOAuthEndpoint = authedEndpointsFactory.build({
+const callbackEndpoint = authedEndpointsFactory.build({
   method: "get",
   input: CallbackOauthRequestSchema,
   output: CallbackOauthResponseSchema,
@@ -63,8 +63,8 @@ export const startRouiting = new DependsOnMethod({
   get: startEndpoint,
 });
 
-export const callbackOAuthRouting = new DependsOnMethod({
-  get: callbackOAuthEndpoint,
+export const callbackRouting = new DependsOnMethod({
+  get: callbackEndpoint,
 });
 
 export const browseRouting = new DependsOnMethod({
@@ -73,6 +73,6 @@ export const browseRouting = new DependsOnMethod({
 
 export const DropboxRouting = {
   start: startRouiting,
-  callbackOAuth: callbackOAuthRouting,
+  callback: callbackRouting,
   browse: browseRouting,
 };

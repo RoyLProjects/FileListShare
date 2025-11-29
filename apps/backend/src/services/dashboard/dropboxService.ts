@@ -76,7 +76,7 @@ export class DropboxService {
     authUrl.searchParams.set("client_id", env.DROPBOX_CLIENT_ID);
     authUrl.searchParams.set(
       "redirect_uri",
-      env.BASE_URL + "/dropbox/callback",
+      env.BASE_URL + "/v1/dashboard/dropbox/callback",
     );
     authUrl.searchParams.set(
       "scope",
