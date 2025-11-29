@@ -144,7 +144,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
     date.setHours(0, 0, 0, 0);
     now.setHours(0, 0, 0, 0);
 
-    const isOverdue = date < now && !item.delivered;
+    const isOverdue = date < now && !item.delivered && item.status !== "draft";
 
     const formatted = date.toLocaleDateString("en-US", {
       month: "short",
