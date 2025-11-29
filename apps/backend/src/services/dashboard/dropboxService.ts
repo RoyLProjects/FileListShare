@@ -187,6 +187,7 @@ export class DropboxService {
           displayName: `Dropbox (${tokens.account_id})`,
           refreshToken: encryptedRefreshToken,
           userId,
+          storagePath: "/"
         },
         update: {
           displayName: `Dropbox (${tokens.account_id})`,
@@ -202,6 +203,7 @@ export class DropboxService {
           displayName: `Dropbox (${tokens.account_id})`,
           refreshToken: encryptedRefreshToken,
           teamId: pkceTeam,
+          storagePath: "/"
         },
         update: {
           displayName: `Dropbox (${tokens.account_id})`,

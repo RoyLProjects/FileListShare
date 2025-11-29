@@ -14,15 +14,17 @@ export const pathSchema = z
   .string()
   .trim()
   .min(1, "Path cannot be empty")
-  .pipe(z.string().regex(/^\/.+$/, "Path must start with '/'"))
+  .regex(/^\/.*$/, "Path must start with '/'")
   .superRefine((value, ctx) => {
     if (value.includes("//")) {
       ctx.addIssue({
-        code: "custom",
+        code: z.ZodIssueCode.custom,
         message: "Path cannot contain double slashes ('//')",
       });
     }
-  });
+  })
+  .default("/");
+
 
 export const token = z
   .string()
