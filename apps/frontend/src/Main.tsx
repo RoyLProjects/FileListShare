@@ -11,7 +11,7 @@ import LandingPage from "./pages/LandingPage";
 import ListPage from "./pages/ListPage";
 import ListDetailPage from "./pages/ListDetailPage";
 import TeamPage from "./pages/TeamPage";
-
+import TeamSettingsPage from "./pages/TeamSettingsPage";
 
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -22,9 +22,12 @@ createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard/*" element={<ListPage />} />
           <Route path="/dashboard/list/:listId" element={<ListDetailPage />} />
           <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
+          <Route
+            path="/dashboard/team/:teamId/settings"
+            element={<TeamSettingsPage />}
+          />
           <Route path="/dashboard/*" element={<ListPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -35,4 +38,4 @@ createRoot(document.getElementById("root")!).render(
 );
 //          //<Route path="/" element={<LandingPage />} />
 
-//TODO: fix nested routes 
+//TODO: fix nested routes

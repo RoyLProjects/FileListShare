@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 
 const ListsPage: React.FC = () => {
-  
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(15);
 
@@ -23,7 +22,7 @@ const ListsPage: React.FC = () => {
     queryFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/list", {
         params: {
-        query: queryParams,
+          query: queryParams,
         },
       });
 
@@ -66,7 +65,12 @@ const ListsPage: React.FC = () => {
       />
 
       <div className="lg:grid-cols-3 mb-8 grid grid-cols-1 gap-6">
-        <ListsSection currentPage={currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage} setPageSize={setPageSize} />
+        <ListsSection
+          currentPage={currentPage}
+          pageSize={pageSize}
+          setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+        />
         <div className="space-y-6">
           <QuickActionsSection />
           <TeamsSection />

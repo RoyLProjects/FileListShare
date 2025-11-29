@@ -39,7 +39,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   useEffect(() => {
     if (queryError) {
       setError(GetErrorMessage(queryError));
-    } 
+    }
   }, [queryError]);
 
   const publicLink = response?.data;
@@ -78,7 +78,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     onError: (error) => {
       console.error("Error deleting link:", GetErrorMessage(error));
       setError(GetErrorMessage(error));
-    }
+    },
   });
 
   const isLoading =
@@ -94,7 +94,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   };
   const creating = mutationPending(createMutation);
   const deleting = mutationPending(deleteMutation);
-  const combinedLoading = isQueryLoading || creating || deleting; 
+  const combinedLoading = isQueryLoading || creating || deleting;
 
   const handleCreate = async () => {
     try {

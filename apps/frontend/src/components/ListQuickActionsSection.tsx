@@ -63,17 +63,14 @@ const ListQuickActionsSection: React.FC<ListQuickActionsSectionProps> = ({
           </button>
         </div>
       </div>
-    
-    {!loading && isSharePopupOpen && (
-      <LinkSharePopup
-        listId={listId}
-        isOpen={isSharePopupOpen}
-        onClose={() => setIsSharePopupOpen(false)}
-      />
-    )
-    }
 
-     
+      {!loading && isSharePopupOpen && (
+        <LinkSharePopup
+          listId={listId}
+          isOpen={isSharePopupOpen}
+          onClose={() => setIsSharePopupOpen(false)}
+        />
+      )}
     </>
   );
 };

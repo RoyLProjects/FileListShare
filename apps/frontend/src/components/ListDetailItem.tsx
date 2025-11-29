@@ -6,7 +6,8 @@ import { Api } from "../apiClient/apiClient";
 
 export type ListItemDetail =
   paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["items"][number];
-  export type response = paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"];
+export type response =
+  paths["/v1/dashboard/listDetails"]["get"]["responses"]["200"]["content"]["application/json"];
 
 export interface ListDetailItemProps {
   item: ListItemDetail;
@@ -35,7 +36,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
       { listId, itemId: item.itemId ?? "", delivered: !item.delivered },
       {
         onSettled: () => setIsTogglingDelivery(false),
-      }
+      },
     );
   };
 
@@ -56,7 +57,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
     onSuccess: (data, variables) => {
       queryClient.setQueryData(queryKey, (oldData: response) => {
         if (!oldData) return oldData;
-        if(oldData.success && oldData.success === true) {
+        if (oldData.success && oldData.success === true) {
           const updatedItems = oldData.data.items.map((it: ListItemDetail) => {
             if (it.itemId === variables.itemId) {
               return { ...it, delivered: variables.delivered };
@@ -73,7 +74,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
     },
   });
 
-    const toggleDeleteMutation = useMutation<
+  const toggleDeleteMutation = useMutation<
     unknown,
     unknown,
     { itemId: string }
@@ -129,7 +130,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
   };
 
   const handleDeleteItem = async () => {
-    if(!item.itemId) return;
+    if (!item.itemId) return;
     toggleDeleteMutation.mutate({ itemId: item.itemId });
   };
 

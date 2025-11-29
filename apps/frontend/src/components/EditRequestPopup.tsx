@@ -136,7 +136,7 @@ const EditRequestPopup: React.FC<EditRequestPopupProps> = ({
               placeholder="Enter request description"
               rows={3}
               className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none"
-                disabled={updating}
+              disabled={updating}
             />
           </div>
 

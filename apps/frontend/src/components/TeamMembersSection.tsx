@@ -6,9 +6,7 @@ interface TeamMembersSectionProps {
   teamId: string;
 }
 
-const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
-  teamId,
-}) => {
+const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
   if (!teamId) {
     return (
       <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
@@ -24,8 +22,16 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
 
   // Query team list to resolve the team name (no single-team endpoint exists)
   const teamQueryParams = { page: 1, pageSize: 100 };
-  const teamQueryKey = ["team", teamQueryParams.page, teamQueryParams.pageSize] as const;
-  const { data: teamsResponse, isLoading: teamsLoading, isFetching: teamsFetching } = useQuery({
+  const teamQueryKey = [
+    "team",
+    teamQueryParams.page,
+    teamQueryParams.pageSize,
+  ] as const;
+  const {
+    data: teamsResponse,
+    isLoading: teamsLoading,
+    isFetching: teamsFetching,
+  } = useQuery({
     queryKey: teamQueryKey,
     enabled: !!teamId,
     queryFn: async () => {
@@ -37,10 +43,13 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({
     },
   });
 
-  const team = teamsResponse?.data?.items?.find((t: { teamId: string }) => t.teamId === teamId) ?? undefined;
+  const team =
+    teamsResponse?.data?.items?.find(
+      (t: { teamId: string }) => t.teamId === teamId,
+    ) ?? undefined;
   const teamName = team?.title ?? "";
   const members = team?.members ?? [];
-  const loading =  teamsLoading || teamsFetching;
+  const loading = teamsLoading || teamsFetching;
 
   const getInitials = (userId: string) => {
     // Extract initials from userId or use first 2 characters

@@ -20,26 +20,31 @@ const CreateRequestPopup: React.FC<CreateRequestPopupProps> = ({
   isOpen,
 }) => {
   const [description, setDescription] = useState("");
-  const [suggestedItemNumber, setSuggestedItemNumber] = useState<number | null>(null);
-  
+  const [suggestedItemNumber, setSuggestedItemNumber] = useState<number | null>(
+    null,
+  );
+
   const [status, setStatus] = useState<"published" | "draft">("published");
   const [deadline, setDeadline] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const queryClient = useQueryClient();
 
-  type CreateItemBody = paths["/v1/dashboard/listDetails"]["post"]["requestBody"]["content"]["application/json"];
+  type CreateItemBody =
+    paths["/v1/dashboard/listDetails"]["post"]["requestBody"]["content"]["application/json"];
 
-const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
+  const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
 
-    const fetchItemNumber = useMutation<number, unknown, void>({
+  const fetchItemNumber = useMutation<number, unknown, void>({
     mutationFn: async () => {
       const { data, error } = await Api.GET("/v1/dashboard/listDetails", {
         params: { query: queryParams },
       });
       if (error) throw error;
       try {
-        const payload = data as { data?: { items?: Array<{ itemnumber?: number }> } } | undefined;
+        const payload = data as
+          | { data?: { items?: Array<{ itemnumber?: number }> } }
+          | undefined;
         const firstItemNumber = payload?.data?.items?.[0]?.itemnumber;
         return (firstItemNumber ?? 0) + 1;
       } catch {
@@ -54,10 +59,11 @@ const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
     },
   });
 
-
   const createMutation = useMutation<unknown, unknown, CreateItemBody>({
     mutationFn: async (itemData: CreateItemBody) => {
-      const { data, error } = await Api.POST("/v1/dashboard/listDetails", { body: itemData });
+      const { data, error } = await Api.POST("/v1/dashboard/listDetails", {
+        body: itemData,
+      });
       if (error) throw error;
       return data;
     },
@@ -71,9 +77,10 @@ const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
     },
   });
 
-  const loading =  isUpdating || fetchItemNumber.status === "pending" || createMutation.status === "pending";
-
-  
+  const loading =
+    isUpdating ||
+    fetchItemNumber.status === "pending" ||
+    createMutation.status === "pending";
 
   useEffect(() => {
     if (!isOpen) {
@@ -197,7 +204,9 @@ const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
             </label>
             <input
               type="text"
-              value={suggestedItemNumber !== null ? String(suggestedItemNumber) : ""}
+              value={
+                suggestedItemNumber !== null ? String(suggestedItemNumber) : ""
+              }
               readOnly
               placeholder={suggestedItemNumber === null ? "Loading..." : ""}
               className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
@@ -205,7 +214,8 @@ const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
             />
             {suggestedItemNumber !== null && (
               <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">
-                Suggested: <span className="font-semibold">{suggestedItemNumber}</span>.
+                Suggested:{" "}
+                <span className="font-semibold">{suggestedItemNumber}</span>.
               </p>
             )}
           </div>
@@ -246,7 +256,7 @@ const queryParams = { listId: listId ?? "", page: 1, pageSize: 1 } as const;
           <div className="flex gap-2 pt-2">
             <button
               onClick={handleCreateRequest}
-                disabled={loading || !description.trim()}
+              disabled={loading || !description.trim()}
               className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {loading ? "Creating..." : "Create Request"}
