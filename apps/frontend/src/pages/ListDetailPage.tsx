@@ -16,6 +16,8 @@ const ListDetailPage: React.FC = () => {
   const location = useLocation();
   const [isCreateRequestPopupOpen, setIsCreateRequestPopupOpen] =
     useState(false);
+    const [pageSize, setPageSize] = useState(15);
+    const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (listId && !uuidV4Regex.test(listId)) {
@@ -23,7 +25,7 @@ const ListDetailPage: React.FC = () => {
     }
   }, [listId, navigate]);
 
-  const queryParams = { listId: listId ?? "", page: 1, pageSize: 15 };
+  const queryParams = { listId: listId ?? "", page: page, pageSize: pageSize };
 
   const queryKey = [
     "listdetails",
@@ -31,6 +33,15 @@ const ListDetailPage: React.FC = () => {
     queryParams.page,
     queryParams.pageSize,
   ] as const;
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setPage(1);
+  };
 
   const {
     data: response,
@@ -64,6 +75,7 @@ const ListDetailPage: React.FC = () => {
   }, [error, navigate]);
 
   const items = response?.data?.items ?? [];
+  const totalItemsCount = response?.data?.totalItems ?? 0;
   const title = response?.data?.title;
   const currentTeamId = response?.data?.teamId ?? "";
   const loading = isLoading || isFetching;
@@ -71,6 +83,20 @@ const ListDetailPage: React.FC = () => {
   const handleCreateRequest = () => {
     if (!listId) return;
     setIsCreateRequestPopupOpen(true);
+  };
+
+
+const totalItems = () => {
+    if (!items) return 0;
+
+    const totalitems = totalItemsCount;
+    return totalitems;
+  };
+
+  const totalPages = () => {
+    const size = pageSize || 1;
+    const total = Math.ceil(totalItems() / size);
+    return Math.max(1, total);
   };
 
   return (
@@ -209,6 +235,67 @@ const ListDetailPage: React.FC = () => {
                   </div>
                 )}
               </div>
+                    {/* Pagination Section */}
+      <section className="mt-6 flex items-center justify-between">
+        <div className="text-sm text-neutral-600 dark:text-neutral-400">
+          Showing {(page - 1) * pageSize + 1} to{" "}
+          {Math.min(page * pageSize, totalItems())} of {totalItems()}{" "}
+          items
+        </div>
+        <div className="flex gap-2 items-center">
+          <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            Items per page:
+          </label>
+          <select
+            value={pageSize}
+            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+            className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <option value={15}>15</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={75}>75</option>
+            <option value={100}>100</option>
+          </select>
+        </div>
+        {totalPages() > 1 && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages() }, (_, i) => i + 1).map(
+                (p) => (
+                  <button
+                    key={p}
+                    onClick={() => handlePageChange(p)}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                      page === p
+                        ? "bg-blue-500 text-white"
+                        : "text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ),
+              )}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages()}
+              className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </section>
             </div>
 
             {/* Sidebar - Takes 1 column */}
@@ -225,32 +312,6 @@ const ListDetailPage: React.FC = () => {
                   <TeamMembersSection teamId={currentTeamId} />
                 </>
               )}
-              <button
-                className="w-full py-2.5 px-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 font-medium rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2"
-                onClick={() => navigate(`/dashboard/settings/${listId}`)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                Settings
-              </button>
             </div>
           </div>
         </div>
@@ -263,6 +324,7 @@ const ListDetailPage: React.FC = () => {
           teamId={currentTeamId || undefined}
         />
       )}
+
     </>
   );
 };
