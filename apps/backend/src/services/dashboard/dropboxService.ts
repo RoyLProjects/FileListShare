@@ -26,57 +26,30 @@ export class DropboxService {
     data: z.infer<typeof DropboxStartRequestSchema>,
     userId: string,
   ): Promise<z.infer<typeof DropboxStartResponseSchema>> {
-    if (!data.listId || !userId) {
-      throw new ConflictError("Invalid input");
-    }
-
     const prisma = getAppPrismaClient();
-    const list = await prisma.list.findFirst({
-      where: {
-        id: data.listId,
-        OR: [
-          { userId: userId },
-          { team: { members: { some: { userId: userId } } } },
-        ],
-      },
-      include: {
-        team: {
-          include: {
-            members: {
-              include: {
-                permissions: true,
-              },
-            },
-          },
-        },
-      },
-    });
 
-    if (!list) {
-      logger.warn("Forbidden: user has no access to list or list not found");
-      throw new ForbiddenError(
-        "Unauthorized: User does not have access to this list",
-      );
-    }
-
-    if (list.team) {
-      const teamMember = list.team.members.find((m) => m.userId === userId);
-      if (!teamMember) {
-        logger.warn("Forbidden: user has no access to list or list not found");
+    if (!data.teamId) {
+      const userStorage = await prisma.storage.findUnique({
+        where: { userId: userId },
+      });
+      if (userStorage) {
+        logger.warn("Conflict: user already has storage connected");
+        throw new ConflictError("User already has storage connected");
+      }
+    } else {
+      const team = await prisma.team.findFirst({
+        where: { id: data.teamId, members: { some: { userId } } },
+        include: { storage: true },
+      });
+      if (!team) {
+        logger.warn("Forbidden: user has no access to team");
         throw new ForbiddenError(
-          "Unauthorized: User does not have access to this list",
+          "Unauthorized: User does not have access to this team",
         );
       }
-      const canCreate = teamMember.permissions.some(
-        (p) => p.permission === "TEAM_STORAGE_ADD",
-      );
-      if (!canCreate) {
-        logger.warn(
-          "Forbidden: user does not have permission to add storage to this team",
-        );
-        throw new ForbiddenError(
-          "Unauthorized: User does not have permission to add storage to this team",
-        );
+      if (team.storage) {
+        logger.warn("Conflict: team already has storage connected");
+        throw new ConflictError("Team already has storage connected");
       }
     }
 
@@ -89,12 +62,10 @@ export class DropboxService {
       state: string;
       userId?: string;
       teamId?: string;
-      listId?: string;
     } = {
       codeVerifier,
       state,
-      ...(list.team ? { teamId: list.team.id } : { userId }),
-      ...(list.id && { listId: list.id }),
+      ...(data.teamId ? { teamId: data.teamId } : { userId: userId })
     };
 
     await PKCEStore.create(state, pkcePayload);
@@ -132,24 +103,34 @@ export class DropboxService {
 
     const pkceUser = pkceData.userId;
     const pkceTeam = pkceData.teamId;
+    await PKCEStore.delete(data.state);
 
     const prisma = getAppPrismaClient();
 
     if (pkceUser) {
       if (pkceUser !== userId) {
-        await PKCEStore.delete(data.state);
         throw new ForbiddenError("User mismatch");
+      }
+            const userStorage = await prisma.storage.findUnique({
+        where: { userId: userId },
+      });
+      if (userStorage) {
+        logger.warn("Conflict: user already has storage connected");
+        throw new ConflictError("User already has storage connected");
       }
     } else if (pkceTeam) {
       const team = await prisma.team.findFirst({
         where: { id: pkceTeam, members: { some: { userId } } },
+         include: { storage: true },
       });
       if (!team) {
-        await PKCEStore.delete(data.state);
         throw new ForbiddenError("User is not a member of the team");
       }
+      if (team.storage) {
+        logger.warn("Conflict: team already has storage connected");
+        throw new ConflictError("Team already has storage connected");
+      }
     } else {
-      await PKCEStore.delete(data.state);
       throw new ForbiddenError("Invalid PKCE data: no user or team");
     }
 
@@ -168,9 +149,6 @@ export class DropboxService {
         }),
       },
     );
-
-    // Delete used PKCE data
-    await PKCEStore.delete(data.state);
 
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();

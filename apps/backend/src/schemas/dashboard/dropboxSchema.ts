@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { listId, pathSchema, teamId, urlSchema } from "./domainSchema.js";
+import { pathSchema, teamId, urlSchema } from "./domainSchema.js";
 
 export const DropboxStartRequestSchema = z.object({
-  listId: listId,
+  teamId: teamId.optional(),
 });
 
 export const DropboxStartResponseSchema = z.object({
