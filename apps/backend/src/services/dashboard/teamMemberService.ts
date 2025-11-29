@@ -224,9 +224,25 @@ export class TeamMemberService {
       throw new NotFoundError("Team not found or access denied");
     }
 
+    if(requestingMember.userId === userId) {
+      const teamMembers = await prisma.teamMember.findMany({
+        where: {
+          teamId: input.teamId,
+          id: {
+            not: input.teamMemberId,
+          },
+        },
+      });
+
+      if(teamMembers.length === 0) {
+        logger.warn("Delete member request: cannot delete self as last team member");
+        throw new ForbiddenError("Cannot delete self as the last team member");
+      }
+    }
+
     const canDelete = requestingMember.permissions.some(
       (p) => String(p.permission) === "TEAM_MEMBER_DELETE",
-    );
+    ) || input.teamMemberId === requestingMember.id;
 
     if (!canDelete) {
       logger.warn(
