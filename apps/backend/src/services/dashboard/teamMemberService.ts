@@ -1,6 +1,6 @@
 import { logger } from "../../lib/log.js";
 import { getAppPrismaClient } from "../../lib/db.js";
-import { z } from "zod";
+import {  z } from "zod";
 import {
   DeleteTeamMemberRequestSchema,
   DeleteTeamMemberResponseSchema,
@@ -65,11 +65,15 @@ export class TeamMemberService {
     const pageSize = input.pageSize ?? members.length;
     const total = members.length;
 
+    //better mapping
+
+
     const items = members.map((m) => ({
       teamMemberId: m.id,
       userId: m.userId,
       createdAt: m.createdAt,
       createdBy: m.createdBy,
+      currentMember: Boolean(m.userId === userId),
       permissions: m.permissions.map((p: any) => ({
         teamMemberId: p.teamMemberId,
         permission: p.permission,
@@ -125,12 +129,38 @@ export class TeamMemberService {
         id: input.teamMemberId,
         teamId: input.teamId,
       },
+            include: {
+        permissions: true,
+      },
     });
 
     if (!memberToUpdate) {
       logger.warn("Update member request: member not found");
       throw new NotFoundError("Team member not found in the specified team");
     }
+
+    if(memberToUpdate.permissions.some((p) => p.permission === "TEAM_MEMBER_RIGHTS")) {
+      if(input.permissions.some((perm) => perm === "TEAM_MEMBER_RIGHTS") === false) {
+        const teamAdmins = await prisma.teamMember.findMany({
+          where: {
+            teamId: input.teamId,
+            permissions: {
+              some: {
+                permission: "TEAM_MEMBER_RIGHTS",
+              },
+            },
+            id: {
+              not: input.teamMemberId,
+            },
+          },
+        });
+        
+        if(teamAdmins.length === 0) {
+          logger.warn("Update member request: cannot remove last TEAM_MEMBER_RIGHTS permission");
+          throw new ForbiddenError("Cannot remove TEAM_MEMBER_RIGHTS permission from the last team admin");
+      }
+    }
+  }
 
     // Update permissions in a transaction
     const updatedMember = await prisma.$transaction(async (tx) => {

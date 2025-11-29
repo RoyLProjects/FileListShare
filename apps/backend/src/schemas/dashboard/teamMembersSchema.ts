@@ -19,6 +19,7 @@ export const GetTeamMemberItemSchema = z.object({
   userId: userId,
   createdAt: z.coerce.date(),
   createdBy: userId,
+  currentMember: z.boolean(),
   permissions: z.array(
     z.object({
       teamMemberId: teamMemberId,
