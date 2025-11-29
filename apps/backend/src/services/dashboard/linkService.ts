@@ -32,7 +32,7 @@ export class LinkService {
         listId: listId,
         OR: [
           { list: { user: { id: userId } } },
-          { list: { team: { members: { some: { id: userId } } } } },
+          { list: { team: { members: { some: { userId: userId } } } } },
         ],
       },
       include: {
@@ -53,7 +53,6 @@ export class LinkService {
       },
     });
 
-   
     const linkId = result?.id;
     const token = result?.token; 
     const hasPassword = Boolean(result?.passwordHash);
@@ -153,7 +152,7 @@ export class LinkService {
 
     let passwordHash: string | null = null;
 
-    if (password) {
+    if (password && password != null && password.length > 0) {
       passwordHash = await argon2.hash(password);
     }
 
