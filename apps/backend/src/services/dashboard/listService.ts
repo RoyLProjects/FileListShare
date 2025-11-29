@@ -65,6 +65,7 @@ const [lists, totalCount] = await prisma.$transaction([
           id: true,
           delivered: true,
           deadline: true,
+          status: true,
         },
       },
     },
@@ -77,7 +78,7 @@ const [lists, totalCount] = await prisma.$transaction([
 
 
 const Items = lists.map((list) => {
-        type ItemType = { delivered?: boolean; deadline?: Date };
+        type ItemType = { delivered?: boolean; deadline?: Date; status?: string };
         const items = (list as unknown as { items?: ItemType[] }).items;
 
         const totalItems = items?.length ?? 0;
@@ -88,7 +89,7 @@ const Items = lists.map((list) => {
 today.setHours(0, 0, 0, 0);
         const totalOverdueItems =
   items?.filter((i) => {
-    if (!i.deadline || i.delivered) return false;
+    if (!i.deadline || i.delivered || i.status === "draft") return false;
 
     const deadline = new Date(i.deadline);
     deadline.setHours(0, 0, 0, 0);

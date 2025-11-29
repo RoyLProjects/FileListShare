@@ -232,7 +232,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dashboard/dropbox/callbackOAuth": {
+    "/v1/dashboard/dropbox/callback": {
         parameters: {
             query?: never;
             header?: never;
@@ -243,7 +243,7 @@ export interface paths {
          * oauth callback for dropbox
          * @description oauth callback for dropbox integration.
          */
-        get: operations["GetV1DashboardDropboxCallbackOauth"];
+        get: operations["GetV1DashboardDropboxCallback"];
         put?: never;
         post?: never;
         delete?: never;
@@ -252,7 +252,7 @@ export interface paths {
          * oauth callback for dropbox
          * @description oauth callback for dropbox integration.
          */
-        head: operations["HeadV1DashboardDropboxCallbackOauth"];
+        head: operations["HeadV1DashboardDropboxCallback"];
         patch?: never;
         trace?: never;
     };
@@ -644,7 +644,7 @@ export interface operations {
                         /** @constant */
                         success: true;
                         data: {
-                            Items: {
+                            Items?: {
                                 /** Format: uuid */
                                 id: string;
                                 title: string;
@@ -661,7 +661,7 @@ export interface operations {
                             }[];
                             /** @default 1 */
                             page: number;
-                            /** @default 20 */
+                            /** @default 15 */
                             pageSize: number;
                             stats?: {
                                 totalOfItems: number;
@@ -933,7 +933,7 @@ export interface operations {
                             }[];
                             /** @default 1 */
                             page: number;
-                            /** @default 20 */
+                            /** @default 15 */
                             pageSize: number;
                         };
                     };
@@ -1199,7 +1199,7 @@ export interface operations {
                             }[];
                             /** @default 1 */
                             page: number;
-                            /** @default 20 */
+                            /** @default 15 */
                             pageSize: number;
                             total: number;
                         };
@@ -1434,6 +1434,7 @@ export interface operations {
                                 userId: string;
                                 createdAt: unknown;
                                 createdBy: string;
+                                currentMember: boolean;
                                 permissions: {
                                     /** Format: uuid */
                                     teamMemberId: string;
@@ -1443,7 +1444,7 @@ export interface operations {
                             }[];
                             /** @default 1 */
                             page: number;
-                            /** @default 20 */
+                            /** @default 15 */
                             pageSize: number;
                             total: number;
                         };
@@ -1628,14 +1629,12 @@ export interface operations {
                         /** @constant */
                         success: true;
                         data: {
-                            items: {
-                                /** Format: uuid */
-                                id: string;
-                                /** @enum {string} */
-                                type: "dropbox";
-                                displayName: string;
-                                storagePath: string;
-                            }[];
+                            /** Format: uuid */
+                            id: string | null;
+                            /** @enum {string|null} */
+                            type: "dropbox" | null;
+                            displayName: string | null;
+                            storagePath: string | null;
                         };
                     };
                 };
@@ -1661,8 +1660,6 @@ export interface operations {
             query: {
                 /** @description DELETE /v1/dashboard/storage Parameter */
                 storageId: string;
-                /** @description DELETE /v1/dashboard/storage Parameter */
-                storagePath: string;
             };
             header?: never;
             path?: never;
@@ -1756,14 +1753,12 @@ export interface operations {
                         /** @constant */
                         success: true;
                         data: {
-                            items: {
-                                /** Format: uuid */
-                                id: string;
-                                /** @enum {string} */
-                                type: "dropbox";
-                                displayName: string;
-                                storagePath: string;
-                            }[];
+                            /** Format: uuid */
+                            id: string | null;
+                            /** @enum {string|null} */
+                            type: "dropbox" | null;
+                            displayName: string | null;
+                            storagePath: string | null;
                         };
                     };
                 };
@@ -1786,9 +1781,9 @@ export interface operations {
     };
     GetV1DashboardDropboxStart: {
         parameters: {
-            query: {
+            query?: {
                 /** @description GET /v1/dashboard/dropbox/start Parameter */
-                listId: string;
+                teamId?: string;
             };
             header?: never;
             path?: never;
@@ -1830,9 +1825,9 @@ export interface operations {
     };
     HeadV1DashboardDropboxStart: {
         parameters: {
-            query: {
+            query?: {
                 /** @description HEAD /v1/dashboard/dropbox/start Parameter */
-                listId: string;
+                teamId?: string;
             };
             header?: never;
             path?: never;
@@ -1856,12 +1851,12 @@ export interface operations {
             };
         };
     };
-    GetV1DashboardDropboxCallbackOauth: {
+    GetV1DashboardDropboxCallback: {
         parameters: {
             query: {
-                /** @description GET /v1/dashboard/dropbox/callbackOAuth Parameter */
+                /** @description GET /v1/dashboard/dropbox/callback Parameter */
                 code: string;
-                /** @description GET /v1/dashboard/dropbox/callbackOAuth Parameter */
+                /** @description GET /v1/dashboard/dropbox/callback Parameter */
                 state: string;
             };
             header?: never;
@@ -1870,7 +1865,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description GET /v1/dashboard/dropbox/callbackOAuth Positive response */
+            /** @description GET /v1/dashboard/dropbox/callback Positive response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1886,7 +1881,7 @@ export interface operations {
                     };
                 };
             };
-            /** @description GET /v1/dashboard/dropbox/callbackOAuth Negative response */
+            /** @description GET /v1/dashboard/dropbox/callback Negative response */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1902,12 +1897,12 @@ export interface operations {
             };
         };
     };
-    HeadV1DashboardDropboxCallbackOauth: {
+    HeadV1DashboardDropboxCallback: {
         parameters: {
             query: {
-                /** @description HEAD /v1/dashboard/dropbox/callbackOAuth Parameter */
+                /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
                 code: string;
-                /** @description HEAD /v1/dashboard/dropbox/callbackOAuth Parameter */
+                /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
                 state: string;
             };
             header?: never;
@@ -1916,14 +1911,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description HEAD /v1/dashboard/dropbox/callbackOAuth Positive response */
+            /** @description HEAD /v1/dashboard/dropbox/callback Positive response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description HEAD /v1/dashboard/dropbox/callbackOAuth Negative response */
+            /** @description HEAD /v1/dashboard/dropbox/callback Negative response */
             400: {
                 headers: {
                     [name: string]: unknown;

@@ -363,7 +363,7 @@
             "required": false,
             "description": "GET /v1/dashboard/list Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -468,7 +468,7 @@
                           "maximum": 999
                         },
                         "pageSize": {
-                          "default": 20,
+                          "default": 15,
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 1000
@@ -507,7 +507,6 @@
                         }
                       },
                       "required": [
-                        "Items",
                         "page",
                         "pageSize"
                       ],
@@ -579,7 +578,7 @@
             "required": false,
             "description": "HEAD /v1/dashboard/list Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -1021,7 +1020,7 @@
             "required": false,
             "description": "GET /v1/dashboard/listDetails Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -1139,7 +1138,7 @@
                           "maximum": 999
                         },
                         "pageSize": {
-                          "default": 20,
+                          "default": 15,
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 1000
@@ -1229,7 +1228,7 @@
             "required": false,
             "description": "HEAD /v1/dashboard/listDetails Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -1691,7 +1690,7 @@
             "required": false,
             "description": "GET /v1/dashboard/team Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -1760,7 +1759,7 @@
                           "maximum": 999
                         },
                         "pageSize": {
-                          "default": 20,
+                          "default": 15,
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 1000
@@ -1845,7 +1844,7 @@
             "required": false,
             "description": "HEAD /v1/dashboard/team Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -2218,7 +2217,7 @@
             "required": false,
             "description": "GET /v1/dashboard/teammember Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -2256,6 +2255,9 @@
                               "createdAt": {},
                               "createdBy": {
                                 "type": "string"
+                              },
+                              "currentMember": {
+                                "type": "boolean"
                               },
                               "permissions": {
                                 "type": "array",
@@ -2302,6 +2304,7 @@
                               "userId",
                               "createdAt",
                               "createdBy",
+                              "currentMember",
                               "permissions"
                             ],
                             "additionalProperties": false
@@ -2314,7 +2317,7 @@
                           "maximum": 999
                         },
                         "pageSize": {
-                          "default": 20,
+                          "default": 15,
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 1000
@@ -2407,7 +2410,7 @@
             "required": false,
             "description": "HEAD /v1/dashboard/teammember Parameter",
             "schema": {
-              "default": 20,
+              "default": 15,
               "type": "integer",
               "minimum": 1,
               "maximum": 1000
@@ -2742,42 +2745,42 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string",
-                                "format": "uuid",
-                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "dropbox"
-                                ]
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "storagePath": {
-                                "type": "string",
-                                "pattern": "^\\/.+$"
-                              }
-                            },
-                            "required": [
-                              "id",
-                              "type",
-                              "displayName",
-                              "storagePath"
-                            ],
-                            "additionalProperties": false
-                          }
+                        "id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "dropbox"
+                          ]
+                        },
+                        "displayName": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "storagePath": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "pattern": "^\\/.+$"
                         }
                       },
                       "required": [
-                        "items"
+                        "id",
+                        "type",
+                        "displayName",
+                        "storagePath"
                       ],
                       "additionalProperties": false
                     }
@@ -2894,42 +2897,42 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string",
-                                "format": "uuid",
-                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "dropbox"
-                                ]
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "storagePath": {
-                                "type": "string",
-                                "pattern": "^\\/.+$"
-                              }
-                            },
-                            "required": [
-                              "id",
-                              "type",
-                              "displayName",
-                              "storagePath"
-                            ],
-                            "additionalProperties": false
-                          }
+                        "id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "dropbox"
+                          ]
+                        },
+                        "displayName": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "storagePath": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "pattern": "^\\/.+$"
                         }
                       },
                       "required": [
-                        "items"
+                        "id",
+                        "type",
+                        "displayName",
+                        "storagePath"
                       ],
                       "additionalProperties": false
                     }
@@ -2988,16 +2991,6 @@
             "description": "DELETE /v1/dashboard/storage Parameter",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "storagePath",
-            "in": "query",
-            "required": true,
-            "description": "DELETE /v1/dashboard/storage Parameter",
-            "schema": {
-              "type": "string",
-              "minLength": 1
             }
           }
         ],
@@ -3076,9 +3069,9 @@
         ],
         "parameters": [
           {
-            "name": "listId",
+            "name": "teamId",
             "in": "query",
-            "required": true,
+            "required": false,
             "description": "GET /v1/dashboard/dropbox/start Parameter",
             "schema": {
               "type": "string"
@@ -3159,9 +3152,9 @@
         ],
         "parameters": [
           {
-            "name": "listId",
+            "name": "teamId",
             "in": "query",
-            "required": true,
+            "required": false,
             "description": "HEAD /v1/dashboard/dropbox/start Parameter",
             "schema": {
               "type": "string"
@@ -3178,9 +3171,9 @@
         }
       }
     },
-    "/v1/dashboard/dropbox/callbackOAuth": {
+    "/v1/dashboard/dropbox/callback": {
       "get": {
-        "operationId": "GetV1DashboardDropboxCallbackOauth",
+        "operationId": "GetV1DashboardDropboxCallback",
         "summary": "oauth callback for dropbox",
         "description": "oauth callback for dropbox integration.",
         "tags": [
@@ -3191,7 +3184,7 @@
             "name": "code",
             "in": "query",
             "required": true,
-            "description": "GET /v1/dashboard/dropbox/callbackOAuth Parameter",
+            "description": "GET /v1/dashboard/dropbox/callback Parameter",
             "schema": {
               "type": "string"
             }
@@ -3200,7 +3193,7 @@
             "name": "state",
             "in": "query",
             "required": true,
-            "description": "GET /v1/dashboard/dropbox/callbackOAuth Parameter",
+            "description": "GET /v1/dashboard/dropbox/callback Parameter",
             "schema": {
               "type": "string"
             }
@@ -3208,7 +3201,7 @@
         ],
         "responses": {
           "200": {
-            "description": "GET /v1/dashboard/dropbox/callbackOAuth Positive response",
+            "description": "GET /v1/dashboard/dropbox/callback Positive response",
             "content": {
               "application/json": {
                 "schema": {
@@ -3242,7 +3235,7 @@
             }
           },
           "400": {
-            "description": "GET /v1/dashboard/dropbox/callbackOAuth Negative response",
+            "description": "GET /v1/dashboard/dropbox/callback Negative response",
             "content": {
               "application/json": {
                 "schema": {
@@ -3272,7 +3265,7 @@
         }
       },
       "head": {
-        "operationId": "HeadV1DashboardDropboxCallbackOauth",
+        "operationId": "HeadV1DashboardDropboxCallback",
         "summary": "oauth callback for dropbox",
         "description": "oauth callback for dropbox integration.",
         "tags": [
@@ -3283,7 +3276,7 @@
             "name": "code",
             "in": "query",
             "required": true,
-            "description": "HEAD /v1/dashboard/dropbox/callbackOAuth Parameter",
+            "description": "HEAD /v1/dashboard/dropbox/callback Parameter",
             "schema": {
               "type": "string"
             }
@@ -3292,7 +3285,7 @@
             "name": "state",
             "in": "query",
             "required": true,
-            "description": "HEAD /v1/dashboard/dropbox/callbackOAuth Parameter",
+            "description": "HEAD /v1/dashboard/dropbox/callback Parameter",
             "schema": {
               "type": "string"
             }
@@ -3300,10 +3293,10 @@
         ],
         "responses": {
           "200": {
-            "description": "HEAD /v1/dashboard/dropbox/callbackOAuth Positive response"
+            "description": "HEAD /v1/dashboard/dropbox/callback Positive response"
           },
           "400": {
-            "description": "HEAD /v1/dashboard/dropbox/callbackOAuth Negative response"
+            "description": "HEAD /v1/dashboard/dropbox/callback Negative response"
           }
         }
       }
