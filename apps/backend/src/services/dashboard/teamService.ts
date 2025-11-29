@@ -41,7 +41,6 @@ export class TeamService {
         },
       }),
     ]);
-    logger.info("Team list served successfully");
 
     const outItems = items.map((t) => ({
       teamId: t.id,
