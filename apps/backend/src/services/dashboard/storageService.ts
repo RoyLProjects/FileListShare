@@ -24,8 +24,7 @@ export class StorageService {
       ? { teamId: input.teamId }
       : { user: { id: userId } };
 
-    try {
-      const storages = await prisma.storage.findMany({
+      const storages = await prisma.storage.findFirst({
         where,
         orderBy: { createdAt: "desc" },
         select: {
@@ -38,20 +37,20 @@ export class StorageService {
         },
       });
 
-      const items = storages.map((s) => ({
-        id: s.id,
-        type: s.type,
-        displayName: s.displayName,
-        storagePath: s.storagePath ?? "",
-      }));
-
+      if (!storages) {
+        logger.warn("No storage found for the given criteria");
+        throw new NotFoundError("Storage item not found");
+      }
+      
+      const item = {
+        id: storages.id,
+        type: storages.type,
+        displayName: storages.displayName,
+        storagePath: storages.storagePath ?? ""
+      }
+        
       logger.info("Storage list served successfully");
-
-      return { items };
-    } catch (e: unknown) {
-      logger.error({ err: e }, "StorageService.getStorage failed");
-      throw new InternalServerError();
-    }
+      return  item ;
   }
 
   static async updateStorage(
@@ -115,27 +114,19 @@ export class StorageService {
       }
     }
 
-    try {
       const updated = await prisma.storage.update({
         where: { id: input.storageId },
         data: { storagePath: input.storagePath },
         select: { id: true, type: true, displayName: true, storagePath: true },
       });
-
-      const item = {
+            const item = {
         id: updated.id,
         type: updated.type,
         displayName: updated.displayName,
-        storagePath: updated.storagePath ?? "",
-      };
+        storagePath: updated.storagePath ?? ""
+      }
 
-      return {
-        items: [item],
-      };
-    } catch (e: unknown) {
-      logger.error({ err: e }, "updateStorage unexpected error");
-      throw new InternalServerError();
-    }
+      return item;
   }
 
   static async deleteStorage(

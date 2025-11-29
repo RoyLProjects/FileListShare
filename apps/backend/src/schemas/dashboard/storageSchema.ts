@@ -12,9 +12,7 @@ export const storageItemSchema = z.object({
   storagePath: pathSchema,
 });
 
-export const GetStorageResponseSchema = z.object({
-  items: z.array(storageItemSchema),
-});
+export const GetStorageResponseSchema = storageItemSchema;
 
 export const UpdateStorageRequestSchema = z.object({
   storageId: storageId,
