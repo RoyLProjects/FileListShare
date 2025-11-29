@@ -213,7 +213,7 @@ export class DropboxService {
     }
     let redirectUrl;
     if(pkceTeam) {
-      redirectUrl = new URL(env.FRONTEND_URL + `/dashboard/teams/${pkceTeam}/settings`);
+      redirectUrl = new URL(env.FRONTEND_URL + `/dashboard/team/${pkceTeam}/settings`);
     } else {
       redirectUrl = new URL(env.FRONTEND_URL + "/dashboard/settings");
     }
