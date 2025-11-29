@@ -38,8 +38,12 @@ export class StorageService {
       });
 
       if (!storages) {
-        logger.warn("No storage found for the given criteria");
-        throw new NotFoundError("Storage item not found");
+        return {
+          id: null,
+          type: null,
+          displayName: null,
+          storagePath: null
+        }
       }
       
       const item = {

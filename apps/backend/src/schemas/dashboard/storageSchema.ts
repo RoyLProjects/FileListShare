@@ -6,10 +6,10 @@ export const GetStorageRequestSchema = z.object({
 });
 
 export const storageItemSchema = z.object({
-  id: storageId,
-  type: z.enum(["dropbox"]),
-  displayName: z.string(),
-  storagePath: pathSchema,
+  id: storageId.nullable(),
+  type: z.enum(["dropbox"]).nullable(),
+  displayName: z.string().nullable(),
+  storagePath: pathSchema.nullable(),
 });
 
 export const GetStorageResponseSchema = storageItemSchema;
