@@ -358,7 +358,7 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
               <button
                 onClick={handleCreate}
                 disabled={
-                  isLoading || (password.length > 0 && password.length < 8)
+                  isLoading || (password.length < 8)
                 }
                 className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
