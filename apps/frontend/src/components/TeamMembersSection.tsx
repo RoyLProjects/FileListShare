@@ -23,6 +23,7 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
   // Query team list to resolve the team name (no single-team endpoint exists)
   const teamQueryParams = { page: 1, pageSize: 100 };
   const teamQueryKey = [
+    "teams",
     teamQueryParams.page,
     teamQueryParams.pageSize,
   ];
