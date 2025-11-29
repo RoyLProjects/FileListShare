@@ -97,10 +97,11 @@ export class DropboxService {
   ): Promise<z.infer<typeof CallbackOauthResponseSchema>> {
     const pkceData = await PKCEStore.get(data.state);
     logger.info("Dropbox OAuth callback received");
+    const frontendUrl = new URL(env.FRONTEND_URL);
     if (!pkceData) {
-      throw new ForbiddenError("Invalid or expired state");
+      return { url: frontendUrl.toString() };
     }
-
+    
     const pkceUser = pkceData.userId;
     const pkceTeam = pkceData.teamId;
     await PKCEStore.delete(data.state);
@@ -109,14 +110,14 @@ export class DropboxService {
 
     if (pkceUser) {
       if (pkceUser !== userId) {
-        throw new ForbiddenError("User mismatch");
+        return { url: frontendUrl.toString() };
       }
             const userStorage = await prisma.storage.findUnique({
         where: { userId: userId },
       });
       if (userStorage) {
         logger.warn("Conflict: user already has storage connected");
-        throw new ConflictError("User already has storage connected");
+        return { url: frontendUrl.toString() };
       }
     } else if (pkceTeam) {
       const team = await prisma.team.findFirst({
@@ -124,14 +125,16 @@ export class DropboxService {
          include: { storage: true },
       });
       if (!team) {
-        throw new ForbiddenError("User is not a member of the team");
+          logger.warn("Forbidden: user has no access to team");
+       return { url: frontendUrl.toString() };
       }
       if (team.storage) {
         logger.warn("Conflict: team already has storage connected");
-        throw new ConflictError("Team already has storage connected");
+        return { url: frontendUrl.toString() };
       }
     } else {
-      throw new ForbiddenError("Invalid PKCE data: no user or team");
+      logger.warn("Forbidden: no user or team information in state");
+      return { url: frontendUrl.toString() };
     }
 
     const tokenResponse = await fetch(
@@ -142,7 +145,7 @@ export class DropboxService {
         body: new URLSearchParams({
           grant_type: "authorization_code",
           code: data.code,
-          redirect_uri: env.BASE_URL + "/dropbox/callback",
+          redirect_uri: env.BASE_URL + "/v1/dashboard/dropbox/callback",
           client_id: env.DROPBOX_CLIENT_ID,
           code_verifier: pkceData.codeVerifier,
           scope: "files.metadata.read files.content.write",
@@ -153,8 +156,8 @@ export class DropboxService {
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();
       logger.error({ errorText }, "Token exchange error");
-      throw new InternalServerError("Failed to exchange code for token");
-    }
+      return { url: frontendUrl.toString() };
+    } 
 
     const tokens = (await tokenResponse.json()) as {
       access_token: string;
@@ -168,7 +171,7 @@ export class DropboxService {
 
     if (!tokens.refresh_token) {
       logger.error("No refresh token received");
-      throw new InternalServerError("No refresh token received");
+      return { url: frontendUrl.toString() };
     }
 
     const encryptedRefreshToken = encryptRefreshToken(tokens.refresh_token);

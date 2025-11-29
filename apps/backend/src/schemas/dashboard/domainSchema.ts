@@ -9,7 +9,7 @@ export const teamMemberId = zId;
 export const storageId = zId;
 export const userId = z.string().trim();
 
-export const urlSchema = z.string().trim().pipe(z.url("Must be a valid URL"));
+export const urlSchema = z.string().trim().url("Must be a valid URL");
 export const pathSchema = z
   .string()
   .trim()

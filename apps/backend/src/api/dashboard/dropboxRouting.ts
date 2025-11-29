@@ -10,6 +10,7 @@ import {
 } from "../../schemas/dashboard/dropboxSchema.js";
 import { requireAuth } from "../../middelware/requireAuth.js";
 import { DropboxService } from "../../services/dashboard/dropboxService.js";
+import { redirectEndpointsFactory } from "../../lib/redirectResultHandler.js";
 
 export const authedEndpointsFactory =
   endpointsFactory.addMiddleware(requireAuth);
@@ -30,7 +31,7 @@ const startEndpoint = authedEndpointsFactory.build({
   tag: "dropbox-start",
 });
 
-const callbackEndpoint = authedEndpointsFactory.build({
+const callbackEndpoint = redirectEndpointsFactory.addMiddleware(requireAuth).build({
   method: "get",
   input: CallbackOauthRequestSchema,
   output: CallbackOauthResponseSchema,
@@ -38,7 +39,8 @@ const callbackEndpoint = authedEndpointsFactory.build({
     const { session } = options;
 
     const userId = session.user.id;
-    return await DropboxService.callback(input, userId);
+    const result = await DropboxService.callback(input, userId);
+    return result;
   },
   shortDescription: "oauth callback for dropbox",
   description: "oauth callback for dropbox integration.",
