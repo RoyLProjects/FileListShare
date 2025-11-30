@@ -44,9 +44,8 @@ export const auth = betterAuth({
     },
     account: {
       create: {
-        // draait nadat een social account is aangemaakt / gelinkt
         after: async (account) => {
-          if (account.providerId !== "dropbox") return;
+          if (account.providerId !== "dropbox") return; 
 
           if (!account.refreshToken) return;
           const encryptedRefreshToken = encryptRefreshToken(

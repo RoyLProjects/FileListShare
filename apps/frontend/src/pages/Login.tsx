@@ -15,8 +15,8 @@ const Login: React.FC = () => {
       await authClient.signIn.social(
         {
           provider: "dropbox",
-          callbackURL: env.FRONTEND_URL + "/app",
-          newUserCallbackURL: env.FRONTEND_URL + "/setup",
+          callbackURL: env.FRONTEND_URL + "/dashboard",
+          newUserCallbackURL: env.FRONTEND_URL + "/settings",
         },
         {
           onError: (ctx) => {
