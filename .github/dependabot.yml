@@ -18,8 +18,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-
-
 # If you want Dependabot to only open patch updates for now,
 # change the `update-types` value above to just:
 #   update-types:

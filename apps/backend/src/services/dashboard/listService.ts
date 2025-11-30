@@ -21,130 +21,128 @@ export class ListService {
     userId: string,
   ): Promise<z.infer<typeof ListResponseSchema>> {
     const prisma = getAppPrismaClient();
-      const where: any = {};
+    const where: any = {};
 
-      if (data.teamId) {
-        where.teamId = data.teamId;
-        where.AND = [
-          {
-            OR: [
-              { userId: userId },
-              { team: { members: { some: { userId: userId } } } },
-            ],
-          },
-        ];
-      } else {
-        where.OR = [
-          { userId: userId },
-          { team: { members: { some: { userId: userId } } } },
-        ];
-      }
-
-const [lists, totalCount] = await prisma.$transaction([
-  prisma.list.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-    skip:
-      data.page && data.pageSize
-        ? (data.page - 1) * data.pageSize
-        : undefined,
-    take: data.pageSize ?? undefined,
-    select: {
-      id: true,
-      title: true,
-      userId: true,
-      createdBy: true,
-      teamId: true,
-      team: {
-        select: {
-          title: true,
+    if (data.teamId) {
+      where.teamId = data.teamId;
+      where.AND = [
+        {
+          OR: [
+            { userId: userId },
+            { team: { members: { some: { userId: userId } } } },
+          ],
         },
-      },
-      items: {
+      ];
+    } else {
+      where.OR = [
+        { userId: userId },
+        { team: { members: { some: { userId: userId } } } },
+      ];
+    }
+
+    const [lists, totalCount] = await prisma.$transaction([
+      prisma.list.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip:
+          data.page && data.pageSize
+            ? (data.page - 1) * data.pageSize
+            : undefined,
+        take: data.pageSize ?? undefined,
         select: {
           id: true,
-          delivered: true,
-          deadline: true,
-          status: true,
-        },
-      },
-    },
-  }),
-
-  prisma.list.count({
-    where, // same filter as findMany
-  }),
-]);
-
-
-const Items = lists.map((list) => {
-        type ItemType = { delivered?: boolean; deadline?: Date; status?: string };
-        const items = (list as unknown as { items?: ItemType[] }).items;
-
-        const totalItems = items?.length ?? 0;
-
-        const totalDeliveredItems =
-          items?.filter((i) => i.delivered).length ?? 0;
-                  const today = new Date();
-today.setHours(0, 0, 0, 0);
-        const totalOverdueItems =
-  items?.filter((i) => {
-    if (!i.deadline || i.delivered || i.status === "draft") return false;
-
-    const deadline = new Date(i.deadline);
-    deadline.setHours(0, 0, 0, 0);
-
-    return deadline < today;
-  }).length ?? 0;
-        const totalComments =
-          items?.filter(
-            (i) => i && (i as any).comment && (i as any).comment.trim(),
-          ).length ?? 0;
-
-        return {
-          id: list.id,
-          title: list.title,
-          // schema requires `userId` to always be present; fall back to `createdBy` when missing
-          userId: list.userId ?? list.createdBy,
-          ...(list.teamId ? { teamId: list.teamId } : {}),
-          ...(list.team?.title ? { teamName: list.team.title } : {}),
-          stats: {
-            totalItems,
-            totalDeliveredItems,
-            totalOverdueItems,
-            totalComments,
+          title: true,
+          userId: true,
+          createdBy: true,
+          teamId: true,
+          team: {
+            select: {
+              title: true,
+            },
           },
-        };
-      });
+          items: {
+            select: {
+              id: true,
+              delivered: true,
+              deadline: true,
+              status: true,
+            },
+          },
+        },
+      }),
 
-      const totalOfItems = Items.reduce(
-        (acc, l) => acc + (l.stats?.totalItems ?? 0),
-        0,
-      );
-      const totalOfDeliveredItems = Items.reduce(
-        (acc, l) => acc + (l.stats?.totalDeliveredItems ?? 0),
-        0,
-      );
-      const totalOfOverdueItems = Items.reduce(
-        (acc, l) => acc + (l.stats?.totalOverdueItems ?? 0),
-        0,
-      );
-      const totalOfLists = totalCount ?? 0;
+      prisma.list.count({
+        where, // same filter as findMany
+      }),
+    ]);
 
-      const page = data.page ?? 1;
-      const pageSize = data.pageSize ?? Math.max(1, lists.length);
+    const Items = lists.map((list) => {
+      type ItemType = { delivered?: boolean; deadline?: Date; status?: string };
+      const items = (list as unknown as { items?: ItemType[] }).items;
+
+      const totalItems = items?.length ?? 0;
+
+      const totalDeliveredItems = items?.filter((i) => i.delivered).length ?? 0;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const totalOverdueItems =
+        items?.filter((i) => {
+          if (!i.deadline || i.delivered || i.status === "draft") return false;
+
+          const deadline = new Date(i.deadline);
+          deadline.setHours(0, 0, 0, 0);
+
+          return deadline < today;
+        }).length ?? 0;
+      const totalComments =
+        items?.filter(
+          (i) => i && (i as any).comment && (i as any).comment.trim(),
+        ).length ?? 0;
 
       return {
-        Items,
-        page,
-        pageSize,
+        id: list.id,
+        title: list.title,
+        // schema requires `userId` to always be present; fall back to `createdBy` when missing
+        userId: list.userId ?? list.createdBy,
+        ...(list.teamId ? { teamId: list.teamId } : {}),
+        ...(list.team?.title ? { teamName: list.team.title } : {}),
         stats: {
-          totalOfItems,
-          totalOfDeliveredItems,
-          totalOfOverdueItems,
-          totalOfLists,
+          totalItems,
+          totalDeliveredItems,
+          totalOverdueItems,
+          totalComments,
         },
       };
+    });
+
+    const totalOfItems = Items.reduce(
+      (acc, l) => acc + (l.stats?.totalItems ?? 0),
+      0,
+    );
+    const totalOfDeliveredItems = Items.reduce(
+      (acc, l) => acc + (l.stats?.totalDeliveredItems ?? 0),
+      0,
+    );
+    const totalOfOverdueItems = Items.reduce(
+      (acc, l) => acc + (l.stats?.totalOverdueItems ?? 0),
+      0,
+    );
+    const totalOfLists = totalCount ?? 0;
+
+    const page = data.page ?? 1;
+    const pageSize = data.pageSize ?? Math.max(1, lists.length);
+
+    return {
+      Items,
+      page,
+      pageSize,
+      stats: {
+        totalOfItems,
+        totalOfDeliveredItems,
+        totalOfOverdueItems,
+        totalOfLists,
+      },
+    };
   }
 
   static async createList(

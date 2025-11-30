@@ -26,25 +26,25 @@ export class ListDetailsService {
       const pageSize = data.pageSize ?? 10;
       const skip = (page - 1) * pageSize;
 
-const list = await prisma.list.findFirst({
-  where: {
-    id: data.listId,
-    OR: [
-      { userId: userId },
-      { team: { members: { some: { userId: userId } } } },
-    ],
-  },
-  include: {
-    items: {
-      orderBy: { itemnumber: "desc" },
-      skip,
-      take: pageSize,
-    },
-    _count: {
-      select: { items: true }, 
-    },
-  },
-});
+      const list = await prisma.list.findFirst({
+        where: {
+          id: data.listId,
+          OR: [
+            { userId: userId },
+            { team: { members: { some: { userId: userId } } } },
+          ],
+        },
+        include: {
+          items: {
+            orderBy: { itemnumber: "desc" },
+            skip,
+            take: pageSize,
+          },
+          _count: {
+            select: { items: true },
+          },
+        },
+      });
 
       if (!list) {
         logger.warn("Forbidden: user has no access to list or list not found");
@@ -143,31 +143,31 @@ const list = await prisma.list.findFirst({
         );
       }
     }
-      const createdItem = await prisma.list_item.create({
-        data: {
-          listId: data.listId,
-          description: data.description,
-          itemnumber: data.itemnumber,
-          deadline: data.deadline ? new Date(data.deadline) : new Date(),
-          status: data.status,
-          createdBy: userId,
-        },
-      });
-      logger.info("List item created successfully");
-      return {
-        itemId: createdItem.id,
-        itemnumber: createdItem.itemnumber,
-        listId: createdItem.listId,
-        description: createdItem.description,
-        uploadedFiles: createdItem.uploadedFiles,
-        comment: createdItem.comment,
-        status: createdItem.status,
-        delivered: createdItem.delivered,
-        deadline: createdItem.deadline,
-        createdAt: createdItem.createdAt,
-        createdBy: createdItem.createdBy,
-        updatedAt: createdItem.updatedAt,
-      };
+    const createdItem = await prisma.list_item.create({
+      data: {
+        listId: data.listId,
+        description: data.description,
+        itemnumber: data.itemnumber,
+        deadline: data.deadline ? new Date(data.deadline) : new Date(),
+        status: data.status,
+        createdBy: userId,
+      },
+    });
+    logger.info("List item created successfully");
+    return {
+      itemId: createdItem.id,
+      itemnumber: createdItem.itemnumber,
+      listId: createdItem.listId,
+      description: createdItem.description,
+      uploadedFiles: createdItem.uploadedFiles,
+      comment: createdItem.comment,
+      status: createdItem.status,
+      delivered: createdItem.delivered,
+      deadline: createdItem.deadline,
+      createdAt: createdItem.createdAt,
+      createdBy: createdItem.createdBy,
+      updatedAt: createdItem.updatedAt,
+    };
   }
 
   static async updateListItem(

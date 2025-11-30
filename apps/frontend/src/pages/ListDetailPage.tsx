@@ -16,8 +16,8 @@ const ListDetailPage: React.FC = () => {
   const location = useLocation();
   const [isCreateRequestPopupOpen, setIsCreateRequestPopupOpen] =
     useState(false);
-    const [pageSize, setPageSize] = useState(15);
-    const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (listId && !uuidV4Regex.test(listId)) {
@@ -85,8 +85,7 @@ const ListDetailPage: React.FC = () => {
     setIsCreateRequestPopupOpen(true);
   };
 
-
-const totalItems = () => {
+  const totalItems = () => {
     if (!items) return 0;
 
     const totalitems = totalItemsCount;
@@ -235,67 +234,70 @@ const totalItems = () => {
                   </div>
                 )}
               </div>
-                    {/* Pagination Section */}
-      <section className="mt-6 flex items-center justify-between">
-        <div className="text-sm text-neutral-600 dark:text-neutral-400">
-          Showing {(page - 1) * pageSize + 1} to{" "}
-          {Math.min(page * pageSize, totalItems())} of {totalItems()}{" "}
-          items
-        </div>
-        <div className="flex gap-2 items-center">
-          <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-            Items per page:
-          </label>
-          <select
-            value={pageSize}
-            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-            className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <option value={15}>15</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={75}>75</option>
-            <option value={100}>100</option>
-          </select>
-        </div>
-        {totalPages() > 1 && (
-          <div className="flex gap-2">
-            <button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-              className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-
-            <div className="flex gap-1">
-              {Array.from({ length: totalPages() }, (_, i) => i + 1).map(
-                (p) => (
-                  <button
-                    key={p}
-                    onClick={() => handlePageChange(p)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                      page === p
-                        ? "bg-blue-500 text-white"
-                        : "text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
-                    }`}
+              {/* Pagination Section */}
+              <section className="mt-6 flex items-center justify-between">
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                  Showing {(page - 1) * pageSize + 1} to{" "}
+                  {Math.min(page * pageSize, totalItems())} of {totalItems()}{" "}
+                  items
+                </div>
+                <div className="flex gap-2 items-center">
+                  <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                    Items per page:
+                  </label>
+                  <select
+                    value={pageSize}
+                    onChange={(e) =>
+                      handlePageSizeChange(Number(e.target.value))
+                    }
+                    className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {p}
-                  </button>
-                ),
-              )}
-            </div>
+                    <option value={15}>15</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={75}>75</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
+                {totalPages() > 1 && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handlePageChange(page - 1)}
+                      disabled={page === 1}
+                      className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Previous
+                    </button>
 
-            <button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages()}
-              className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Next
-            </button>
-          </div>
-        )}
-      </section>
+                    <div className="flex gap-1">
+                      {Array.from(
+                        { length: totalPages() },
+                        (_, i) => i + 1,
+                      ).map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => handlePageChange(p)}
+                          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                            page === p
+                              ? "bg-blue-500 text-white"
+                              : "text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={() => handlePageChange(page + 1)}
+                      disabled={page === totalPages()}
+                      className="px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </section>
             </div>
 
             {/* Sidebar - Takes 1 column */}
@@ -325,7 +327,6 @@ const totalItems = () => {
           teamId={currentTeamId || undefined}
         />
       )}
-
     </>
   );
 };

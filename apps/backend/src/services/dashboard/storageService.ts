@@ -24,37 +24,37 @@ export class StorageService {
       ? { teamId: input.teamId }
       : { user: { id: userId } };
 
-      const storages = await prisma.storage.findFirst({
-        where,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          type: true,
-          displayName: true,
-          storagePath: true,
-          userId: true,
-          teamId: true,
-        },
-      });
+    const storages = await prisma.storage.findFirst({
+      where,
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        type: true,
+        displayName: true,
+        storagePath: true,
+        userId: true,
+        teamId: true,
+      },
+    });
 
-      if (!storages) {
-        return {
-          id: null,
-          type: null,
-          displayName: null,
-          storagePath: null
-        }
-      }
-      
-      const item = {
-        id: storages.id,
-        type: storages.type,
-        displayName: storages.displayName,
-        storagePath: storages.storagePath ?? ""
-      }
-        
-      logger.info("Storage list served successfully");
-      return  item ;
+    if (!storages) {
+      return {
+        id: null,
+        type: null,
+        displayName: null,
+        storagePath: null,
+      };
+    }
+
+    const item = {
+      id: storages.id,
+      type: storages.type,
+      displayName: storages.displayName,
+      storagePath: storages.storagePath ?? "",
+    };
+
+    logger.info("Storage list served successfully");
+    return item;
   }
 
   static async updateStorage(
@@ -118,19 +118,19 @@ export class StorageService {
       }
     }
 
-      const updated = await prisma.storage.update({
-        where: { id: input.storageId },
-        data: { storagePath: input.storagePath },
-        select: { id: true, type: true, displayName: true, storagePath: true },
-      });
-            const item = {
-        id: updated.id,
-        type: updated.type,
-        displayName: updated.displayName,
-        storagePath: updated.storagePath ?? ""
-      }
+    const updated = await prisma.storage.update({
+      where: { id: input.storageId },
+      data: { storagePath: input.storagePath },
+      select: { id: true, type: true, displayName: true, storagePath: true },
+    });
+    const item = {
+      id: updated.id,
+      type: updated.type,
+      displayName: updated.displayName,
+      storagePath: updated.storagePath ?? "",
+    };
 
-      return item;
+    return item;
   }
 
   static async deleteStorage(

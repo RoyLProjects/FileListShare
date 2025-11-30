@@ -28,8 +28,14 @@ const ConfirmModal: React.FC<Props> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 w-full max-w-md mx-4">
-        <h4 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-100">{title}</h4>
-        {message && <div className="text-sm text-neutral-700 dark:text-neutral-300 mb-4">{message}</div>}
+        <h4 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-100">
+          {title}
+        </h4>
+        {message && (
+          <div className="text-sm text-neutral-700 dark:text-neutral-300 mb-4">
+            {message}
+          </div>
+        )}
         <div className="flex justify-end gap-2">
           <button
             onClick={onCancel}
@@ -42,7 +48,9 @@ const ConfirmModal: React.FC<Props> = ({
             onClick={onConfirm}
             disabled={isLoading}
             className={`px-4 py-2 text-white rounded-lg hover:opacity-90 transition-colors disabled:opacity-50 text-sm ${
-              danger ? "bg-red-600 dark:bg-red-500" : "bg-blue-600 dark:bg-blue-500"
+              danger
+                ? "bg-red-600 dark:bg-red-500"
+                : "bg-blue-600 dark:bg-blue-500"
             }`}
           >
             {isLoading ? "Working..." : confirmLabel}

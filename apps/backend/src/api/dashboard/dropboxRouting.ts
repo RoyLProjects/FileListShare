@@ -31,21 +31,23 @@ const startEndpoint = authedEndpointsFactory.build({
   tag: "dropbox-start",
 });
 
-const callbackEndpoint = redirectEndpointsFactory.addMiddleware(requireAuth).build({
-  method: "get",
-  input: CallbackOauthRequestSchema,
-  output: CallbackOauthResponseSchema,
-  handler: async ({ input, options }) => {
-    const { session } = options;
+const callbackEndpoint = redirectEndpointsFactory
+  .addMiddleware(requireAuth)
+  .build({
+    method: "get",
+    input: CallbackOauthRequestSchema,
+    output: CallbackOauthResponseSchema,
+    handler: async ({ input, options }) => {
+      const { session } = options;
 
-    const userId = session.user.id;
-    const result = await DropboxService.callback(input, userId);
-    return result;
-  },
-  shortDescription: "oauth callback for dropbox",
-  description: "oauth callback for dropbox integration.",
-  tag: "dropbox-callback",
-});
+      const userId = session.user.id;
+      const result = await DropboxService.callback(input, userId);
+      return result;
+    },
+    shortDescription: "oauth callback for dropbox",
+    description: "oauth callback for dropbox integration.",
+    tag: "dropbox-callback",
+  });
 
 const browseEndpoint = authedEndpointsFactory.build({
   method: "get",

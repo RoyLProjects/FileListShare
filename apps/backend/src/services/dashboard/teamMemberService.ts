@@ -1,6 +1,6 @@
 import { logger } from "../../lib/log.js";
 import { getAppPrismaClient } from "../../lib/db.js";
-import {  z } from "zod";
+import { z } from "zod";
 import {
   DeleteTeamMemberRequestSchema,
   DeleteTeamMemberResponseSchema,
@@ -67,7 +67,6 @@ export class TeamMemberService {
 
     //better mapping
 
-
     const items = members.map((m) => ({
       teamMemberId: m.id,
       userId: m.userId,
@@ -129,7 +128,7 @@ export class TeamMemberService {
         id: input.teamMemberId,
         teamId: input.teamId,
       },
-            include: {
+      include: {
         permissions: true,
       },
     });
@@ -139,8 +138,15 @@ export class TeamMemberService {
       throw new NotFoundError("Team member not found in the specified team");
     }
 
-    if(memberToUpdate.permissions.some((p) => p.permission === "TEAM_MEMBER_RIGHTS")) {
-      if(input.permissions.some((perm) => perm === "TEAM_MEMBER_RIGHTS") === false) {
+    if (
+      memberToUpdate.permissions.some(
+        (p) => p.permission === "TEAM_MEMBER_RIGHTS",
+      )
+    ) {
+      if (
+        input.permissions.some((perm) => perm === "TEAM_MEMBER_RIGHTS") ===
+        false
+      ) {
         const teamAdmins = await prisma.teamMember.findMany({
           where: {
             teamId: input.teamId,
@@ -154,13 +160,17 @@ export class TeamMemberService {
             },
           },
         });
-        
-        if(teamAdmins.length === 0) {
-          logger.warn("Update member request: cannot remove last TEAM_MEMBER_RIGHTS permission");
-          throw new ForbiddenError("Cannot remove TEAM_MEMBER_RIGHTS permission from the last team admin");
+
+        if (teamAdmins.length === 0) {
+          logger.warn(
+            "Update member request: cannot remove last TEAM_MEMBER_RIGHTS permission",
+          );
+          throw new ForbiddenError(
+            "Cannot remove TEAM_MEMBER_RIGHTS permission from the last team admin",
+          );
+        }
       }
     }
-  }
 
     // Update permissions in a transaction
     const updatedMember = await prisma.$transaction(async (tx) => {
@@ -224,7 +234,7 @@ export class TeamMemberService {
       throw new NotFoundError("Team not found or access denied");
     }
 
-    if(requestingMember.userId === userId) {
+    if (requestingMember.userId === userId) {
       const teamMembers = await prisma.teamMember.findMany({
         where: {
           teamId: input.teamId,
@@ -234,15 +244,18 @@ export class TeamMemberService {
         },
       });
 
-      if(teamMembers.length === 0) {
-        logger.warn("Delete member request: cannot delete self as last team member");
+      if (teamMembers.length === 0) {
+        logger.warn(
+          "Delete member request: cannot delete self as last team member",
+        );
         throw new ForbiddenError("Cannot delete self as the last team member");
       }
     }
 
-    const canDelete = requestingMember.permissions.some(
-      (p) => String(p.permission) === "TEAM_MEMBER_DELETE",
-    ) || input.teamMemberId === requestingMember.id;
+    const canDelete =
+      requestingMember.permissions.some(
+        (p) => String(p.permission) === "TEAM_MEMBER_DELETE",
+      ) || input.teamMemberId === requestingMember.id;
 
     if (!canDelete) {
       logger.warn(

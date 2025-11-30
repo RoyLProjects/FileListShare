@@ -65,7 +65,7 @@ export class DropboxService {
     } = {
       codeVerifier,
       state,
-      ...(data.teamId ? { teamId: data.teamId } : { userId: userId })
+      ...(data.teamId ? { teamId: data.teamId } : { userId: userId }),
     };
 
     await PKCEStore.create(state, pkcePayload);
@@ -101,7 +101,7 @@ export class DropboxService {
     if (!pkceData) {
       return { url: frontendUrl.toString() };
     }
-    
+
     const pkceUser = pkceData.userId;
     const pkceTeam = pkceData.teamId;
     await PKCEStore.delete(data.state);
@@ -112,7 +112,7 @@ export class DropboxService {
       if (pkceUser !== userId) {
         return { url: frontendUrl.toString() };
       }
-            const userStorage = await prisma.storage.findUnique({
+      const userStorage = await prisma.storage.findUnique({
         where: { userId: userId },
       });
       if (userStorage) {
@@ -122,11 +122,11 @@ export class DropboxService {
     } else if (pkceTeam) {
       const team = await prisma.team.findFirst({
         where: { id: pkceTeam, members: { some: { userId } } },
-         include: { storage: true },
+        include: { storage: true },
       });
       if (!team) {
-          logger.warn("Forbidden: user has no access to team");
-       return { url: frontendUrl.toString() };
+        logger.warn("Forbidden: user has no access to team");
+        return { url: frontendUrl.toString() };
       }
       if (team.storage) {
         logger.warn("Conflict: team already has storage connected");
@@ -157,7 +157,7 @@ export class DropboxService {
       const errorText = await tokenResponse.text();
       logger.error({ errorText }, "Token exchange error");
       return { url: frontendUrl.toString() };
-    } 
+    }
 
     const tokens = (await tokenResponse.json()) as {
       access_token: string;
@@ -187,7 +187,7 @@ export class DropboxService {
           displayName: `Dropbox (${tokens.account_id})`,
           refreshToken: encryptedRefreshToken,
           userId,
-          storagePath: "/"
+          storagePath: "/",
         },
         update: {
           displayName: `Dropbox (${tokens.account_id})`,
@@ -203,7 +203,7 @@ export class DropboxService {
           displayName: `Dropbox (${tokens.account_id})`,
           refreshToken: encryptedRefreshToken,
           teamId: pkceTeam,
-          storagePath: "/"
+          storagePath: "/",
         },
         update: {
           displayName: `Dropbox (${tokens.account_id})`,
@@ -212,8 +212,10 @@ export class DropboxService {
       });
     }
     let redirectUrl;
-    if(pkceTeam) {
-      redirectUrl = new URL(env.FRONTEND_URL + `/dashboard/team/${pkceTeam}/settings`);
+    if (pkceTeam) {
+      redirectUrl = new URL(
+        env.FRONTEND_URL + `/dashboard/team/${pkceTeam}/settings`,
+      );
     } else {
       redirectUrl = new URL(env.FRONTEND_URL + "/dashboard/settings");
     }

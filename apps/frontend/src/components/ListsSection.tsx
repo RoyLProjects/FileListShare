@@ -84,7 +84,9 @@ const ListsSection: React.FC<ListsSectionProps> = ({
             Loading...
           </div>
         ) : listItems.length > 0 ? (
-          listItems.map((list) => <ListItem key={list.id} list={list} teamId={teamId} />)
+          listItems.map((list) => (
+            <ListItem key={list.id} list={list} teamId={teamId} />
+          ))
         ) : (
           <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
             No lists found

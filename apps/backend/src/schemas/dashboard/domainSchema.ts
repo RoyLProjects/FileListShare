@@ -25,7 +25,6 @@ export const pathSchema = z
   })
   .default("/");
 
-
 export const token = z
   .string()
   .trim()

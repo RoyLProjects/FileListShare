@@ -1,8 +1,5 @@
 import { getAppPrismaClient } from "../../lib/db.js";
-import {
-  ConflictError,
-  ForbiddenError,
-} from "../../lib/resultHandler.js";
+import { ConflictError, ForbiddenError } from "../../lib/resultHandler.js";
 import {
   CreateLinkRequestSchema,
   GetLinkRequestSchema,
@@ -54,7 +51,7 @@ export class LinkService {
     });
 
     const linkId = result?.id;
-    const token = result?.token; 
+    const token = result?.token;
     const hasPassword = Boolean(result?.passwordHash);
 
     return {
@@ -65,7 +62,7 @@ export class LinkService {
       createdAt: result?.createdAt ?? undefined,
       createdBy: result?.createdBy ?? undefined,
       updatedAt: result?.updatedAt ?? undefined,
-    } ;
+    };
   }
 
   static async createLink(
@@ -159,25 +156,24 @@ export class LinkService {
     while (true) {
       const slug = this.nanoid();
 
+      var creation = await prisma.publicLink.create({
+        data: {
+          listId: listId,
+          token: slug,
+          passwordHash: passwordHash,
+          createdBy: userId,
+        },
+      });
 
-        var creation = await prisma.publicLink.create({
-          data: {
-            listId: listId,
-            token: slug,
-            passwordHash: passwordHash,
-            createdBy: userId,
-          },
-        });
-
-        return {
-          listId: creation.listId,
-          linkId: creation.id,
-          token: creation.token,
-          hasPassword: Boolean(creation.passwordHash),
-          createdAt: creation.createdAt ?? undefined,
-          createdBy: creation.createdBy,
-          updatedAt: creation.updatedAt ?? undefined,
-        };
+      return {
+        listId: creation.listId,
+        linkId: creation.id,
+        token: creation.token,
+        hasPassword: Boolean(creation.passwordHash),
+        createdAt: creation.createdAt ?? undefined,
+        createdBy: creation.createdBy,
+        updatedAt: creation.updatedAt ?? undefined,
+      };
     }
   }
 
@@ -249,11 +245,11 @@ export class LinkService {
         );
       }
     }
-      await prisma.publicLink.delete({
-        where: { listId: listId },
-      });
-      return {
-        success: true,
-      };
+    await prisma.publicLink.delete({
+      where: { listId: listId },
+    });
+    return {
+      success: true,
+    };
   }
 }

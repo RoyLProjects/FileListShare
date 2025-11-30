@@ -1,4 +1,4 @@
-import { EndpointsFactory, ResultHandler } from "express-zod-api";// pad aanpassen
+import { EndpointsFactory, ResultHandler } from "express-zod-api"; // pad aanpassen
 import { CallbackOauthResponseSchema } from "../schemas/dashboard/dropboxSchema.js";
 import z from "zod";
 
@@ -27,4 +27,6 @@ export const redirectResultHandler = new ResultHandler({
   },
 });
 
-export const redirectEndpointsFactory = new EndpointsFactory(redirectResultHandler);
+export const redirectEndpointsFactory = new EndpointsFactory(
+  redirectResultHandler,
+);

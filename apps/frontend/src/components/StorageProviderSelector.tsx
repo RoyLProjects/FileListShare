@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Api } from "../apiClient/apiClient";
 import getErrorMessage from "../lib/GetErrorMessage";
 
@@ -71,41 +71,41 @@ const STORAGE_PROVIDERS: StorageProvider[] = [
 const StorageProviderSelector: React.FC<StorageProviderSelectorProps> = ({
   isOpen,
   onClose,
-  teamId
+  teamId,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleConnectProvider = useMutation<
-  unknown,
-  unknown,
-  {teamId?: string}
->({
-  mutationFn: async (teamId?) => {
-    const { data, error } = await Api.GET("/v1/dashboard/dropbox/start", {
-      params: {
-        query: {
-        teamId: teamId?.teamId
-        }
-      },
-    });
+    unknown,
+    unknown,
+    { teamId?: string }
+  >({
+    mutationFn: async (teamId?) => {
+      const { data, error } = await Api.GET("/v1/dashboard/dropbox/start", {
+        params: {
+          query: {
+            teamId: teamId?.teamId,
+          },
+        },
+      });
 
-    if (error) throw error;
-    return data;
-  },
+      if (error) throw error;
+      return data;
+    },
 
-  onSuccess: (_data: any, ) => {
-    if(_data){
-      window.location.href = _data.data.url;
-    } else {
-      setError("Failed to initiate Dropbox connection.");
-    }
-  },
-  
-  onError: (err: unknown) => {
-    console.error("Failed to delete storage:", err);
-    setError(getErrorMessage(err) || "Failed to delete storage");
-  },
-});
+    onSuccess: (_data: any) => {
+      if (_data) {
+        window.location.href = _data.data.url;
+      } else {
+        setError("Failed to initiate Dropbox connection.");
+      }
+    },
+
+    onError: (err: unknown) => {
+      console.error("Failed to delete storage:", err);
+      setError(getErrorMessage(err) || "Failed to delete storage");
+    },
+  });
 
   const loading = false;
   if (!isOpen) return null;
@@ -162,7 +162,10 @@ const StorageProviderSelector: React.FC<StorageProviderSelectorProps> = ({
                   <button
                     key={provider.id}
                     onClick={() =>
-                      provider.available && (teamId ? handleConnectProvider.mutate({teamId}) : handleConnectProvider.mutate({}))
+                      provider.available &&
+                      (teamId
+                        ? handleConnectProvider.mutate({ teamId })
+                        : handleConnectProvider.mutate({}))
                     }
                     disabled={!provider.available}
                     className={`p-6 border rounded-lg transition-all ${
