@@ -91,7 +91,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userEmail }) => {
           {/* Menu Items */}
           <div className="py-1">
             <a
-              href="/settings"
+              href="/dashboard/settings"
               className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => setIsOpen(false)}
             >
