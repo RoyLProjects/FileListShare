@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 import GetErrorMessage from "../lib/GetErrorMessage";
+import ConfirmModal from "./ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 export interface LinkSharePopupProps {
   listId: string;
   isOpen: boolean;
+  teamId?: string;
   onClose: () => void;
 }
 
 const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   listId,
   isOpen,
+  teamId,
   onClose,
 }) => {
+  const navigate = useNavigate();
   const qc = useQueryClient();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -36,11 +41,38 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     },
   });
 
+      const storageQueryParams = teamId ? { teamId } : {};
+    const storageQueryKey = ["storage",teamId ?? null];
+  
+      const {
+      data: storageResponse,
+      error: storageError,
+      isLoading: storageLoading,
+      isFetching: storageFetching,
+    } = useQuery({
+      queryKey: storageQueryKey,
+      queryFn: async () => {
+        const { data, error } = await Api.GET("/v1/dashboard/storage", {
+          params: { query: storageQueryParams },
+        });
+        if (error) throw error;
+      if(data.success == true && data.data.id == null) {
+          return null;
+        }
+        return data;
+      },
+    });
+  
+    const storage = storageResponse?.data;
+
   useEffect(() => {
     if (queryError) {
       setError(GetErrorMessage(queryError));
     }
-  }, [queryError]);
+    if (storageError) {
+      setError(GetErrorMessage(storageError));
+    }
+  }, [queryError, storageError]);
 
   const publicLink = response?.data;
 
@@ -84,7 +116,11 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
   const isLoading =
     isQueryLoading ||
     createMutation.status === "pending" ||
-    deleteMutation.status === "pending";
+    deleteMutation.status === "pending" ||
+    createMutation.isPending ||
+    deleteMutation.isPending ||
+    storageFetching ||
+    storageLoading;
   const mutationPending = (m: unknown) => {
     if (!m || typeof m !== "object") return false;
     const mm = m as Record<string, unknown>;
@@ -138,10 +174,16 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
     onClose();
   };
 
+  const storageConfigured = () => {
+    return storage != null && storage.id != null;
+  }
+
   if (!isOpen) return null;
 
   return (
+    
     <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50 p-4">
+      {storageConfigured() === true && (
       <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-xl max-w-md w-full p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
@@ -375,6 +417,26 @@ const LinkSharePopup: React.FC<LinkSharePopupProps> = ({
           </div>
         )}
       </div>
+      )}
+      {/* Modal overlay*/}
+        {storageConfigured() === false && (
+          <ConfirmModal
+        title="Storage Not Configured"
+        message="You need to configure storage before creating share links. Please set up your storage in the Team Settings."
+        isOpen={!isLoading}
+        onConfirm={() => {
+          handleClose();
+          if(teamId){
+            navigate(`/dashboard/team/${teamId}/settings`);
+          } else {
+            navigate(`/dashboard/settings`);
+          }
+        }}
+        onCancel={handleClose}
+        confirmLabel="Go to Settings"
+        cancelLabel="Close"
+      />
+        )}
     </div>
   );
 };

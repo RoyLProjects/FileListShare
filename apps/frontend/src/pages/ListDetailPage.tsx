@@ -305,6 +305,7 @@ const totalItems = () => {
                   listId={listId}
                   onCreateRequest={handleCreateRequest}
                   loading={loading}
+                  teamId={currentTeamId || undefined}
                 />
               )}
               {currentTeamId && (

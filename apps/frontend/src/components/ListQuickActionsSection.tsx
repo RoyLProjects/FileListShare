@@ -4,11 +4,13 @@ import LinkSharePopup from "./LinkSharePopup";
 interface ListQuickActionsSectionProps {
   listId: string;
   loading: boolean;
+  teamId?: string;
   onCreateRequest?: () => void;
 }
 
 const ListQuickActionsSection: React.FC<ListQuickActionsSectionProps> = ({
   listId,
+  teamId,
   loading,
   onCreateRequest,
 }) => {
@@ -69,6 +71,7 @@ const ListQuickActionsSection: React.FC<ListQuickActionsSectionProps> = ({
           listId={listId}
           isOpen={isSharePopupOpen}
           onClose={() => setIsSharePopupOpen(false)}
+          teamId={teamId}
         />
       )}
     </>

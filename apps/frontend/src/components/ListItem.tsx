@@ -6,7 +6,7 @@ import LinkSharePopup from "./LinkSharePopup";
 type DashboardListResponse =
   paths["/v1/dashboard/list"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["Items"][number];
 
-const ListItem: React.FC<{ list: DashboardListResponse }> = ({ list }) => {
+const ListItem: React.FC<{ list: DashboardListResponse, teamId?: string }> = ({ list, teamId }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -219,6 +219,7 @@ const ListItem: React.FC<{ list: DashboardListResponse }> = ({ list }) => {
         listId={list.id}
         isOpen={isSharePopupOpen}
         onClose={() => setIsSharePopupOpen(false)}
+        teamId={teamId}
       />
     </div>
   );
