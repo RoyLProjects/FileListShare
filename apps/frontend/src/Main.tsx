@@ -12,6 +12,7 @@ import ListPage from "./pages/ListPage";
 import ListDetailPage from "./pages/ListDetailPage";
 import TeamPage from "./pages/TeamPage";
 import TeamSettingsPage from "./pages/TeamSettingsPage";
+import UserSettingsPage from "./pages/UserSettingsPage";
 
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -24,10 +25,12 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard/list/:listId" element={<ListDetailPage />} />
           <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
+          <Route path="/dashboard/settings" element={<UserSettingsPage />} />
           <Route
             path="/dashboard/team/:teamId/settings"
             element={<TeamSettingsPage />}
           />
+          
           <Route path="/dashboard/*" element={<ListPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
