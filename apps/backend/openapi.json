@@ -10,7 +10,9 @@
         "operationId": "GetV1DashboardLink",
         "summary": "get link for a list",
         "description": "gets a shareable link for the specified list. If the link does not exist, it will be created.",
-        "tags": ["link"],
+        "tags": [
+          "link"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -61,11 +63,17 @@
                         },
                         "updatedAt": {}
                       },
-                      "required": ["listId", "hasPassword"],
+                      "required": [
+                        "listId",
+                        "hasPassword"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -89,7 +97,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -101,7 +113,9 @@
         "operationId": "HeadV1DashboardLink",
         "summary": "get link for a list",
         "description": "gets a shareable link for the specified list. If the link does not exist, it will be created.",
-        "tags": ["link"],
+        "tags": [
+          "link"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -126,7 +140,9 @@
         "operationId": "PostV1DashboardLink",
         "summary": "create link for a list",
         "description": "creates a shareable link for the specified list. If the link already exists, it will be returned.",
-        "tags": ["link"],
+        "tags": [
+          "link"
+        ],
         "requestBody": {
           "description": "POST /v1/dashboard/link Request body",
           "content": {
@@ -143,7 +159,10 @@
                     "maxLength": 100
                   }
                 },
-                "required": ["listId", "password"]
+                "required": [
+                  "listId",
+                  "password"
+                ]
               }
             }
           },
@@ -188,11 +207,17 @@
                         },
                         "updatedAt": {}
                       },
-                      "required": ["listId", "hasPassword"],
+                      "required": [
+                        "listId",
+                        "hasPassword"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -216,7 +241,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -228,7 +257,9 @@
         "operationId": "DeleteV1DashboardLink",
         "summary": "get link for a list",
         "description": "gets a shareable link for the specified list. If the link does not exist, it will be created.",
-        "tags": ["link"],
+        "tags": [
+          "link"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -259,11 +290,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -287,7 +323,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -301,7 +341,9 @@
         "operationId": "GetV1DashboardList",
         "summary": "gets lists for the authenticated user",
         "description": "gets lists for the authenticated user. Supports pagination and filtering by team.",
-        "tags": ["list"],
+        "tags": [
+          "list"
+        ],
         "parameters": [
           {
             "name": "page",
@@ -411,7 +453,11 @@
                                 "additionalProperties": false
                               }
                             },
-                            "required": ["id", "title", "userId"],
+                            "required": [
+                              "id",
+                              "title",
+                              "userId"
+                            ],
                             "additionalProperties": false
                           }
                         },
@@ -460,11 +506,17 @@
                           "additionalProperties": false
                         }
                       },
-                      "required": ["page", "pageSize"],
+                      "required": [
+                        "page",
+                        "pageSize"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -488,7 +540,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -500,7 +556,9 @@
         "operationId": "HeadV1DashboardList",
         "summary": "gets lists for the authenticated user",
         "description": "gets lists for the authenticated user. Supports pagination and filtering by team.",
-        "tags": ["list"],
+        "tags": [
+          "list"
+        ],
         "parameters": [
           {
             "name": "page",
@@ -549,7 +607,9 @@
         "operationId": "PostV1DashboardList",
         "summary": "creates a new list for the authenticated user",
         "description": "creates a new list for the authenticated user. Supports specifying a team or personal list.",
-        "tags": ["list"],
+        "tags": [
+          "list"
+        ],
         "requestBody": {
           "description": "POST /v1/dashboard/list Request body",
           "content": {
@@ -566,7 +626,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["title"]
+                "required": [
+                  "title"
+                ]
               }
             }
           },
@@ -641,11 +703,18 @@
                           "additionalProperties": false
                         }
                       },
-                      "required": ["id", "title", "userId"],
+                      "required": [
+                        "id",
+                        "title",
+                        "userId"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -669,7 +738,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -681,7 +754,9 @@
         "operationId": "PatchV1DashboardList",
         "summary": "updates a list for the authenticated user",
         "description": "updates a list for the authenticated user. Supports specifying a team or personal list.",
-        "tags": ["list"],
+        "tags": [
+          "list"
+        ],
         "requestBody": {
           "description": "PATCH /v1/dashboard/list Request body",
           "content": {
@@ -701,7 +776,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["title", "listId"]
+                "required": [
+                  "title",
+                  "listId"
+                ]
               }
             }
           },
@@ -776,11 +854,18 @@
                           "additionalProperties": false
                         }
                       },
-                      "required": ["id", "title", "userId"],
+                      "required": [
+                        "id",
+                        "title",
+                        "userId"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -804,7 +889,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -816,7 +905,9 @@
         "operationId": "DeleteV1DashboardList",
         "summary": "deletes a list for the authenticated user",
         "description": "deletes a list for the authenticated user. Supports specifying a team or personal list.",
-        "tags": ["list"],
+        "tags": [
+          "list"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -847,11 +938,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -875,7 +971,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -889,7 +989,9 @@
         "operationId": "GetV1DashboardListDetails",
         "summary": "get list details",
         "description": "gets details of items in a specific list for the authenticated user",
-        "tags": ["listDetails"],
+        "tags": [
+          "listDetails"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -946,7 +1048,10 @@
                           "maxLength": 255
                         },
                         "teamId": {
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                         },
@@ -956,7 +1061,10 @@
                             "type": "object",
                             "properties": {
                               "itemId": {
-                                "type": ["string", "null"],
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
                                 "format": "uuid",
                                 "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                               },
@@ -966,7 +1074,10 @@
                                 "maximum": 9007199254740991
                               },
                               "listId": {
-                                "type": ["string", "null"],
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
                                 "format": "uuid",
                                 "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                               },
@@ -981,12 +1092,18 @@
                                 }
                               },
                               "comment": {
-                                "type": ["string", "null"],
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
                                 "maxLength": 1000
                               },
                               "status": {
                                 "type": "string",
-                                "enum": ["published", "draft"]
+                                "enum": [
+                                  "published",
+                                  "draft"
+                                ]
                               },
                               "delivered": {
                                 "type": "boolean"
@@ -1043,7 +1160,10 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1067,7 +1187,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1079,7 +1203,9 @@
         "operationId": "HeadV1DashboardListDetails",
         "summary": "get list details",
         "description": "gets details of items in a specific list for the authenticated user",
-        "tags": ["listDetails"],
+        "tags": [
+          "listDetails"
+        ],
         "parameters": [
           {
             "name": "listId",
@@ -1128,7 +1254,9 @@
         "operationId": "PostV1DashboardListDetails",
         "summary": "create list item",
         "description": "creates a new item in a specific list for the authenticated user",
-        "tags": ["listDetails"],
+        "tags": [
+          "listDetails"
+        ],
         "requestBody": {
           "description": "POST /v1/dashboard/listDetails Request body",
           "content": {
@@ -1155,10 +1283,18 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": ["published", "draft"]
+                    "enum": [
+                      "published",
+                      "draft"
+                    ]
                   }
                 },
-                "required": ["listId", "description", "itemnumber", "status"]
+                "required": [
+                  "listId",
+                  "description",
+                  "itemnumber",
+                  "status"
+                ]
               }
             }
           },
@@ -1205,12 +1341,18 @@
                           }
                         },
                         "comment": {
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "maxLength": 1000
                         },
                         "status": {
                           "type": "string",
-                          "enum": ["published", "draft"]
+                          "enum": [
+                            "published",
+                            "draft"
+                          ]
                         },
                         "delivered": {
                           "type": "boolean"
@@ -1238,7 +1380,10 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1262,7 +1407,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1274,7 +1423,9 @@
         "operationId": "PatchV1DashboardListDetails",
         "summary": "update list item",
         "description": "updates an existing item in a specific list for the authenticated user",
-        "tags": ["listDetails"],
+        "tags": [
+          "listDetails"
+        ],
         "requestBody": {
           "description": "PATCH /v1/dashboard/listDetails Request body",
           "content": {
@@ -1302,10 +1453,15 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": ["published", "draft"]
+                    "enum": [
+                      "published",
+                      "draft"
+                    ]
                   }
                 },
-                "required": ["itemId"]
+                "required": [
+                  "itemId"
+                ]
               }
             }
           },
@@ -1352,12 +1508,18 @@
                           }
                         },
                         "comment": {
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "maxLength": 1000
                         },
                         "status": {
                           "type": "string",
-                          "enum": ["published", "draft"]
+                          "enum": [
+                            "published",
+                            "draft"
+                          ]
                         },
                         "delivered": {
                           "type": "boolean"
@@ -1385,7 +1547,10 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1409,7 +1574,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1421,7 +1590,9 @@
         "operationId": "DeleteV1DashboardListDetails",
         "summary": "delete list item",
         "description": "deletes an existing item in a specific list for the authenticated user",
-        "tags": ["listDetails"],
+        "tags": [
+          "listDetails"
+        ],
         "parameters": [
           {
             "name": "itemId",
@@ -1452,11 +1623,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1480,7 +1656,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1494,7 +1674,9 @@
         "operationId": "GetV1DashboardTeam",
         "summary": "gets team for the authenticated user",
         "description": "gets a list of teams for the authenticated user.",
-        "tags": ["team"],
+        "tags": [
+          "team"
+        ],
         "parameters": [
           {
             "name": "page",
@@ -1561,12 +1743,18 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["userId"],
+                                  "required": [
+                                    "userId"
+                                  ],
                                   "additionalProperties": false
                                 }
                               }
                             },
-                            "required": ["teamId", "title", "createdAt"],
+                            "required": [
+                              "teamId",
+                              "title",
+                              "createdAt"
+                            ],
                             "additionalProperties": false
                           }
                         },
@@ -1588,11 +1776,19 @@
                           "maximum": 9007199254740991
                         }
                       },
-                      "required": ["items", "page", "pageSize", "total"],
+                      "required": [
+                        "items",
+                        "page",
+                        "pageSize",
+                        "total"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1616,7 +1812,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1628,7 +1828,9 @@
         "operationId": "HeadV1DashboardTeam",
         "summary": "gets team for the authenticated user",
         "description": "gets a list of teams for the authenticated user.",
-        "tags": ["team"],
+        "tags": [
+          "team"
+        ],
         "parameters": [
           {
             "name": "page",
@@ -1668,7 +1870,9 @@
         "operationId": "PostV1DashboardTeam",
         "summary": "updates a team for the authenticated user",
         "description": "updates a team for the authenticated user. Supports specifying a team or personal team.",
-        "tags": ["team"],
+        "tags": [
+          "team"
+        ],
         "requestBody": {
           "description": "POST /v1/dashboard/team Request body",
           "content": {
@@ -1682,7 +1886,9 @@
                     "maxLength": 255
                   }
                 },
-                "required": ["title"]
+                "required": [
+                  "title"
+                ]
               }
             }
           },
@@ -1723,16 +1929,25 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["userId"],
+                            "required": [
+                              "userId"
+                            ],
                             "additionalProperties": false
                           }
                         }
                       },
-                      "required": ["teamId", "title", "createdAt"],
+                      "required": [
+                        "teamId",
+                        "title",
+                        "createdAt"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1756,7 +1971,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1768,7 +1987,9 @@
         "operationId": "PatchV1DashboardTeam",
         "summary": "updates a team for the authenticated user",
         "description": "updates a team for the authenticated user. Supports specifying a team or personal team.",
-        "tags": ["team"],
+        "tags": [
+          "team"
+        ],
         "requestBody": {
           "description": "PATCH /v1/dashboard/team Request body",
           "content": {
@@ -1785,7 +2006,10 @@
                     "maxLength": 255
                   }
                 },
-                "required": ["teamId", "title"]
+                "required": [
+                  "teamId",
+                  "title"
+                ]
               }
             }
           },
@@ -1826,16 +2050,25 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["userId"],
+                            "required": [
+                              "userId"
+                            ],
                             "additionalProperties": false
                           }
                         }
                       },
-                      "required": ["teamId", "title", "createdAt"],
+                      "required": [
+                        "teamId",
+                        "title",
+                        "createdAt"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1859,7 +2092,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1871,7 +2108,9 @@
         "operationId": "DeleteV1DashboardTeam",
         "summary": "deletes a team for the authenticated user",
         "description": "deletes a team for the authenticated user. Supports specifying a team or personal team.",
-        "tags": ["team"],
+        "tags": [
+          "team"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -1902,11 +2141,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1930,7 +2174,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1944,7 +2192,9 @@
         "operationId": "GetV1DashboardTeammember",
         "summary": "gets teammember permissions for specified team",
         "description": "gets teammember permissions for specified team",
-        "tags": ["teammember"],
+        "tags": [
+          "teammember"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2047,7 +2297,10 @@
                                       ]
                                     }
                                   },
-                                  "required": ["teamMemberId", "permission"],
+                                  "required": [
+                                    "teamMemberId",
+                                    "permission"
+                                  ],
                                   "additionalProperties": false
                                 }
                               }
@@ -2080,11 +2333,19 @@
                           "minimum": 0
                         }
                       },
-                      "required": ["items", "page", "pageSize", "total"],
+                      "required": [
+                        "items",
+                        "page",
+                        "pageSize",
+                        "total"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2108,7 +2369,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2120,7 +2385,9 @@
         "operationId": "HeadV1DashboardTeammember",
         "summary": "gets teammember permissions for specified team",
         "description": "gets teammember permissions for specified team",
-        "tags": ["teammember"],
+        "tags": [
+          "teammember"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2169,7 +2436,9 @@
         "operationId": "PatchV1DashboardTeammember",
         "summary": "updates a team member permissions",
         "description": "updates a team member for the authenticated user. Supports specifying a team or personal team.",
-        "tags": ["teammember"],
+        "tags": [
+          "teammember"
+        ],
         "requestBody": {
           "description": "PATCH /v1/dashboard/teammember Request body",
           "content": {
@@ -2208,7 +2477,11 @@
                     }
                   }
                 },
-                "required": ["teamId", "teamMemberId", "permissions"]
+                "required": [
+                  "teamId",
+                  "teamMemberId",
+                  "permissions"
+                ]
               }
             }
           },
@@ -2269,7 +2542,10 @@
                                         ]
                                       }
                                     },
-                                    "required": ["teamMemberId", "permission"],
+                                    "required": [
+                                      "teamMemberId",
+                                      "permission"
+                                    ],
                                     "additionalProperties": false
                                   }
                                 },
@@ -2304,11 +2580,16 @@
                           ]
                         }
                       },
-                      "required": ["data"],
+                      "required": [
+                        "data"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2332,7 +2613,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2344,7 +2629,9 @@
         "operationId": "DeleteV1DashboardTeammember",
         "summary": "deletes a team for the authenticated user",
         "description": "deletes a team for the authenticated user. Supports specifying a team or personal team.",
-        "tags": ["teammember"],
+        "tags": [
+          "teammember"
+        ],
         "parameters": [
           {
             "name": "teamMemberId",
@@ -2384,11 +2671,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2412,7 +2704,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2426,7 +2722,9 @@
         "operationId": "GetV1DashboardStorage",
         "summary": "gets storage for the authenticated user",
         "description": "gets storage for the authenticated user. Supports specifying a team or personal storage.",
-        "tags": ["storage"],
+        "tags": [
+          "storage"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2454,29 +2752,51 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                         },
                         "type": {
-                          "type": ["string", "null"],
-                          "enum": ["dropbox"]
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "dropbox"
+                          ]
                         },
                         "displayName": {
-                          "type": ["string", "null"]
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         },
                         "storagePath": {
                           "default": "/",
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "minLength": 1,
                           "pattern": "^\\/.*$"
                         }
                       },
-                      "required": ["id", "type", "displayName", "storagePath"],
+                      "required": [
+                        "id",
+                        "type",
+                        "displayName",
+                        "storagePath"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2500,7 +2820,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2512,7 +2836,9 @@
         "operationId": "HeadV1DashboardStorage",
         "summary": "gets storage for the authenticated user",
         "description": "gets storage for the authenticated user. Supports specifying a team or personal storage.",
-        "tags": ["storage"],
+        "tags": [
+          "storage"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2537,7 +2863,9 @@
         "operationId": "PatchV1DashboardStorage",
         "summary": "updates storage for the authenticated user",
         "description": "updates storage for the authenticated user. Supports specifying a team or personal storage.",
-        "tags": ["storage"],
+        "tags": [
+          "storage"
+        ],
         "requestBody": {
           "description": "PATCH /v1/dashboard/storage Request body",
           "content": {
@@ -2555,7 +2883,9 @@
                     "pattern": "^\\/.*$"
                   }
                 },
-                "required": ["storageId"]
+                "required": [
+                  "storageId"
+                ]
               }
             }
           },
@@ -2577,29 +2907,51 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                         },
                         "type": {
-                          "type": ["string", "null"],
-                          "enum": ["dropbox"]
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "dropbox"
+                          ]
                         },
                         "displayName": {
-                          "type": ["string", "null"]
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         },
                         "storagePath": {
                           "default": "/",
-                          "type": ["string", "null"],
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "minLength": 1,
                           "pattern": "^\\/.*$"
                         }
                       },
-                      "required": ["id", "type", "displayName", "storagePath"],
+                      "required": [
+                        "id",
+                        "type",
+                        "displayName",
+                        "storagePath"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2623,7 +2975,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2635,7 +2991,9 @@
         "operationId": "DeleteV1DashboardStorage",
         "summary": "deletes storage for the authenticated user",
         "description": "deletes storage for the authenticated user. Supports specifying a team or personal storage.",
-        "tags": ["storage"],
+        "tags": [
+          "storage"
+        ],
         "parameters": [
           {
             "name": "storageId",
@@ -2666,11 +3024,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2694,7 +3057,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2708,7 +3075,9 @@
         "operationId": "GetV1DashboardDropboxStart",
         "summary": "starts the dropbox oauth flow",
         "description": "starts the dropbox oauth flow for the authenticated user.",
-        "tags": ["dropbox-start"],
+        "tags": [
+          "dropbox-start"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2740,11 +3109,16 @@
                           "format": "uri"
                         }
                       },
-                      "required": ["url"],
+                      "required": [
+                        "url"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2768,7 +3142,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2780,7 +3158,9 @@
         "operationId": "HeadV1DashboardDropboxStart",
         "summary": "starts the dropbox oauth flow",
         "description": "starts the dropbox oauth flow for the authenticated user.",
-        "tags": ["dropbox-start"],
+        "tags": [
+          "dropbox-start"
+        ],
         "parameters": [
           {
             "name": "teamId",
@@ -2807,7 +3187,9 @@
         "operationId": "GetV1DashboardDropboxCallback",
         "summary": "oauth callback for dropbox",
         "description": "oauth callback for dropbox integration.",
-        "tags": ["dropbox-callback"],
+        "tags": [
+          "dropbox-callback"
+        ],
         "parameters": [
           {
             "name": "code",
@@ -2843,7 +3225,9 @@
                       "type": "string"
                     }
                   },
-                  "required": ["error"],
+                  "required": [
+                    "error"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2855,7 +3239,9 @@
         "operationId": "HeadV1DashboardDropboxCallback",
         "summary": "oauth callback for dropbox",
         "description": "oauth callback for dropbox integration.",
-        "tags": ["dropbox-callback"],
+        "tags": [
+          "dropbox-callback"
+        ],
         "parameters": [
           {
             "name": "code",
@@ -2891,7 +3277,9 @@
         "operationId": "GetV1DashboardDropboxBrowse",
         "summary": "browse dropbox files and folders",
         "description": "browse dropbox files and folders for the authenticated user.",
-        "tags": ["dropbox-browse"],
+        "tags": [
+          "dropbox-browse"
+        ],
         "parameters": [
           {
             "name": "path",
@@ -2950,11 +3338,17 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["entries", "has_more"],
+                      "required": [
+                        "entries",
+                        "has_more"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2978,7 +3372,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2990,7 +3388,9 @@
         "operationId": "HeadV1DashboardDropboxBrowse",
         "summary": "browse dropbox files and folders",
         "description": "browse dropbox files and folders for the authenticated user.",
-        "tags": ["dropbox-browse"],
+        "tags": [
+          "dropbox-browse"
+        ],
         "parameters": [
           {
             "name": "path",
@@ -3038,7 +3438,9 @@
         "operationId": "PostV1PublicActionMarkDelivered",
         "summary": "marks an action as delivered for the authenticate…",
         "description": "marks an action as delivered for the authenticated user.",
-        "tags": ["mark"],
+        "tags": [
+          "mark"
+        ],
         "requestBody": {
           "description": "POST /v1/public/action/markDelivered Request body",
           "content": {
@@ -3058,7 +3460,11 @@
                     "type": "boolean"
                   }
                 },
-                "required": ["token", "itemId", "delivered"]
+                "required": [
+                  "token",
+                  "itemId",
+                  "delivered"
+                ]
               }
             }
           },
@@ -3083,11 +3489,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3111,7 +3522,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3125,7 +3540,9 @@
         "operationId": "PostV1PublicActionAddComment",
         "summary": "adds a comment for the authenticated user",
         "description": "adds a comment for the authenticated user.",
-        "tags": ["comment"],
+        "tags": [
+          "comment"
+        ],
         "requestBody": {
           "description": "POST /v1/public/action/addComment Request body",
           "content": {
@@ -3142,11 +3559,18 @@
                     "type": "string"
                   },
                   "comment": {
-                    "type": ["string", "null"],
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "maxLength": 1000
                   }
                 },
-                "required": ["token", "itemId", "comment"]
+                "required": [
+                  "token",
+                  "itemId",
+                  "comment"
+                ]
               }
             }
           },
@@ -3171,11 +3595,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3199,7 +3628,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3213,7 +3646,9 @@
         "operationId": "PostV1PublicActionUploadUrl",
         "summary": "uploads a URL for the authenticated user",
         "description": "uploads a URL for the authenticated user.",
-        "tags": ["uploadUrl"],
+        "tags": [
+          "uploadUrl"
+        ],
         "requestBody": {
           "description": "POST /v1/public/action/uploadUrl Request body",
           "content": {
@@ -3280,11 +3715,17 @@
                           "maxLength": 255
                         }
                       },
-                      "required": ["uploadUrl", "fileName"],
+                      "required": [
+                        "uploadUrl",
+                        "fileName"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3308,7 +3749,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3322,7 +3767,9 @@
         "operationId": "PostV1PublicActionAddUploadedFile",
         "summary": "adds an uploaded file for the authenticated user",
         "description": "adds an uploaded file for the authenticated user.",
-        "tags": ["uploadedFile"],
+        "tags": [
+          "uploadedFile"
+        ],
         "requestBody": {
           "description": "POST /v1/public/action/addUploadedFile Request body",
           "content": {
@@ -3344,7 +3791,11 @@
                     "maxLength": 255
                   }
                 },
-                "required": ["token", "itemId", "fileName"]
+                "required": [
+                  "token",
+                  "itemId",
+                  "fileName"
+                ]
               }
             }
           },
@@ -3369,11 +3820,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3397,7 +3853,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3411,7 +3871,9 @@
         "operationId": "PostV1PublicAuth",
         "summary": "Authenticates a user with a token",
         "description": "Authenticates a user with a token.",
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "requestBody": {
           "description": "POST /v1/public/auth Request body",
           "content": {
@@ -3430,7 +3892,10 @@
                     "maxLength": 100
                   }
                 },
-                "required": ["token", "password"]
+                "required": [
+                  "token",
+                  "password"
+                ]
               }
             }
           },
@@ -3455,11 +3920,16 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["success"],
+                      "required": [
+                        "success"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3483,11 +3953,102 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
             }
+          }
+        }
+      },
+      "get": {
+        "operationId": "GetV1PublicAuth",
+        "summary": "checks if user is authenticated",
+        "description": "checks if user is authenticated with a token.",
+        "tags": [
+          "auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "GET /v1/public/auth Positive response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "success"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "GET /v1/public/auth Negative response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": false
+                    },
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "operationId": "HeadV1PublicAuth",
+        "summary": "checks if user is authenticated",
+        "description": "checks if user is authenticated with a token.",
+        "tags": [
+          "auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "HEAD /v1/public/auth Positive response"
+          },
+          "400": {
+            "description": "HEAD /v1/public/auth Negative response"
           }
         }
       }
@@ -3497,7 +4058,9 @@
         "operationId": "GetV1PublicItems",
         "summary": "marks an action as delivered for the authenticate…",
         "description": "marks an action as delivered for the authenticated user.",
-        "tags": ["items"],
+        "tags": [
+          "items"
+        ],
         "parameters": [
           {
             "name": "token",
@@ -3562,12 +4125,18 @@
                                 }
                               },
                               "comment": {
-                                "type": ["string", "null"],
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
                                 "maxLength": 1000
                               },
                               "status": {
                                 "type": "string",
-                                "enum": ["published", "draft"]
+                                "enum": [
+                                  "published",
+                                  "draft"
+                                ]
                               },
                               "delivered": {
                                 "type": "boolean"
@@ -3592,11 +4161,18 @@
                           }
                         }
                       },
-                      "required": ["listId", "title", "items"],
+                      "required": [
+                        "listId",
+                        "title",
+                        "items"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3620,7 +4196,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3632,7 +4212,9 @@
         "operationId": "HeadV1PublicItems",
         "summary": "marks an action as delivered for the authenticate…",
         "description": "marks an action as delivered for the authenticated user.",
-        "tags": ["items"],
+        "tags": [
+          "items"
+        ],
         "parameters": [
           {
             "name": "token",
@@ -3661,7 +4243,9 @@
         "operationId": "GetV1Health",
         "summary": "Health check endpoint",
         "description": "Checks the health status of the application services",
-        "tags": ["health"],
+        "tags": [
+          "health"
+        ],
         "responses": {
           "200": {
             "description": "GET /v1/health Positive response",
@@ -3684,11 +4268,17 @@
                           "type": "boolean"
                         }
                       },
-                      "required": ["ok", "loki"],
+                      "required": [
+                        "ok",
+                        "loki"
+                      ],
                       "additionalProperties": false
                     }
                   },
-                  "required": ["success", "data"],
+                  "required": [
+                    "success",
+                    "data"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3712,7 +4302,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["success", "statusCode", "message"],
+                  "required": [
+                    "success",
+                    "statusCode",
+                    "message"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3724,7 +4318,9 @@
         "operationId": "HeadV1Health",
         "summary": "Health check endpoint",
         "description": "Checks the health status of the application services",
-        "tags": ["health"],
+        "tags": [
+          "health"
+        ],
         "responses": {
           "200": {
             "description": "HEAD /v1/health Positive response"

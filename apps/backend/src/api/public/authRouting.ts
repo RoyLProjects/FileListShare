@@ -4,9 +4,10 @@ import {
   AuthRequestSchema,
   AuthResponseSchema,
 } from "../../schemas/public/authSchema.js";
-import { setPublicSessionCookie } from "../../middelware/publicAuth.js";
+import { requirePublicAuth, setPublicSessionCookie } from "../../middelware/publicAuth.js";
+import z from "zod";
 
-const publicAuthEndpoint = endpointsFactory
+const PostPublicAuthEndpoint = endpointsFactory
   .addMiddleware(setPublicSessionCookie)
   .build({
     method: "post",
@@ -20,6 +21,22 @@ const publicAuthEndpoint = endpointsFactory
     tag: "auth",
   });
 
+  const GetPublicAuthEndpoint = endpointsFactory
+  .addMiddleware(requirePublicAuth)
+  .build({
+    method: "get",
+    input: z.object({}),
+    output: z.object({success: z.boolean()}),
+    handler: async () => {
+      return { success: true };
+    },
+    shortDescription: "checks if user is authenticated",
+    description: "checks if user is authenticated with a token.",
+    tag: "auth",
+  });
+
+
 export const PublicAuthRouting = new DependsOnMethod({
-  post: publicAuthEndpoint,
+  post: PostPublicAuthEndpoint,
+  get: GetPublicAuthEndpoint,
 });
