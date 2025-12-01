@@ -11,7 +11,6 @@ import { logger } from "../../lib/log.js";
 import {
   ForbiddenError,
   NotFoundError,
-  InternalServerError,
 } from "../../lib/resultHandler.js";
 
 export class StorageService {
@@ -193,12 +192,17 @@ export class StorageService {
       }
     }
 
-    try {
       await prisma.storage.delete({ where: { id: input.storageId } });
+     await prisma.publicLink.deleteMany({
+  where: {
+    OR: [
+      { list: { user: { storage: { id: input.storageId } } } },
+      { list: { team: { storage: { id: input.storageId } } } },
+    ],
+  },
+});
+
+      logger.info("Storage deleted successfully");
       return { success: true };
-    } catch (e: unknown) {
-      logger.error({ err: e }, "deleteStorage unexpected error");
-      throw new InternalServerError();
-    }
   }
 }
