@@ -7,3 +7,4 @@ build
 coverage
 pnpm-lock.yaml
 .turbo/
+.vscode/.chrome-debug-profile

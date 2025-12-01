@@ -34,7 +34,8 @@
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}/apps/frontend"
+      "webRoot": "${workspaceFolder}/apps/frontend",
+      "userDataDir": "${workspaceFolder}/.vscode/.chrome-debug-profile"
     }
   ]
 }
