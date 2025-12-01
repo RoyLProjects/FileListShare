@@ -4,7 +4,7 @@ import { InitDatabase } from "./lib/db.js";
 import { initLoki, logger } from "./lib/log.js";
 import { initRedis } from "./lib/redis.js";
 
-const port = 3001;
+const port = env.PORT;
 
 try {
   await InitDatabase();

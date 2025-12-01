@@ -2,6 +2,7 @@ import { getAppPrismaClient } from "../../lib/db.js";
 import {
   ForbiddenError,
   InternalServerError,
+  UnauthorizedError,
 } from "../../lib/resultHandler.js";
 import {
   GetItemsRequestSchema,
@@ -18,7 +19,7 @@ export class ItemService {
   ): Promise<z.infer<typeof GetItemsResponseSchema>> {
     if (!input.token || !token || input.token !== token) {
       logger.warn("Invalid token provided for fetching items");
-      throw new ForbiddenError("Invalid token");
+      throw new UnauthorizedError("Invalid token");
     }
 
     const prisma = getAppPrismaClient();

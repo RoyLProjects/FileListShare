@@ -1,29 +1,10 @@
 import { endpointsFactory } from "../../lib/resultHandler.js";
-import { DependsOnMethod, Middleware } from "express-zod-api";
+import { DependsOnMethod } from "express-zod-api";
 import {
   AuthRequestSchema,
   AuthResponseSchema,
 } from "../../schemas/public/authSchema.js";
-import { PublicAuthService } from "../../services/public/authService.js";
-import { env } from "../../env.js";
-
-const setPublicSessionCookie = new Middleware({
-  input: AuthRequestSchema,
-  handler: async ({ input, response }) => {
-    const result = await PublicAuthService.authenticate(input);
-
-    response.cookie("public_session_id", result.sessionId, {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: env.PUBLIC_SESSION_MAX_AGE,
-      path: "/",
-      signed: true,
-    });
-
-    return {};
-  },
-});
+import { setPublicSessionCookie } from "../../middelware/publicAuth.js";
 
 const publicAuthEndpoint = endpointsFactory
   .addMiddleware(setPublicSessionCookie)

@@ -12,6 +12,7 @@ import { auth } from "./lib/auth.js";
 // removed unused imports (leftover from earlier wiring)
 import { routing } from "./api/routing.js";
 import { pinoLogger } from "./lib/log.js";
+import Cookies from "cookies";
 
 export async function createApp() {
   const app = express();
@@ -34,19 +35,26 @@ export async function createApp() {
         res.status(500).end((err as Error).message);
       }
     });
+  };
+  
+app.use(
+  "/v1/public",
+  (req, res, next) => {
+    const secrets = [env.PUBLIC_ENDPOINT_COOKIE_SECRET];
+
+    (req as any).cookies = new Cookies(req, res, { keys: secrets });
+
+    next();
   }
-
-  //app.post('/log/client-error', clientErrorHandler)
-
-  // express-zod-api configuration
-  const config = createConfig({
-    app,
-    cors: false,
-    logger: {
-      level: "info",
-      color: true,
-    },
-  });
+);
+const config = createConfig({
+  app,
+  cors: false,
+  logger: {
+    level: env.LOG_LEVEL,
+    color: true,
+  }
+});
 
   // Attach express-zod-api routing
   attachRouting(config, routing);

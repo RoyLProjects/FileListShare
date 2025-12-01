@@ -17,6 +17,12 @@ const defaultAuthSecret =
     ? undefined
     : randomBytes(48).toString("hex"));
 
+    const defaultPublicEndpointCookieSecret =
+  process.env.PUBLIC_ENDPOINT_COOKIE_SECRET ??
+  (process.env.NODE_ENV === "production"
+    ? undefined
+    : randomBytes(48).toString("hex"));
+
 // Allow the app to be configured to use a different app/auth DB name via env
 const APP_DB_NAME = process.env.APP_DB_Name ?? "customdb";
 const AUTH_DB_NAME = process.env.AUTH_DB_Name ?? "authdb";
@@ -26,6 +32,8 @@ export const baseEnv = z
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+
+    PORT: z.coerce.number().default(3001),
 
     //database
     APP_DB_Name: z.string().default("customdb"),
@@ -52,7 +60,7 @@ export const baseEnv = z
     LOKI_URL: z.string().url().default("http://localhost:3100"),
     PROMETHEUS_ENABLED: z.coerce.boolean().default(false),
     LOG_LEVEL: z
-      .enum(["error", "warn", "info", "debug", "trace"])
+      .enum(["warn", "info", "debug", "silent"])
       .default("info"),
     PUBLIC_SESSION_MAX_AGE: z.coerce.number().default(600000),
     DROPBOX_CLIENT_ID: z.string(),
@@ -76,8 +84,11 @@ export const baseEnv = z
       .string()
       .length(64, "SESSION_SECRET must be 64 hex characters (32 bytes)"),
     SESSION_MAX_AGE: z.coerce.number().default(86400000),
+    PUBLIC_ENDPOINT_COOKIE_SECRET: z
+      .string()
+      .min(32, "PUBLIC_ENDPOINT_COOKIE_SECRET must be at least 32 characters"),
   })
-  .parse({ ...process.env, AUTH_SECRET: defaultAuthSecret });
+  .parse({ ...process.env, AUTH_SECRET: defaultAuthSecret, PUBLIC_ENDPOINT_COOKIE_SECRET: defaultPublicEndpointCookieSecret });
 
 // Build Postgres connection URLs from individual pieces. We keep these
 // computed values out of the zod schema since they are derived.
