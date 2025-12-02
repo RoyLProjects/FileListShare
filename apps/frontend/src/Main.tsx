@@ -13,6 +13,7 @@ import ListDetailPage from "./pages/ListDetailPage";
 import TeamPage from "./pages/TeamPage";
 import TeamSettingsPage from "./pages/TeamSettingsPage";
 import UserSettingsPage from "./pages/UserSettingsPage";
+import SharePage from "./pages/SharePage";
 
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/dashboard/list/:listId" element={<ListDetailPage />} />
           <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
           <Route path="/dashboard/settings" element={<UserSettingsPage />} />
+          <Route path="/s/:token" element={<SharePage />} />
           <Route
             path="/dashboard/team/:teamId/settings"
             element={<TeamSettingsPage />}

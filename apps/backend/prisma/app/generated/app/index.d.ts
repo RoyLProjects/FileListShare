@@ -10114,12 +10114,10 @@ export namespace Prisma {
 
   export type ListWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId_title?: ListUserIdTitleCompoundUniqueInput
-    teamId_title?: ListTeamIdTitleCompoundUniqueInput
+    title?: string
     AND?: ListWhereInput | ListWhereInput[]
     OR?: ListWhereInput[]
     NOT?: ListWhereInput | ListWhereInput[]
-    title?: StringFilter<"List"> | string
     userId?: StringNullableFilter<"List"> | string | null
     teamId?: StringNullableFilter<"List"> | string | null
     createdAt?: DateTimeFilter<"List"> | Date | string
@@ -10129,7 +10127,7 @@ export namespace Prisma {
     team?: XOR<TeamNullableRelationFilter, TeamWhereInput> | null
     items?: List_itemListRelationFilter
     publicLink?: XOR<PublicLinkNullableRelationFilter, PublicLinkWhereInput> | null
-  }, "id" | "userId_title" | "teamId_title">
+  }, "id" | "title">
 
   export type ListOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11152,16 +11150,6 @@ export namespace Prisma {
 
   export type List_itemOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type ListUserIdTitleCompoundUniqueInput = {
-    userId: string
-    title: string
-  }
-
-  export type ListTeamIdTitleCompoundUniqueInput = {
-    teamId: string
-    title: string
   }
 
   export type ListCountOrderByAggregateInput = {

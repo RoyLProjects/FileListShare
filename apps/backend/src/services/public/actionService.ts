@@ -15,7 +15,7 @@ import {
   uploadUrlResponseSchema,
 } from "../../schemas/public/actionSchema.js";
 import { getDropboxUploadLink } from "../../lib/dropboxUntils.js";
-import normalizeDropboxPath from "../../lib/normalizeDropboxPath.js";
+import buildUploadPath from "../../lib/buildUploadPath.js";
 
 export class ActionService {
   static async markDelivered(
@@ -50,7 +50,7 @@ export class ActionService {
     return { success: true };
   }
 
-  
+  static MAX_PATH_LENGTH = 240;
   static async addComment(
     input: z.infer<typeof addCommentRequestSchema>,
     listId: string,
@@ -131,59 +131,9 @@ export class ActionService {
 const now = new Date();
 const uploadDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
 
-let uploadPath = normalizeDropboxPath(
-  storage.storagePath,
-  item.list.title,
-  `${item.itemnumber} ${uploadDate} ${input.fileName}`
-);
+    const uploadPath = buildUploadPath(storage.storagePath || "", item.itemnumber, item.list.title, input.fileName, uploadDate);
 
-    if (uploadPath.length > 240) {
-      // Calculate how much we need to trim from the filename
-      const excess = uploadPath.length - 240;
-      const fileExtension =
-        input.fileName.lastIndexOf(".") > 0
-          ? input.fileName.substring(input.fileName.lastIndexOf("."))
-          : "";
-      const fileNameWithoutExt = fileExtension
-        ? input.fileName.substring(0, input.fileName.lastIndexOf("."))
-        : input.fileName;
 
-      // Trim the filename while keeping the extension
-      const maxFileNameLength = fileNameWithoutExt.length - excess - 3; // -3 for "..."
-      if (maxFileNameLength > 0) {
-        const trimmedFileName =
-          fileNameWithoutExt.substring(0, maxFileNameLength) +
-          "..." +
-          fileExtension;
-        uploadPath = normalizeDropboxPath(
-  storage.storagePath,
-  item.list.title,
-  `${item.itemnumber} ${uploadDate} ${trimmedFileName}`
-);
-      } else {
-        // If still too long, trim from both list title and filename
-        const maxTitleLength = Math.floor(
-          (240 -
-            (storage?.storagePath?.length || 0) -
-            item.itemnumber.toString().length -
-            uploadDate.length -
-            fileExtension.length -
-            20) /
-            2,
-        );
-        const trimmedTitle =
-          item.list.title.length > maxTitleLength
-            ? item.list.title.substring(0, maxTitleLength) + "..."
-            : item.list.title;
-        const trimmedFileName =
-          fileNameWithoutExt.substring(0, 10) + "..." + fileExtension;
-        uploadPath = normalizeDropboxPath(
-  storage.storagePath,
-  trimmedTitle,
-  `${item.itemnumber} ${uploadDate} ${trimmedFileName}`
-);
-      }
-    }
 
     const uploadUrl = await getDropboxUploadLink(
       storage.refreshToken,

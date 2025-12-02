@@ -108,7 +108,7 @@ model PublicLink {
 
 model List {
   id        String   @id @default(uuid())
-  title     String
+  title     String   @unique
   userId    String?
   teamId    String?
   createdAt DateTime @default(now())
@@ -120,9 +120,6 @@ model List {
 
   items      List_item[]
   publicLink PublicLink? @relation("ListPublicLink")
-
-  @@unique([userId, title])
-  @@unique([teamId, title])
 }
 
 model List_item {

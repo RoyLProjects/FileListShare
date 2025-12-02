@@ -4,2449 +4,2473 @@
  */
 
 export interface paths {
-  "/v1/dashboard/link": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * get link for a list
+         * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
+         */
+        get: operations["GetV1DashboardLink"];
+        put?: never;
+        /**
+         * create link for a list
+         * @description creates a shareable link for the specified list. If the link already exists, it will be returned.
+         */
+        post: operations["PostV1DashboardLink"];
+        /**
+         * get link for a list
+         * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
+         */
+        delete: operations["DeleteV1DashboardLink"];
+        options?: never;
+        /**
+         * get link for a list
+         * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
+         */
+        head: operations["HeadV1DashboardLink"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * get link for a list
-     * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
-     */
-    get: operations["GetV1DashboardLink"];
-    put?: never;
-    /**
-     * create link for a list
-     * @description creates a shareable link for the specified list. If the link already exists, it will be returned.
-     */
-    post: operations["PostV1DashboardLink"];
-    /**
-     * get link for a list
-     * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
-     */
-    delete: operations["DeleteV1DashboardLink"];
-    options?: never;
-    /**
-     * get link for a list
-     * @description gets a shareable link for the specified list. If the link does not exist, it will be created.
-     */
-    head: operations["HeadV1DashboardLink"];
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/dashboard/list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * gets lists for the authenticated user
+         * @description gets lists for the authenticated user. Supports pagination and filtering by team.
+         */
+        get: operations["GetV1DashboardList"];
+        put?: never;
+        /**
+         * creates a new list for the authenticated user
+         * @description creates a new list for the authenticated user. Supports specifying a team or personal list.
+         */
+        post: operations["PostV1DashboardList"];
+        /**
+         * deletes a list for the authenticated user
+         * @description deletes a list for the authenticated user. Supports specifying a team or personal list.
+         */
+        delete: operations["DeleteV1DashboardList"];
+        options?: never;
+        /**
+         * gets lists for the authenticated user
+         * @description gets lists for the authenticated user. Supports pagination and filtering by team.
+         */
+        head: operations["HeadV1DashboardList"];
+        /**
+         * updates a list for the authenticated user
+         * @description updates a list for the authenticated user. Supports specifying a team or personal list.
+         */
+        patch: operations["PatchV1DashboardList"];
+        trace?: never;
     };
-    /**
-     * gets lists for the authenticated user
-     * @description gets lists for the authenticated user. Supports pagination and filtering by team.
-     */
-    get: operations["GetV1DashboardList"];
-    put?: never;
-    /**
-     * creates a new list for the authenticated user
-     * @description creates a new list for the authenticated user. Supports specifying a team or personal list.
-     */
-    post: operations["PostV1DashboardList"];
-    /**
-     * deletes a list for the authenticated user
-     * @description deletes a list for the authenticated user. Supports specifying a team or personal list.
-     */
-    delete: operations["DeleteV1DashboardList"];
-    options?: never;
-    /**
-     * gets lists for the authenticated user
-     * @description gets lists for the authenticated user. Supports pagination and filtering by team.
-     */
-    head: operations["HeadV1DashboardList"];
-    /**
-     * updates a list for the authenticated user
-     * @description updates a list for the authenticated user. Supports specifying a team or personal list.
-     */
-    patch: operations["PatchV1DashboardList"];
-    trace?: never;
-  };
-  "/v1/dashboard/listDetails": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/listDetails": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * get list details
+         * @description gets details of items in a specific list for the authenticated user
+         */
+        get: operations["GetV1DashboardListDetails"];
+        put?: never;
+        /**
+         * create list item
+         * @description creates a new item in a specific list for the authenticated user
+         */
+        post: operations["PostV1DashboardListDetails"];
+        /**
+         * delete list item
+         * @description deletes an existing item in a specific list for the authenticated user
+         */
+        delete: operations["DeleteV1DashboardListDetails"];
+        options?: never;
+        /**
+         * get list details
+         * @description gets details of items in a specific list for the authenticated user
+         */
+        head: operations["HeadV1DashboardListDetails"];
+        /**
+         * update list item
+         * @description updates an existing item in a specific list for the authenticated user
+         */
+        patch: operations["PatchV1DashboardListDetails"];
+        trace?: never;
     };
-    /**
-     * get list details
-     * @description gets details of items in a specific list for the authenticated user
-     */
-    get: operations["GetV1DashboardListDetails"];
-    put?: never;
-    /**
-     * create list item
-     * @description creates a new item in a specific list for the authenticated user
-     */
-    post: operations["PostV1DashboardListDetails"];
-    /**
-     * delete list item
-     * @description deletes an existing item in a specific list for the authenticated user
-     */
-    delete: operations["DeleteV1DashboardListDetails"];
-    options?: never;
-    /**
-     * get list details
-     * @description gets details of items in a specific list for the authenticated user
-     */
-    head: operations["HeadV1DashboardListDetails"];
-    /**
-     * update list item
-     * @description updates an existing item in a specific list for the authenticated user
-     */
-    patch: operations["PatchV1DashboardListDetails"];
-    trace?: never;
-  };
-  "/v1/dashboard/team": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/team": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * gets team for the authenticated user
+         * @description gets a list of teams for the authenticated user.
+         */
+        get: operations["GetV1DashboardTeam"];
+        put?: never;
+        /**
+         * updates a team for the authenticated user
+         * @description updates a team for the authenticated user. Supports specifying a team or personal team.
+         */
+        post: operations["PostV1DashboardTeam"];
+        /**
+         * deletes a team for the authenticated user
+         * @description deletes a team for the authenticated user. Supports specifying a team or personal team.
+         */
+        delete: operations["DeleteV1DashboardTeam"];
+        options?: never;
+        /**
+         * gets team for the authenticated user
+         * @description gets a list of teams for the authenticated user.
+         */
+        head: operations["HeadV1DashboardTeam"];
+        /**
+         * updates a team for the authenticated user
+         * @description updates a team for the authenticated user. Supports specifying a team or personal team.
+         */
+        patch: operations["PatchV1DashboardTeam"];
+        trace?: never;
     };
-    /**
-     * gets team for the authenticated user
-     * @description gets a list of teams for the authenticated user.
-     */
-    get: operations["GetV1DashboardTeam"];
-    put?: never;
-    /**
-     * updates a team for the authenticated user
-     * @description updates a team for the authenticated user. Supports specifying a team or personal team.
-     */
-    post: operations["PostV1DashboardTeam"];
-    /**
-     * deletes a team for the authenticated user
-     * @description deletes a team for the authenticated user. Supports specifying a team or personal team.
-     */
-    delete: operations["DeleteV1DashboardTeam"];
-    options?: never;
-    /**
-     * gets team for the authenticated user
-     * @description gets a list of teams for the authenticated user.
-     */
-    head: operations["HeadV1DashboardTeam"];
-    /**
-     * updates a team for the authenticated user
-     * @description updates a team for the authenticated user. Supports specifying a team or personal team.
-     */
-    patch: operations["PatchV1DashboardTeam"];
-    trace?: never;
-  };
-  "/v1/dashboard/teammember": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/teammember": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * gets teammember permissions for specified team
+         * @description gets teammember permissions for specified team
+         */
+        get: operations["GetV1DashboardTeammember"];
+        put?: never;
+        post?: never;
+        /**
+         * deletes a team for the authenticated user
+         * @description deletes a team for the authenticated user. Supports specifying a team or personal team.
+         */
+        delete: operations["DeleteV1DashboardTeammember"];
+        options?: never;
+        /**
+         * gets teammember permissions for specified team
+         * @description gets teammember permissions for specified team
+         */
+        head: operations["HeadV1DashboardTeammember"];
+        /**
+         * updates a team member permissions
+         * @description updates a team member for the authenticated user. Supports specifying a team or personal team.
+         */
+        patch: operations["PatchV1DashboardTeammember"];
+        trace?: never;
     };
-    /**
-     * gets teammember permissions for specified team
-     * @description gets teammember permissions for specified team
-     */
-    get: operations["GetV1DashboardTeammember"];
-    put?: never;
-    post?: never;
-    /**
-     * deletes a team for the authenticated user
-     * @description deletes a team for the authenticated user. Supports specifying a team or personal team.
-     */
-    delete: operations["DeleteV1DashboardTeammember"];
-    options?: never;
-    /**
-     * gets teammember permissions for specified team
-     * @description gets teammember permissions for specified team
-     */
-    head: operations["HeadV1DashboardTeammember"];
-    /**
-     * updates a team member permissions
-     * @description updates a team member for the authenticated user. Supports specifying a team or personal team.
-     */
-    patch: operations["PatchV1DashboardTeammember"];
-    trace?: never;
-  };
-  "/v1/dashboard/storage": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/storage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * gets storage for the authenticated user
+         * @description gets storage for the authenticated user. Supports specifying a team or personal storage.
+         */
+        get: operations["GetV1DashboardStorage"];
+        put?: never;
+        post?: never;
+        /**
+         * deletes storage for the authenticated user
+         * @description deletes storage for the authenticated user. Supports specifying a team or personal storage.
+         */
+        delete: operations["DeleteV1DashboardStorage"];
+        options?: never;
+        /**
+         * gets storage for the authenticated user
+         * @description gets storage for the authenticated user. Supports specifying a team or personal storage.
+         */
+        head: operations["HeadV1DashboardStorage"];
+        /**
+         * updates storage for the authenticated user
+         * @description updates storage for the authenticated user. Supports specifying a team or personal storage.
+         */
+        patch: operations["PatchV1DashboardStorage"];
+        trace?: never;
     };
-    /**
-     * gets storage for the authenticated user
-     * @description gets storage for the authenticated user. Supports specifying a team or personal storage.
-     */
-    get: operations["GetV1DashboardStorage"];
-    put?: never;
-    post?: never;
-    /**
-     * deletes storage for the authenticated user
-     * @description deletes storage for the authenticated user. Supports specifying a team or personal storage.
-     */
-    delete: operations["DeleteV1DashboardStorage"];
-    options?: never;
-    /**
-     * gets storage for the authenticated user
-     * @description gets storage for the authenticated user. Supports specifying a team or personal storage.
-     */
-    head: operations["HeadV1DashboardStorage"];
-    /**
-     * updates storage for the authenticated user
-     * @description updates storage for the authenticated user. Supports specifying a team or personal storage.
-     */
-    patch: operations["PatchV1DashboardStorage"];
-    trace?: never;
-  };
-  "/v1/dashboard/dropbox/start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/dropbox/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * starts the dropbox oauth flow
+         * @description starts the dropbox oauth flow for the authenticated user.
+         */
+        get: operations["GetV1DashboardDropboxStart"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        /**
+         * starts the dropbox oauth flow
+         * @description starts the dropbox oauth flow for the authenticated user.
+         */
+        head: operations["HeadV1DashboardDropboxStart"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * starts the dropbox oauth flow
-     * @description starts the dropbox oauth flow for the authenticated user.
-     */
-    get: operations["GetV1DashboardDropboxStart"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    /**
-     * starts the dropbox oauth flow
-     * @description starts the dropbox oauth flow for the authenticated user.
-     */
-    head: operations["HeadV1DashboardDropboxStart"];
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/dashboard/dropbox/callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/dropbox/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * oauth callback for dropbox
+         * @description oauth callback for dropbox integration.
+         */
+        get: operations["GetV1DashboardDropboxCallback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        /**
+         * oauth callback for dropbox
+         * @description oauth callback for dropbox integration.
+         */
+        head: operations["HeadV1DashboardDropboxCallback"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * oauth callback for dropbox
-     * @description oauth callback for dropbox integration.
-     */
-    get: operations["GetV1DashboardDropboxCallback"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    /**
-     * oauth callback for dropbox
-     * @description oauth callback for dropbox integration.
-     */
-    head: operations["HeadV1DashboardDropboxCallback"];
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/dashboard/dropbox/browse": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/dashboard/dropbox/browse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * browse dropbox files and folders
+         * @description browse dropbox files and folders for the authenticated user.
+         */
+        get: operations["GetV1DashboardDropboxBrowse"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        /**
+         * browse dropbox files and folders
+         * @description browse dropbox files and folders for the authenticated user.
+         */
+        head: operations["HeadV1DashboardDropboxBrowse"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * browse dropbox files and folders
-     * @description browse dropbox files and folders for the authenticated user.
-     */
-    get: operations["GetV1DashboardDropboxBrowse"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    /**
-     * browse dropbox files and folders
-     * @description browse dropbox files and folders for the authenticated user.
-     */
-    head: operations["HeadV1DashboardDropboxBrowse"];
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/action/markDelivered": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/action/markDelivered": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * marks an action as delivered for the authenticate…
+         * @description marks an action as delivered for the authenticated user.
+         */
+        post: operations["PostV1PublicActionMarkDelivered"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * marks an action as delivered for the authenticate…
-     * @description marks an action as delivered for the authenticated user.
-     */
-    post: operations["PostV1PublicActionMarkDelivered"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/action/addComment": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/action/addComment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * adds a comment for the authenticated user
+         * @description adds a comment for the authenticated user.
+         */
+        post: operations["PostV1PublicActionAddComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * adds a comment for the authenticated user
-     * @description adds a comment for the authenticated user.
-     */
-    post: operations["PostV1PublicActionAddComment"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/action/uploadUrl": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/action/uploadUrl": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * uploads a URL for the authenticated user
+         * @description uploads a URL for the authenticated user.
+         */
+        post: operations["PostV1PublicActionUploadUrl"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * uploads a URL for the authenticated user
-     * @description uploads a URL for the authenticated user.
-     */
-    post: operations["PostV1PublicActionUploadUrl"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/action/addUploadedFile": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/action/addUploadedFile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * adds an uploaded file for the authenticated user
+         * @description adds an uploaded file for the authenticated user.
+         */
+        post: operations["PostV1PublicActionAddUploadedFile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * adds an uploaded file for the authenticated user
-     * @description adds an uploaded file for the authenticated user.
-     */
-    post: operations["PostV1PublicActionAddUploadedFile"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/auth": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/auth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * checks if user is authenticated
+         * @description checks if user is authenticated with a token.
+         */
+        get: operations["GetV1PublicAuth"];
+        put?: never;
+        /**
+         * Authenticates a user with a token
+         * @description Authenticates a user with a token.
+         */
+        post: operations["PostV1PublicAuth"];
+        delete?: never;
+        options?: never;
+        /**
+         * checks if user is authenticated
+         * @description checks if user is authenticated with a token.
+         */
+        head: operations["HeadV1PublicAuth"];
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Authenticates a user with a token
-     * @description Authenticates a user with a token.
-     */
-    post: operations["PostV1PublicAuth"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/public/items": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/public/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * marks an action as delivered for the authenticate…
+         * @description marks an action as delivered for the authenticated user.
+         */
+        get: operations["GetV1PublicItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        /**
+         * marks an action as delivered for the authenticate…
+         * @description marks an action as delivered for the authenticated user.
+         */
+        head: operations["HeadV1PublicItems"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * marks an action as delivered for the authenticate…
-     * @description marks an action as delivered for the authenticated user.
-     */
-    get: operations["GetV1PublicItems"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    /**
-     * marks an action as delivered for the authenticate…
-     * @description marks an action as delivered for the authenticated user.
-     */
-    head: operations["HeadV1PublicItems"];
-    patch?: never;
-    trace?: never;
-  };
-  "/v1/health": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/v1/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health check endpoint
+         * @description Checks the health status of the application services
+         */
+        get: operations["GetV1Health"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        /**
+         * Health check endpoint
+         * @description Checks the health status of the application services
+         */
+        head: operations["HeadV1Health"];
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Health check endpoint
-     * @description Checks the health status of the application services
-     */
-    get: operations["GetV1Health"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    /**
-     * Health check endpoint
-     * @description Checks the health status of the application services
-     */
-    head: operations["HeadV1Health"];
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: never;
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    schemas: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  GetV1DashboardLink: {
-    parameters: {
-      query: {
-        /** @description GET /v1/dashboard/link Parameter */
-        listId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/link Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              listId: string;
-              /** Format: uuid */
-              linkId?: string;
-              token?: string;
-              hasPassword: boolean;
-              createdAt?: unknown;
-              createdBy?: string;
-              updatedAt?: unknown;
+    GetV1DashboardLink: {
+        parameters: {
+            query: {
+                /** @description GET /v1/dashboard/link Parameter */
+                listId: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description GET /v1/dashboard/link Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1DashboardLink: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/dashboard/link Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          listId: string;
-          password: string;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/dashboard/link Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              listId: string;
-              /** Format: uuid */
-              linkId?: string;
-              token?: string;
-              hasPassword: boolean;
-              createdAt?: unknown;
-              createdBy?: string;
-              updatedAt?: unknown;
-            };
-          };
-        };
-      };
-      /** @description POST /v1/dashboard/link Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  DeleteV1DashboardLink: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/link Parameter */
-        listId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/link Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
-            };
-          };
-        };
-      };
-      /** @description DELETE /v1/dashboard/link Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1DashboardLink: {
-    parameters: {
-      query: {
-        /** @description HEAD /v1/dashboard/link Parameter */
-        listId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/link Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/link Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  GetV1DashboardList: {
-    parameters: {
-      query?: {
-        /** @description GET /v1/dashboard/list Parameter */
-        page?: number;
-        /** @description GET /v1/dashboard/list Parameter */
-        pageSize?: number;
-        /** @description GET /v1/dashboard/list Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/list Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              Items?: {
-                /** Format: uuid */
-                id: string;
-                title: string;
-                userId: string;
-                /** Format: uuid */
-                teamId?: string;
-                teamName?: string;
-                stats?: {
-                  totalItems: number;
-                  totalDeliveredItems: number;
-                  totalOverdueItems: number;
-                  totalComments: number;
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/link Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
                 };
-              }[];
-              /** @default 1 */
-              page: number;
-              /** @default 15 */
-              pageSize: number;
-              stats?: {
-                totalOfItems: number;
-                totalOfDeliveredItems: number;
-                totalOfOverdueItems: number;
-                totalOfLists: number;
-              };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            listId: string;
+                            /** Format: uuid */
+                            linkId?: string;
+                            token?: string;
+                            hasPassword: boolean;
+                            createdAt?: unknown;
+                            createdBy?: string;
+                            updatedAt?: unknown;
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description GET /v1/dashboard/list Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1DashboardList: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/dashboard/list Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          title: string;
-          teamId?: string;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/dashboard/list Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              id: string;
-              title: string;
-              userId: string;
-              /** Format: uuid */
-              teamId?: string;
-              teamName?: string;
-              stats?: {
-                totalItems: number;
-                totalDeliveredItems: number;
-                totalOverdueItems: number;
-                totalComments: number;
-              };
+            /** @description GET /v1/dashboard/link Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description POST /v1/dashboard/list Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  DeleteV1DashboardList: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/list Parameter */
-        listId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/list Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    PostV1DashboardLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+        /** @description POST /v1/dashboard/link Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    listId: string;
+                    password: string;
+                };
             };
-          };
         };
-      };
-      /** @description DELETE /v1/dashboard/list Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1DashboardList: {
-    parameters: {
-      query?: {
-        /** @description HEAD /v1/dashboard/list Parameter */
-        page?: number;
-        /** @description HEAD /v1/dashboard/list Parameter */
-        pageSize?: number;
-        /** @description HEAD /v1/dashboard/list Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/list Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/list Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PatchV1DashboardList: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description PATCH /v1/dashboard/list Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          title: string;
-          teamId?: string;
-          listId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description PATCH /v1/dashboard/list Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              id: string;
-              title: string;
-              userId: string;
-              /** Format: uuid */
-              teamId?: string;
-              teamName?: string;
-              stats?: {
-                totalItems: number;
-                totalDeliveredItems: number;
-                totalOverdueItems: number;
-                totalComments: number;
-              };
+        responses: {
+            /** @description POST /v1/dashboard/link Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            listId: string;
+                            /** Format: uuid */
+                            linkId?: string;
+                            token?: string;
+                            hasPassword: boolean;
+                            createdAt?: unknown;
+                            createdBy?: string;
+                            updatedAt?: unknown;
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description PATCH /v1/dashboard/list Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  GetV1DashboardListDetails: {
-    parameters: {
-      query: {
-        /** @description GET /v1/dashboard/listDetails Parameter */
-        listId: string;
-        /** @description GET /v1/dashboard/listDetails Parameter */
-        page?: number;
-        /** @description GET /v1/dashboard/listDetails Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/listDetails Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              title: string;
-              /** Format: uuid */
-              teamId: string | null;
-              items: {
-                /** Format: uuid */
-                itemId: string | null;
-                itemnumber: number;
-                /** Format: uuid */
-                listId: string | null;
-                description: string;
-                uploadedFiles: string[];
-                comment?: string | null;
-                /** @enum {string} */
-                status: "published" | "draft";
-                delivered: boolean;
-                deadline: unknown;
-                createdAt: unknown;
-                createdBy: string;
-                updatedAt: unknown;
-              }[];
-              totalItems: number;
-              /** @default 1 */
-              page: number;
-              /** @default 15 */
-              pageSize: number;
+            /** @description POST /v1/dashboard/link Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description GET /v1/dashboard/listDetails Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  PostV1DashboardListDetails: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/dashboard/listDetails Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          listId: string;
-          description: string;
-          itemnumber: number;
-          /** Format: date-time */
-          deadline?: string;
-          /** @enum {string} */
-          status: "published" | "draft";
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/dashboard/listDetails Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              itemId: string;
-              itemnumber: number;
-              /** Format: uuid */
-              listId: string;
-              description: string;
-              uploadedFiles: string[];
-              comment?: string | null;
-              /** @enum {string} */
-              status: "published" | "draft";
-              delivered: boolean;
-              deadline: unknown;
-              createdAt: unknown;
-              createdBy: string;
-              updatedAt: unknown;
+    DeleteV1DashboardLink: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/link Parameter */
+                listId: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description POST /v1/dashboard/listDetails Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  DeleteV1DashboardListDetails: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/listDetails Parameter */
-        itemId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/listDetails Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/link Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description DELETE /v1/dashboard/listDetails Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1DashboardListDetails: {
-    parameters: {
-      query: {
-        /** @description HEAD /v1/dashboard/listDetails Parameter */
-        listId: string;
-        /** @description HEAD /v1/dashboard/listDetails Parameter */
-        page?: number;
-        /** @description HEAD /v1/dashboard/listDetails Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/listDetails Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/listDetails Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PatchV1DashboardListDetails: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description PATCH /v1/dashboard/listDetails Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          itemId: string;
-          description?: string;
-          itemnumber?: number;
-          deadline?: string;
-          delivered?: boolean;
-          /** @enum {string} */
-          status?: "published" | "draft";
-        };
-      };
-    };
-    responses: {
-      /** @description PATCH /v1/dashboard/listDetails Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              itemId: string;
-              itemnumber: number;
-              /** Format: uuid */
-              listId: string;
-              description: string;
-              uploadedFiles: string[];
-              comment?: string | null;
-              /** @enum {string} */
-              status: "published" | "draft";
-              delivered: boolean;
-              deadline: unknown;
-              createdAt: unknown;
-              createdBy: string;
-              updatedAt: unknown;
+            /** @description DELETE /v1/dashboard/link Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description PATCH /v1/dashboard/listDetails Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  GetV1DashboardTeam: {
-    parameters: {
-      query?: {
-        /** @description GET /v1/dashboard/team Parameter */
-        page?: number;
-        /** @description GET /v1/dashboard/team Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/team Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              items: {
-                /** Format: uuid */
-                teamId: string;
-                title: string;
-                createdAt: unknown;
-                members?: {
-                  userId: string;
-                }[];
-              }[];
-              /** @default 1 */
-              page: number;
-              /** @default 15 */
-              pageSize: number;
-              total: number;
+    HeadV1DashboardLink: {
+        parameters: {
+            query: {
+                /** @description HEAD /v1/dashboard/link Parameter */
+                listId: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description GET /v1/dashboard/team Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1DashboardTeam: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/dashboard/team Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          title: string;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/dashboard/team Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              teamId: string;
-              title: string;
-              createdAt: unknown;
-              members?: {
-                userId: string;
-              }[];
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/link Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
-          };
-        };
-      };
-      /** @description POST /v1/dashboard/team Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  DeleteV1DashboardTeam: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/team Parameter */
-        teamId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/team Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+            /** @description HEAD /v1/dashboard/link Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
-          };
         };
-      };
-      /** @description DELETE /v1/dashboard/team Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  HeadV1DashboardTeam: {
-    parameters: {
-      query?: {
-        /** @description HEAD /v1/dashboard/team Parameter */
-        page?: number;
-        /** @description HEAD /v1/dashboard/team Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/team Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/team Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PatchV1DashboardTeam: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description PATCH /v1/dashboard/team Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          teamId: string;
-          title: string;
-        };
-      };
-    };
-    responses: {
-      /** @description PATCH /v1/dashboard/team Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              teamId: string;
-              title: string;
-              createdAt: unknown;
-              members?: {
-                userId: string;
-              }[];
+    GetV1DashboardList: {
+        parameters: {
+            query?: {
+                /** @description GET /v1/dashboard/list Parameter */
+                page?: number;
+                /** @description GET /v1/dashboard/list Parameter */
+                pageSize?: number;
+                /** @description GET /v1/dashboard/list Parameter */
+                teamId?: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description PATCH /v1/dashboard/team Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  GetV1DashboardTeammember: {
-    parameters: {
-      query: {
-        /** @description GET /v1/dashboard/teammember Parameter */
-        teamId: string;
-        /** @description GET /v1/dashboard/teammember Parameter */
-        page?: number;
-        /** @description GET /v1/dashboard/teammember Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/teammember Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              items: {
-                /** Format: uuid */
-                teamMemberId: string;
-                userId: string;
-                createdAt: unknown;
-                createdBy: string;
-                currentMember: boolean;
-                permissions: {
-                  /** Format: uuid */
-                  teamMemberId: string;
-                  /** @enum {string} */
-                  permission:
-                    | "LIST_CREATE"
-                    | "LIST_RENAME"
-                    | "LIST_DELETE"
-                    | "ITEM_CREATE"
-                    | "ITEM_UPDATE"
-                    | "ITEM_DELETE"
-                    | "TEAM_RENAME"
-                    | "TEAM_DELETE"
-                    | "TEAM_MEMBER_CREATE"
-                    | "TEAM_MEMBER_DELETE"
-                    | "TEAM_MEMBER_RIGHTS"
-                    | "TEAM_STORAGE_ADD"
-                    | "TEAM_STORAGE_UPDATE"
-                    | "TEAM_STORAGE_DELETE"
-                    | "TEAM_PUBLIC_LINK_CREATE"
-                    | "TEAM_PUBLIC_LINK_DELETE";
-                }[];
-              }[];
-              /** @default 1 */
-              page: number;
-              /** @default 15 */
-              pageSize: number;
-              total: number;
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/list Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            Items?: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                userId: string;
+                                /** Format: uuid */
+                                teamId?: string;
+                                teamName?: string;
+                                stats?: {
+                                    totalItems: number;
+                                    totalDeliveredItems: number;
+                                    totalOverdueItems: number;
+                                    totalComments: number;
+                                };
+                            }[];
+                            /** @default 1 */
+                            page: number;
+                            /** @default 15 */
+                            pageSize: number;
+                            stats?: {
+                                totalOfItems: number;
+                                totalOfDeliveredItems: number;
+                                totalOfOverdueItems: number;
+                                totalOfLists: number;
+                            };
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description GET /v1/dashboard/teammember Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  DeleteV1DashboardTeammember: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/teammember Parameter */
-        teamMemberId: string;
-        /** @description DELETE /v1/dashboard/teammember Parameter */
-        teamId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/teammember Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+            /** @description GET /v1/dashboard/list Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description DELETE /v1/dashboard/teammember Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  HeadV1DashboardTeammember: {
-    parameters: {
-      query: {
-        /** @description HEAD /v1/dashboard/teammember Parameter */
-        teamId: string;
-        /** @description HEAD /v1/dashboard/teammember Parameter */
-        page?: number;
-        /** @description HEAD /v1/dashboard/teammember Parameter */
-        pageSize?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/teammember Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    PostV1DashboardList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/teammember Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PatchV1DashboardTeammember: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description PATCH /v1/dashboard/teammember Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          teamId: string;
-          teamMemberId: string;
-          permissions: (
-            | "LIST_CREATE"
-            | "LIST_RENAME"
-            | "LIST_DELETE"
-            | "ITEM_CREATE"
-            | "ITEM_UPDATE"
-            | "ITEM_DELETE"
-            | "TEAM_RENAME"
-            | "TEAM_DELETE"
-            | "TEAM_MEMBER_CREATE"
-            | "TEAM_MEMBER_DELETE"
-            | "TEAM_MEMBER_RIGHTS"
-            | "TEAM_STORAGE_ADD"
-            | "TEAM_STORAGE_UPDATE"
-            | "TEAM_STORAGE_DELETE"
-            | "TEAM_PUBLIC_LINK_CREATE"
-            | "TEAM_PUBLIC_LINK_DELETE"
-          )[];
-        };
-      };
-    };
-    responses: {
-      /** @description PATCH /v1/dashboard/teammember Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              data: null | {
-                permissions: {
-                  /** Format: uuid */
-                  teamMemberId: string;
-                  /** @enum {string} */
-                  permission:
-                    | "LIST_CREATE"
-                    | "LIST_RENAME"
-                    | "LIST_DELETE"
-                    | "ITEM_CREATE"
-                    | "ITEM_UPDATE"
-                    | "ITEM_DELETE"
-                    | "TEAM_RENAME"
-                    | "TEAM_DELETE"
-                    | "TEAM_MEMBER_CREATE"
-                    | "TEAM_MEMBER_DELETE"
-                    | "TEAM_MEMBER_RIGHTS"
-                    | "TEAM_STORAGE_ADD"
-                    | "TEAM_STORAGE_UPDATE"
-                    | "TEAM_STORAGE_DELETE"
-                    | "TEAM_PUBLIC_LINK_CREATE"
-                    | "TEAM_PUBLIC_LINK_DELETE";
-                }[];
-                userId: string;
-                createdAt: unknown;
-                /** Format: uuid */
-                id: string;
-                createdBy: string;
-                /** Format: uuid */
-                teamId: string;
-              };
+        /** @description POST /v1/dashboard/list Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    title: string;
+                    teamId?: string;
+                };
             };
-          };
         };
-      };
-      /** @description PATCH /v1/dashboard/teammember Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  GetV1DashboardStorage: {
-    parameters: {
-      query?: {
-        /** @description GET /v1/dashboard/storage Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/storage Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              id: string | null;
-              /** @enum {string|null} */
-              type: "dropbox" | null;
-              displayName: string | null;
-              /** @default / */
-              storagePath: string | null;
+        responses: {
+            /** @description POST /v1/dashboard/list Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            id: string;
+                            title: string;
+                            userId: string;
+                            /** Format: uuid */
+                            teamId?: string;
+                            teamName?: string;
+                            stats?: {
+                                totalItems: number;
+                                totalDeliveredItems: number;
+                                totalOverdueItems: number;
+                                totalComments: number;
+                            };
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description GET /v1/dashboard/storage Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  DeleteV1DashboardStorage: {
-    parameters: {
-      query: {
-        /** @description DELETE /v1/dashboard/storage Parameter */
-        storageId: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description DELETE /v1/dashboard/storage Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+            /** @description POST /v1/dashboard/list Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description DELETE /v1/dashboard/storage Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  HeadV1DashboardStorage: {
-    parameters: {
-      query?: {
-        /** @description HEAD /v1/dashboard/storage Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/storage Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/storage Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PatchV1DashboardStorage: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description PATCH /v1/dashboard/storage Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          storageId: string;
-          /** @default / */
-          storagePath?: string;
-        };
-      };
-    };
-    responses: {
-      /** @description PATCH /v1/dashboard/storage Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              id: string | null;
-              /** @enum {string|null} */
-              type: "dropbox" | null;
-              displayName: string | null;
-              /** @default / */
-              storagePath: string | null;
+    DeleteV1DashboardList: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/list Parameter */
+                listId: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description PATCH /v1/dashboard/storage Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  GetV1DashboardDropboxStart: {
-    parameters: {
-      query?: {
-        /** @description GET /v1/dashboard/dropbox/start Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/dropbox/start Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uri */
-              url: string;
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/list Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
             };
-          };
-        };
-      };
-      /** @description GET /v1/dashboard/dropbox/start Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1DashboardDropboxStart: {
-    parameters: {
-      query?: {
-        /** @description HEAD /v1/dashboard/dropbox/start Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/dropbox/start Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/dropbox/start Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  GetV1DashboardDropboxCallback: {
-    parameters: {
-      query: {
-        /** @description GET /v1/dashboard/dropbox/callback Parameter */
-        code: string;
-        /** @description GET /v1/dashboard/dropbox/callback Parameter */
-        state: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/dropbox/callback Positive response */
-      302: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description GET /v1/dashboard/dropbox/callback Negative response */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            error: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1DashboardDropboxCallback: {
-    parameters: {
-      query: {
-        /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
-        code: string;
-        /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
-        state: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/dropbox/callback Positive response */
-      302: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/dropbox/callback Negative response */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  GetV1DashboardDropboxBrowse: {
-    parameters: {
-      query?: {
-        /** @description GET /v1/dashboard/dropbox/browse Parameter */
-        path?: string;
-        /** @description GET /v1/dashboard/dropbox/browse Parameter */
-        cursor?: string;
-        /** @description GET /v1/dashboard/dropbox/browse Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/dashboard/dropbox/browse Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              entries: unknown[];
-              cursor?: string;
-              has_more: boolean;
+            /** @description DELETE /v1/dashboard/list Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
             };
-          };
         };
-      };
-      /** @description GET /v1/dashboard/dropbox/browse Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  HeadV1DashboardDropboxBrowse: {
-    parameters: {
-      query?: {
-        /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
-        path?: string;
-        /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
-        cursor?: string;
-        /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
-        teamId?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/dashboard/dropbox/browse Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/dashboard/dropbox/browse Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  PostV1PublicActionMarkDelivered: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/public/action/markDelivered Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          token: string;
-          itemId: string;
-          delivered: boolean;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/public/action/markDelivered Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+    HeadV1DashboardList: {
+        parameters: {
+            query?: {
+                /** @description HEAD /v1/dashboard/list Parameter */
+                page?: number;
+                /** @description HEAD /v1/dashboard/list Parameter */
+                pageSize?: number;
+                /** @description HEAD /v1/dashboard/list Parameter */
+                teamId?: string;
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description POST /v1/public/action/markDelivered Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1PublicActionAddComment: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/public/action/addComment Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          token: string;
-          itemId: string;
-          comment: string | null;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/public/action/addComment Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/list Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
-          };
-        };
-      };
-      /** @description POST /v1/public/action/addComment Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1PublicActionUploadUrl: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/public/action/uploadUrl Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          token: string;
-          listId: string;
-          itemId: string;
-          fileName: string;
-          fileSize: number;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/public/action/uploadUrl Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uri */
-              uploadUrl: string;
-              fileName: string;
+            /** @description HEAD /v1/dashboard/list Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
-          };
         };
-      };
-      /** @description POST /v1/public/action/uploadUrl Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  PostV1PublicActionAddUploadedFile: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/public/action/addUploadedFile Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          token: string;
-          itemId: string;
-          fileName: string;
+    PatchV1DashboardList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-    responses: {
-      /** @description POST /v1/public/action/addUploadedFile Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+        /** @description PATCH /v1/dashboard/list Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    title: string;
+                    teamId?: string;
+                    listId: string;
+                };
             };
-          };
         };
-      };
-      /** @description POST /v1/public/action/addUploadedFile Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  PostV1PublicAuth: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description POST /v1/public/auth Request body */
-    requestBody: {
-      content: {
-        "application/json": {
-          token: string;
-          password: string;
-        };
-      };
-    };
-    responses: {
-      /** @description POST /v1/public/auth Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              success: boolean;
+        responses: {
+            /** @description PATCH /v1/dashboard/list Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            id: string;
+                            title: string;
+                            userId: string;
+                            /** Format: uuid */
+                            teamId?: string;
+                            teamName?: string;
+                            stats?: {
+                                totalItems: number;
+                                totalDeliveredItems: number;
+                                totalOverdueItems: number;
+                                totalComments: number;
+                            };
+                        };
+                    };
+                };
             };
-          };
+            /** @description PATCH /v1/dashboard/list Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
         };
-      };
-      /** @description POST /v1/public/auth Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  GetV1PublicItems: {
-    parameters: {
-      query: {
-        /** @description GET /v1/public/items Parameter */
-        token: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/public/items Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    GetV1DashboardListDetails: {
+        parameters: {
+            query: {
+                /** @description GET /v1/dashboard/listDetails Parameter */
+                listId: string;
+                /** @description GET /v1/dashboard/listDetails Parameter */
+                page?: number;
+                /** @description GET /v1/dashboard/listDetails Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              /** Format: uuid */
-              listId: string;
-              title: string;
-              items: {
-                /** Format: uuid */
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/listDetails Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            title: string;
+                            /** Format: uuid */
+                            teamId: string | null;
+                            items: {
+                                /** Format: uuid */
+                                itemId: string | null;
+                                itemnumber: number;
+                                /** Format: uuid */
+                                listId: string | null;
+                                description: string;
+                                uploadedFiles: string[];
+                                comment?: string | null;
+                                /** @enum {string} */
+                                status: "published" | "draft";
+                                delivered: boolean;
+                                deadline: unknown;
+                                createdAt: unknown;
+                                createdBy: string;
+                                updatedAt: unknown;
+                            }[];
+                            totalItems: number;
+                            /** @default 1 */
+                            page: number;
+                            /** @default 15 */
+                            pageSize: number;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/listDetails Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1DashboardListDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/dashboard/listDetails Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    listId: string;
+                    description: string;
+                    itemnumber: number;
+                    /** Format: date-time */
+                    deadline?: string;
+                    /** @enum {string} */
+                    status: "published" | "draft";
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/dashboard/listDetails Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            itemId: string;
+                            itemnumber: number;
+                            /** Format: uuid */
+                            listId: string;
+                            description: string;
+                            uploadedFiles: string[];
+                            comment?: string | null;
+                            /** @enum {string} */
+                            status: "published" | "draft";
+                            delivered: boolean;
+                            deadline: unknown;
+                            createdAt: unknown;
+                            createdBy: string;
+                            updatedAt: unknown;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/dashboard/listDetails Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    DeleteV1DashboardListDetails: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/listDetails Parameter */
                 itemId: string;
-                itemnumber: number;
-                description: string;
-                uploadedFiles: string[];
-                comment: string | null;
-                /** @enum {string} */
-                status: "published" | "draft";
-                delivered: boolean;
-                deadline: unknown;
-                createdBy: string;
-              }[];
             };
-          };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description GET /v1/public/items Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
-    };
-  };
-  HeadV1PublicItems: {
-    parameters: {
-      query: {
-        /** @description HEAD /v1/public/items Parameter */
-        token: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/public/items Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description HEAD /v1/public/items Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  GetV1Health: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description GET /v1/health Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: true;
-            data: {
-              ok: boolean;
-              loki: boolean;
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/listDetails Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
             };
-          };
+            /** @description DELETE /v1/dashboard/listDetails Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
         };
-      };
-      /** @description GET /v1/health Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            /** @constant */
-            success: false;
-            statusCode: number;
-            message: string;
-          };
-        };
-      };
     };
-  };
-  HeadV1Health: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description HEAD /v1/health Positive response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    HeadV1DashboardListDetails: {
+        parameters: {
+            query: {
+                /** @description HEAD /v1/dashboard/listDetails Parameter */
+                listId: string;
+                /** @description HEAD /v1/dashboard/listDetails Parameter */
+                page?: number;
+                /** @description HEAD /v1/dashboard/listDetails Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content?: never;
-      };
-      /** @description HEAD /v1/health Negative response */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/listDetails Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/listDetails Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-        content?: never;
-      };
     };
-  };
+    PatchV1DashboardListDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description PATCH /v1/dashboard/listDetails Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    itemId: string;
+                    description?: string;
+                    itemnumber?: number;
+                    deadline?: string;
+                    delivered?: boolean;
+                    /** @enum {string} */
+                    status?: "published" | "draft";
+                };
+            };
+        };
+        responses: {
+            /** @description PATCH /v1/dashboard/listDetails Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            itemId: string;
+                            itemnumber: number;
+                            /** Format: uuid */
+                            listId: string;
+                            description: string;
+                            uploadedFiles: string[];
+                            comment?: string | null;
+                            /** @enum {string} */
+                            status: "published" | "draft";
+                            delivered: boolean;
+                            deadline: unknown;
+                            createdAt: unknown;
+                            createdBy: string;
+                            updatedAt: unknown;
+                        };
+                    };
+                };
+            };
+            /** @description PATCH /v1/dashboard/listDetails Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    GetV1DashboardTeam: {
+        parameters: {
+            query?: {
+                /** @description GET /v1/dashboard/team Parameter */
+                page?: number;
+                /** @description GET /v1/dashboard/team Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/team Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            items: {
+                                /** Format: uuid */
+                                teamId: string;
+                                title: string;
+                                createdAt: unknown;
+                                members?: {
+                                    userId: string;
+                                }[];
+                            }[];
+                            /** @default 1 */
+                            page: number;
+                            /** @default 15 */
+                            pageSize: number;
+                            total: number;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/team Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1DashboardTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/dashboard/team Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    title: string;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/dashboard/team Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            teamId: string;
+                            title: string;
+                            createdAt: unknown;
+                            members?: {
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/dashboard/team Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    DeleteV1DashboardTeam: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/team Parameter */
+                teamId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/team Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description DELETE /v1/dashboard/team Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardTeam: {
+        parameters: {
+            query?: {
+                /** @description HEAD /v1/dashboard/team Parameter */
+                page?: number;
+                /** @description HEAD /v1/dashboard/team Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/team Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/team Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PatchV1DashboardTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description PATCH /v1/dashboard/team Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    teamId: string;
+                    title: string;
+                };
+            };
+        };
+        responses: {
+            /** @description PATCH /v1/dashboard/team Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            teamId: string;
+                            title: string;
+                            createdAt: unknown;
+                            members?: {
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+            /** @description PATCH /v1/dashboard/team Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    GetV1DashboardTeammember: {
+        parameters: {
+            query: {
+                /** @description GET /v1/dashboard/teammember Parameter */
+                teamId: string;
+                /** @description GET /v1/dashboard/teammember Parameter */
+                page?: number;
+                /** @description GET /v1/dashboard/teammember Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/teammember Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            items: {
+                                /** Format: uuid */
+                                teamMemberId: string;
+                                userId: string;
+                                createdAt: unknown;
+                                createdBy: string;
+                                currentMember: boolean;
+                                permissions: {
+                                    /** Format: uuid */
+                                    teamMemberId: string;
+                                    /** @enum {string} */
+                                    permission: "LIST_CREATE" | "LIST_RENAME" | "LIST_DELETE" | "ITEM_CREATE" | "ITEM_UPDATE" | "ITEM_DELETE" | "TEAM_RENAME" | "TEAM_DELETE" | "TEAM_MEMBER_CREATE" | "TEAM_MEMBER_DELETE" | "TEAM_MEMBER_RIGHTS" | "TEAM_STORAGE_ADD" | "TEAM_STORAGE_UPDATE" | "TEAM_STORAGE_DELETE" | "TEAM_PUBLIC_LINK_CREATE" | "TEAM_PUBLIC_LINK_DELETE";
+                                }[];
+                            }[];
+                            /** @default 1 */
+                            page: number;
+                            /** @default 15 */
+                            pageSize: number;
+                            total: number;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/teammember Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    DeleteV1DashboardTeammember: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/teammember Parameter */
+                teamMemberId: string;
+                /** @description DELETE /v1/dashboard/teammember Parameter */
+                teamId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/teammember Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description DELETE /v1/dashboard/teammember Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardTeammember: {
+        parameters: {
+            query: {
+                /** @description HEAD /v1/dashboard/teammember Parameter */
+                teamId: string;
+                /** @description HEAD /v1/dashboard/teammember Parameter */
+                page?: number;
+                /** @description HEAD /v1/dashboard/teammember Parameter */
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/teammember Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/teammember Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PatchV1DashboardTeammember: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description PATCH /v1/dashboard/teammember Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    teamId: string;
+                    teamMemberId: string;
+                    permissions: ("LIST_CREATE" | "LIST_RENAME" | "LIST_DELETE" | "ITEM_CREATE" | "ITEM_UPDATE" | "ITEM_DELETE" | "TEAM_RENAME" | "TEAM_DELETE" | "TEAM_MEMBER_CREATE" | "TEAM_MEMBER_DELETE" | "TEAM_MEMBER_RIGHTS" | "TEAM_STORAGE_ADD" | "TEAM_STORAGE_UPDATE" | "TEAM_STORAGE_DELETE" | "TEAM_PUBLIC_LINK_CREATE" | "TEAM_PUBLIC_LINK_DELETE")[];
+                };
+            };
+        };
+        responses: {
+            /** @description PATCH /v1/dashboard/teammember Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            data: null | {
+                                permissions: {
+                                    /** Format: uuid */
+                                    teamMemberId: string;
+                                    /** @enum {string} */
+                                    permission: "LIST_CREATE" | "LIST_RENAME" | "LIST_DELETE" | "ITEM_CREATE" | "ITEM_UPDATE" | "ITEM_DELETE" | "TEAM_RENAME" | "TEAM_DELETE" | "TEAM_MEMBER_CREATE" | "TEAM_MEMBER_DELETE" | "TEAM_MEMBER_RIGHTS" | "TEAM_STORAGE_ADD" | "TEAM_STORAGE_UPDATE" | "TEAM_STORAGE_DELETE" | "TEAM_PUBLIC_LINK_CREATE" | "TEAM_PUBLIC_LINK_DELETE";
+                                }[];
+                                userId: string;
+                                createdAt: unknown;
+                                /** Format: uuid */
+                                id: string;
+                                createdBy: string;
+                                /** Format: uuid */
+                                teamId: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description PATCH /v1/dashboard/teammember Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    GetV1DashboardStorage: {
+        parameters: {
+            query?: {
+                /** @description GET /v1/dashboard/storage Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/storage Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            id: string | null;
+                            /** @enum {string|null} */
+                            type: "dropbox" | null;
+                            displayName: string | null;
+                            /** @default / */
+                            storagePath: string | null;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/storage Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    DeleteV1DashboardStorage: {
+        parameters: {
+            query: {
+                /** @description DELETE /v1/dashboard/storage Parameter */
+                storageId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description DELETE /v1/dashboard/storage Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description DELETE /v1/dashboard/storage Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardStorage: {
+        parameters: {
+            query?: {
+                /** @description HEAD /v1/dashboard/storage Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/storage Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/storage Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PatchV1DashboardStorage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description PATCH /v1/dashboard/storage Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    storageId: string;
+                    /** @default / */
+                    storagePath?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description PATCH /v1/dashboard/storage Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            id: string | null;
+                            /** @enum {string|null} */
+                            type: "dropbox" | null;
+                            displayName: string | null;
+                            /** @default / */
+                            storagePath: string | null;
+                        };
+                    };
+                };
+            };
+            /** @description PATCH /v1/dashboard/storage Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    GetV1DashboardDropboxStart: {
+        parameters: {
+            query?: {
+                /** @description GET /v1/dashboard/dropbox/start Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/dropbox/start Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uri */
+                            url: string;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/dropbox/start Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardDropboxStart: {
+        parameters: {
+            query?: {
+                /** @description HEAD /v1/dashboard/dropbox/start Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/dropbox/start Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/dropbox/start Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    GetV1DashboardDropboxCallback: {
+        parameters: {
+            query: {
+                /** @description GET /v1/dashboard/dropbox/callback Parameter */
+                code: string;
+                /** @description GET /v1/dashboard/dropbox/callback Parameter */
+                state: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/dropbox/callback Positive response */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description GET /v1/dashboard/dropbox/callback Negative response */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardDropboxCallback: {
+        parameters: {
+            query: {
+                /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
+                code: string;
+                /** @description HEAD /v1/dashboard/dropbox/callback Parameter */
+                state: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/dropbox/callback Positive response */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/dropbox/callback Negative response */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    GetV1DashboardDropboxBrowse: {
+        parameters: {
+            query?: {
+                /** @description GET /v1/dashboard/dropbox/browse Parameter */
+                path?: string;
+                /** @description GET /v1/dashboard/dropbox/browse Parameter */
+                cursor?: string;
+                /** @description GET /v1/dashboard/dropbox/browse Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/dashboard/dropbox/browse Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            entries: unknown[];
+                            cursor?: string;
+                            has_more: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/dashboard/dropbox/browse Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1DashboardDropboxBrowse: {
+        parameters: {
+            query?: {
+                /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
+                path?: string;
+                /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
+                cursor?: string;
+                /** @description HEAD /v1/dashboard/dropbox/browse Parameter */
+                teamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/dashboard/dropbox/browse Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/dashboard/dropbox/browse Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PostV1PublicActionMarkDelivered: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/public/action/markDelivered Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    token: string;
+                    itemId: string;
+                    delivered: boolean;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/public/action/markDelivered Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/public/action/markDelivered Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1PublicActionAddComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/public/action/addComment Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    token: string;
+                    itemId: string;
+                    comment: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/public/action/addComment Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/public/action/addComment Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1PublicActionUploadUrl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/public/action/uploadUrl Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    token: string;
+                    listId: string;
+                    itemId: string;
+                    fileName: string;
+                    fileSize: number;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/public/action/uploadUrl Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uri */
+                            uploadUrl: string;
+                            fileName: string;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/public/action/uploadUrl Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1PublicActionAddUploadedFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/public/action/addUploadedFile Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    token: string;
+                    itemId: string;
+                    fileName: string;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/public/action/addUploadedFile Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/public/action/addUploadedFile Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    GetV1PublicAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/public/auth Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/public/auth Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1PublicAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/public/auth Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    token: string;
+                    password: string;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/public/auth Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            success: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/public/auth Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1PublicAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/public/auth Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/public/auth Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    GetV1PublicItems: {
+        parameters: {
+            query: {
+                /** @description GET /v1/public/items Parameter */
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/public/items Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** Format: uuid */
+                            listId: string;
+                            title: string;
+                            items: {
+                                /** Format: uuid */
+                                itemId: string;
+                                itemnumber: number;
+                                description: string;
+                                uploadedFiles: string[];
+                                comment: string | null;
+                                /** @enum {string} */
+                                status: "published" | "draft";
+                                delivered: boolean;
+                                deadline: unknown;
+                                createdBy: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/public/items Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1PublicItems: {
+        parameters: {
+            query: {
+                /** @description HEAD /v1/public/items Parameter */
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/public/items Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/public/items Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    GetV1Health: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GET /v1/health Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            ok: boolean;
+                            loki: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description GET /v1/health Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    HeadV1Health: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HEAD /v1/health Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description HEAD /v1/health Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }
