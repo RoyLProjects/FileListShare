@@ -15,6 +15,7 @@ import {
   uploadUrlResponseSchema,
 } from "../../schemas/public/actionSchema.js";
 import { getDropboxUploadLink } from "../../lib/dropboxUntils.js";
+import normalizeDropboxPath from "../../lib/normalizeDropboxPath.js";
 
 export class ActionService {
   static async markDelivered(
@@ -48,6 +49,8 @@ export class ActionService {
     logger.info("List item marked as delivered successfully");
     return { success: true };
   }
+
+  
   static async addComment(
     input: z.infer<typeof addCommentRequestSchema>,
     listId: string,
@@ -125,12 +128,14 @@ export class ActionService {
       throw new ConflictError("Unsupported storage type");
     }
 
-    const basePath = storage.storagePath || "";
+const now = new Date();
+const uploadDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
 
-    const now = new Date();
-    const uploadDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
-
-    let uploadPath = `${basePath}/${item.list.title}/${item.itemnumber} ${uploadDate} ${input.fileName}`;
+let uploadPath = normalizeDropboxPath(
+  storage.storagePath,
+  item.list.title,
+  `${item.itemnumber} ${uploadDate} ${input.fileName}`
+);
 
     if (uploadPath.length > 240) {
       // Calculate how much we need to trim from the filename
@@ -150,12 +155,16 @@ export class ActionService {
           fileNameWithoutExt.substring(0, maxFileNameLength) +
           "..." +
           fileExtension;
-        uploadPath = `${basePath}/${item.list.title}/${item.itemnumber} - ${uploadDate} ${trimmedFileName}`;
+        uploadPath = normalizeDropboxPath(
+  storage.storagePath,
+  item.list.title,
+  `${item.itemnumber} ${uploadDate} ${trimmedFileName}`
+);
       } else {
         // If still too long, trim from both list title and filename
         const maxTitleLength = Math.floor(
           (240 -
-            basePath.length -
+            (storage?.storagePath?.length || 0) -
             item.itemnumber.toString().length -
             uploadDate.length -
             fileExtension.length -
@@ -168,7 +177,11 @@ export class ActionService {
             : item.list.title;
         const trimmedFileName =
           fileNameWithoutExt.substring(0, 10) + "..." + fileExtension;
-        uploadPath = `${basePath}/${trimmedTitle}/${item.itemnumber} - ${uploadDate} ${trimmedFileName}`;
+        uploadPath = normalizeDropboxPath(
+  storage.storagePath,
+  trimmedTitle,
+  `${item.itemnumber} ${uploadDate} ${trimmedFileName}`
+);
       }
     }
 

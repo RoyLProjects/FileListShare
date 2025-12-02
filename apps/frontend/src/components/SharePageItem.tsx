@@ -4,12 +4,6 @@ import { Api } from "../apiClient/apiClient";
 import type { paths } from "@api-client/index";
 import getErrorMessage from "../lib/GetErrorMessage";
 
-type MarkDeliveredError =
-  paths["/v1/public/action/markDelivered"]["post"]["responses"]["400"]["content"]["application/json"];
-
-type AddCommentError =
-  paths["/v1/public/action/addComment"]["post"]["responses"]["400"]["content"]["application/json"];
-
 type UploadUrlResponse =
   paths["/v1/public/action/uploadUrl"]["post"]["responses"]["200"]["content"]["application/json"];
 
@@ -111,6 +105,7 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
     onError: (err) => {
       setActionError(getErrorMessage(err) || "Failed to update item");
       console.error("Mark delivered error:", err);
+      queryClient.invalidateQueries({ queryKey: ["publicAuth", token] });
     },
   });
 
@@ -167,6 +162,7 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
     onError: (err) => {
       setActionError(getErrorMessage(err) || "Failed to add comment");
       console.error("Add comment error:", err);
+      queryClient.invalidateQueries({ queryKey: ["publicAuth", token] });
     },
   });
 
@@ -266,9 +262,31 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
           );
         }
 
-        onItemUpdate(item.id, {
-          uploadedFiles: [...item.uploadedFiles, file.name],
-        });
+        queryClient.setQueryData(["publicItems", token], (oldData: any) => {
+        const newFile = file.name; 
+        if (!oldData) return oldData;
+        if (oldData.success === true) {
+          const updatedItems = oldData.data.items.map((item: ApiItem) => {
+            if (item.itemId === itemId) {
+              return {
+                ...item,
+                uploadedFiles: [...item.uploadedFiles, newFile],
+              };
+            }
+            return item;
+          });
+
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              items: updatedItems,
+            },
+          };
+        }
+
+        return oldData;
+      });
 
         successCount++;
         setUploadProgress((prev) => ({ ...prev, [file.name]: 100 }));
