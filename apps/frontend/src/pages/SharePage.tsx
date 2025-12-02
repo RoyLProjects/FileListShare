@@ -9,9 +9,6 @@ import getErrorMessage from "../lib/GetErrorMessage";
 type GetPublicItemsResponse =
   paths["/v1/public/items"]["get"]["responses"]["200"]["content"]["application/json"];
 
-type PostAuthError =
-  paths["/v1/public/auth"]["post"]["responses"]["400"]["content"]["application/json"];
-
 type ApiItem = GetPublicItemsResponse["data"]["items"][number];
 
 export type PublicListItem = ApiItem & {
@@ -29,7 +26,7 @@ const SharePage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-const { data: sessionData, isLoading: isSessionLoading } = useQuery({
+const { data: sessionData, isLoading: isSessionLoading, error: sessionError } = useQuery({
   queryKey: ["publicAuth", token],
   enabled: !!token,
   retry: false,
@@ -109,7 +106,8 @@ const loading = isSessionLoading || isItemsLoading;
     authMutation.mutate(password);
   };
 
-  if (loading) {
+  // Show loading only during initial session check
+  if (isSessionLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
@@ -120,7 +118,8 @@ const loading = isSessionLoading || isItemsLoading;
     );
   }
 
-  if (!isAuthenticated) {
+  // Show password form if not authenticated (either no session or session error)
+  if (!isAuthenticated || sessionError) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-8">
@@ -208,6 +207,18 @@ const loading = isSessionLoading || isItemsLoading;
           <p className="text-gray-600 dark:text-gray-400">
             Please check the link and try again.
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show loading while fetching items after authentication
+  if (isItemsLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading list...</p>
         </div>
       </div>
     );
