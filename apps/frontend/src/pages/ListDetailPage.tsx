@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Api } from "../apiClient/apiClient";
@@ -6,6 +6,7 @@ import ListDetailItem from "../components/ListDetailItem";
 import CreateRequestPopup from "../components/CreateRequestPopup";
 import TeamMembersSection from "../components/TeamMembersSection";
 import ListQuickActionsSection from "../components/ListQuickActionsSection";
+import { DeleteConfirmModal } from "../components/DeleteConfirm";
 
 const uuidV4Regex =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -14,8 +15,11 @@ const ListDetailPage: React.FC = () => {
   const { listId } = useParams<{ listId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const [isCreateRequestPopupOpen, setIsCreateRequestPopupOpen] =
     useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [pageSize, setPageSize] = useState(15);
   const [page, setPage] = useState(1);
 
@@ -83,6 +87,35 @@ const ListDetailPage: React.FC = () => {
   const handleCreateRequest = () => {
     if (!listId) return;
     setIsCreateRequestPopupOpen(true);
+  };
+
+  const handleDeleteList = async () => {
+    if (!listId) return;
+    setIsDeleting(true);
+    try {
+      const { error } = await Api.DELETE("/v1/dashboard/list", {
+        params: { query: { listId: listId } },
+      });
+
+      if (error) {
+        console.error("Failed to delete list:", error);
+        alert("Failed to delete list. Please try again.");
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["lists"] });
+        // Navigate back to dashboard
+        if (currentTeamId) {
+          navigate(`/dashboard/team/${currentTeamId}`, { replace: true });
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
+      }
+    } catch (error) {
+      console.error("Failed to delete list:", error);
+      alert("Failed to delete list. Please try again.");
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+    }
   };
 
   const totalItems = () => {
@@ -313,8 +346,33 @@ const ListDetailPage: React.FC = () => {
               {currentTeamId && (
                 <>
                   <TeamMembersSection teamId={currentTeamId} />
+                  
                 </>
               )}
+              <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
+                    <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                      Danger Zone
+                    </h3>
+                    <button
+                      onClick={() => setIsDeleteModalOpen(true)}
+                      className="w-full px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors font-medium flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Delete List
+                    </button>
+                  </div>
             </div>
           </div>
         </div>
@@ -325,6 +383,18 @@ const ListDetailPage: React.FC = () => {
           onClose={() => setIsCreateRequestPopupOpen(false)}
           listId={listId}
           teamId={currentTeamId || undefined}
+        />
+      )}
+      
+      {title && (
+        <DeleteConfirmModal
+          open={isDeleteModalOpen}
+          title="Delete List"
+          entityLabel="list"
+          entityName={title}
+          isSaving={isDeleting}
+          onConfirm={handleDeleteList}
+          onCancel={() => setIsDeleteModalOpen(false)}
         />
       )}
     </>
