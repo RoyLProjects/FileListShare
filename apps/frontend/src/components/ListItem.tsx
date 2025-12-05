@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { paths } from "@api-client/api.gen";
 import LinkSharePopup from "./LinkSharePopup";
+import { DeleteConfirmModal } from "./DeleteConfirm";
+import { Api } from "../apiClient/apiClient";
+import { useQueryClient } from "@tanstack/react-query";
 
 type DashboardListResponse =
   paths["/v1/dashboard/list"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["Items"][number];
@@ -12,8 +15,11 @@ const ListItem: React.FC<{ list: DashboardListResponse; teamId?: string }> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Transform list data
   const allDelivered =
@@ -58,6 +64,28 @@ const ListItem: React.FC<{ list: DashboardListResponse; teamId?: string }> = ({
   const handleShareLink = () => {
     setIsSharePopupOpen(true);
     setIsMenuOpen(false);
+  };
+
+  const handleDeleteList = async () => {
+    setIsDeleting(true);
+    try {
+      const { error } = await Api.DELETE("/v1/dashboard/list", {
+        params: { query: { listId: list.id } },
+      });
+
+      if (error) {
+        console.error("Failed to delete list:", error);
+        alert("Failed to delete list. Please try again.");
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["lists"] });
+      }
+    } catch (error) {
+      console.error("Failed to delete list:", error);
+      alert("Failed to delete list. Please try again.");
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+    }
   };
 
   const getStatusStyles = () => {
@@ -211,6 +239,28 @@ const ListItem: React.FC<{ list: DashboardListResponse; teamId?: string }> = ({
                   </svg>
                   Share Link
                 </button>
+                <button
+                  onClick={() => {
+                    setIsDeleteModalOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                  Delete List
+                </button>
               </div>
             </div>
           )}
@@ -223,6 +273,17 @@ const ListItem: React.FC<{ list: DashboardListResponse; teamId?: string }> = ({
         isOpen={isSharePopupOpen}
         onClose={() => setIsSharePopupOpen(false)}
         teamId={teamId}
+      />
+
+      {/* Delete Confirm Modal */}
+      <DeleteConfirmModal
+        open={isDeleteModalOpen}
+        title="Delete List"
+        entityLabel="list"
+        entityName={title}
+        isSaving={isDeleting}
+        onConfirm={handleDeleteList}
+        onCancel={() => setIsDeleteModalOpen(false)}
       />
     </div>
   );
