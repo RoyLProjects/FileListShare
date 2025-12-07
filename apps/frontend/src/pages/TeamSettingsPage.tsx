@@ -369,6 +369,27 @@ const TeamSettingsPage: React.FC = () => {
     },
   });
 
+  const handleAddNewMember = useMutation<unknown, unknown>({
+    mutationFn: async () => {
+      const { data, error } = await Api.POST("/v1/dashboard/teamInvite", {
+        body: { teamId: teamId!, email: newMemberUserId },
+      });
+
+      if (error) throw error;
+
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: teamMemberQueryKey });
+      setShowAddMember(false);
+      setNewMemberUserId("");
+    },
+    onError: (err: unknown) => {
+      console.error("Failed to add new member:", err);
+      setErrorMessage(getErrorMessage(err) || "Failed to add new member");
+    },
+  });
+
   const handleDeleteStorage = useMutation<
     unknown,
     unknown,
@@ -632,7 +653,10 @@ const TeamSettingsPage: React.FC = () => {
                 </div>
 
                 <div className="flex gap-2 pt-2">
-                  <button className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg">
+                  <button className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg"
+                    onClick={() => handleAddNewMember.mutate()}
+                    disabled={!newMemberUserId.trim() || loading}
+                  >
                     Add Member
                   </button>
                   <button
