@@ -1,5 +1,5 @@
 // auth.ts
-import { betterAuth } from "better-auth";
+import { betterAuth, logger } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { getAppPrismaClient, getAuthPrismaClient } from "./db.js";
 import { getRedisClient } from "./redis.js";
@@ -44,52 +44,60 @@ export const auth = betterAuth({
     },
     account: {
       create: {
+        before: async (account) => {
+            if (account.refreshToken) {
+              account.refreshToken = encryptRefreshToken(account.refreshToken);
+            }
+        },
         after: async (account) => {
-          if (account.providerId !== "dropbox") return;
+          if (account.providerId !== "dropbox") {
+            logger.warn(`Unsupported providerId ${account.providerId} in account create hook`);
+            return;
+          } 
 
-          if (!account.refreshToken) return;
-          const encryptedRefreshToken = encryptRefreshToken(
-            account.refreshToken,
-          );
+          if (!account.refreshToken) {
+            logger.error("No refresh token received from Dropbox! This means the OAuth flow did not request offline access properly.");
+            return;
+          }
 
           const appPrisma = getAppPrismaClient();
           await appPrisma.storage.upsert({
             where: { userId: account.userId },
             create: {
               type: "dropbox",
-              displayName: `Dropbox (${account.idToken})`,
-              refreshToken: encryptedRefreshToken,
+              displayName: `Dropbox (${account.accountId})`,
+              refreshToken: account.refreshToken,
               userId: account.userId,
+              storagePath: "/FileListShare",
             },
             update: {
-              displayName: `Dropbox (${account.idToken})`,
-              refreshToken: encryptedRefreshToken,
+              displayName: `Dropbox (${account.accountId})`,
+              refreshToken: account.refreshToken,
             },
           });
+          
+          logger.info("Successfully stored Dropbox refresh token for user:", account.userId);
         },
       },
       update: {
-        // optioneel: tokens updaten als Better Auth ze vernieuwt
         after: async (account) => {
           if (account.providerId !== "dropbox") return;
 
           if (!account.refreshToken) return;
-          const encryptedRefreshToken = encryptRefreshToken(
-            account.refreshToken,
-          );
 
           const appPrisma = getAppPrismaClient();
           await appPrisma.storage.upsert({
             where: { userId: account.userId },
             create: {
               type: "dropbox",
-              displayName: `Dropbox (${account.idToken})`,
-              refreshToken: encryptedRefreshToken,
+              displayName: `Dropbox (${account.accountId})`,
+              refreshToken: account.refreshToken,
               userId: account.userId,
+              storagePath: "/FileListShare",
             },
             update: {
-              displayName: `Dropbox (${account.idToken})`,
-              refreshToken: encryptedRefreshToken,
+              displayName: `Dropbox (${account.accountId})`,
+              refreshToken: account.refreshToken,
             },
           });
         },
@@ -99,9 +107,9 @@ export const auth = betterAuth({
 
   rateLimit: {
     enabled: true,
-    window: 60, // tijdsvenster in seconden
-    max: 100, // maximum aantal verzoeken in dat venster
-    storage: "secondary-storage", // of "redis"/"database" – zie hieronder
+    window: 60, 
+    max: 100, 
+    storage: "secondary-storage", 
     customRules: {
       "/sign-in/email": {
         window: 10,
@@ -111,10 +119,10 @@ export const auth = betterAuth({
         window: 60,
         max: 10,
       },
-      // --- REGISTER ---
+      
       "/sign-up/email": {
-        window: 300, // 5 minuten
-        max: 3, // max 3 registraties per IP per 5 min
+        window: 300, 
+        max: 3, 
       },
     },
   },
@@ -161,10 +169,9 @@ export const auth = betterAuth({
         "files.content.write",
         "files.content.read",
       ],
-      authorizationParams: {
-        token_access_type: "offline",
-        force_reapprove: "true",
-      },
+      token_access_type: "offline",
+      accessType: "offline",
+      force_reapprove: true,
     },
   },
 });

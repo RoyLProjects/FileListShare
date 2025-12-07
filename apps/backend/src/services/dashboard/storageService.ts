@@ -46,7 +46,7 @@ export class StorageService {
       id: storages.id,
       type: storages.type,
       displayName: storages.displayName,
-      storagePath: storages.storagePath ?? "",
+      storagePath: storages.storagePath ?? "/",
     };
 
     logger.info("Storage list served successfully");
@@ -123,7 +123,7 @@ export class StorageService {
       id: updated.id,
       type: updated.type,
       displayName: updated.displayName,
-      storagePath: updated.storagePath ?? "",
+      storagePath: updated.storagePath ?? "/",
     };
 
     return item;
