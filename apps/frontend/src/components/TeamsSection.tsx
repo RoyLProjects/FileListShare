@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../apiClient/apiClient";
 import TeamItem from "./TeamItem";
+import { getInitials } from "../lib/UserUntils";
 
 const TeamsSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,16 +41,6 @@ const TeamsSection: React.FC = () => {
     const size = pageSize || 1;
     const total = Math.ceil(totalItems() / size);
     return Math.max(1, total);
-  };
-
-  // Calculate paginated items
-
-  const getInitials = (name: string) => {
-    const words = name.split(" ");
-    if (words.length > 1) {
-      return words[0][0] + words[1][0];
-    }
-    return name.substring(0, 2);
   };
 
   const handlePageChange = (page: number) => {

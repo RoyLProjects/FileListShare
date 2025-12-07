@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { authClient } from "../apiClient/authClient";
+import { getInitials } from "../lib/UserUntils";
 
 interface UserMenuProps {
   userName?: string;
@@ -36,22 +37,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userEmail }) => {
     }
   };
 
-  // Get initials from name or email
-  const getInitials = () => {
-    if (userName) {
-      return userName
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2);
-    }
-    if (userEmail) {
-      return userEmail.slice(0, 2).toUpperCase();
-    }
-    return "U";
-  };
-
   return (
     <div className="relative" ref={menuRef}>
       {/* User Avatar Button */}
@@ -61,7 +46,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userEmail }) => {
         aria-label="User menu"
         aria-expanded={isOpen}
       >
-        <span className="text-sm">{getInitials()}</span>
+        <span className="text-sm">{getInitials(userName as string)}</span>
       </button>
 
       {/* Dropdown Menu */}
@@ -71,7 +56,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userEmail }) => {
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 dark:bg-blue-500 text-white font-semibold">
-                <span className="text-sm">{getInitials()}</span>
+                <span className="text-sm">{getInitials(userName as string)}</span>
               </div>
               <div className="flex-1 min-w-0">
                 {userName && (

@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Api } from "../apiClient/apiClient";
+import { useAuth } from "../hooks/User";
+import { getDisplayName, getInitials } from "../lib/UserUntils";
 
 interface TeamMembersSectionProps {
   teamId: string;
 }
 
 const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
+  const session = useAuth();
   if (!teamId) {
     return (
       <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
@@ -51,29 +54,6 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
   const members = team?.members ?? [];
   const loading = teamsLoading || teamsFetching;
 
-const getInitials = (userName: string) => {
-  const namePart = userName.trim(); 
-  const parts = namePart.split(" ").filter(p => p.length > 0);
-
-  if (parts.length === 2) {
-    // Two words → take first letter of each
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-  }
-
-  // One word (or more than two words) → take first two letters
-  return namePart.substring(0, 2).toUpperCase();
-};
-
-
-
-  const getDisplayName = (userName: string) => {
-    // Format userName for display
-    const emailPart = userName.split("@")[0];
-    return emailPart
-      .split(".")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
 
   return (
     <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
@@ -96,7 +76,7 @@ const getInitials = (userName: string) => {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
-                  {getDisplayName(member.userName)}
+                  {getDisplayName(member.userName, session?.user?.name as string)}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400 truncate">
                   {member.userName}

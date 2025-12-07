@@ -7,6 +7,8 @@ import getErrorMessage from "../lib/GetErrorMessage";
 import ConfirmModal from "../components/ConfirmModal";
 import { DeleteConfirmModal } from "../components/DeleteConfirm";
 import StorageProviderSelector from "../components/StorageProviderSelector";
+import { getDisplayName, getInitials } from "../lib/UserUntils";
+import { useAuth } from "../hooks/User";
 
 const uuidV4Regex =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -39,6 +41,7 @@ type team =
   paths["/v1/dashboard/team"]["get"]["responses"]["200"]["content"]["application/json"]["data"]["items"][number];
 
 const TeamSettingsPage: React.FC = () => {
+  const session = useAuth();
   const navigate = useNavigate();
   const { teamId } = useParams<{ teamId: string }>();
   const [showAddMember, setShowAddMember] = useState(false);
@@ -162,19 +165,6 @@ const TeamSettingsPage: React.FC = () => {
       setTeamTitle(teamDetail.title);
     }
   }, [teamDetail]);
-
-const getInitials = (userName: string) => {
-  const namePart = userName.trim();              // remove accidental leading/trailing spaces
-  const parts = namePart.split(" ").filter(p => p.length > 0);
-
-  if (parts.length === 2) {
-    // Two words → take first letter of each
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-  }
-
-  // One word (or more than two words) → take first two letters
-  return namePart.substring(0, 2).toUpperCase();
-};
 
   const handleEditMemberPermissions = (member: TeamMember) => {
     setEditingMemberId(member.userName);
@@ -693,7 +683,7 @@ const getInitials = (userName: string) => {
 
                       <div>
                         <p className="font-medium text-neutral-900 dark:text-neutral-100">
-                          {member.userName}
+                          {getDisplayName(member.userName, session?.user?.name as string)}
                         </p>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
                           {member.permissions.length} permissions
