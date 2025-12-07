@@ -16,7 +16,7 @@ const Login: React.FC = () => {
         {
           provider: "dropbox",
           callbackURL: env.FRONTEND_URL + "/dashboard",
-          newUserCallbackURL: env.FRONTEND_URL + "/dashboard/settings",
+          newUserCallbackURL: env.FRONTEND_URL + "/dashboard",
         },
         {
           onError: (ctx) => {
