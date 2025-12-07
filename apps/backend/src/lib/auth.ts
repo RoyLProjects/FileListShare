@@ -172,3 +172,13 @@ export async function getUserByEmail(email: string) : Promise<string | null> {
 
   return user ? user.id : null;
 }
+
+export async function getUserNameById(userId: string) : Promise<string | null> {
+  const prisma = getAuthPrismaClient();
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId }, 
+  });
+
+  return user ? user.name : null;
+}

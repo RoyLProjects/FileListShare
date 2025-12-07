@@ -1223,7 +1223,7 @@ export interface operations {
                                 title: string;
                                 createdAt: unknown;
                                 members?: {
-                                    userId: string;
+                                    userName: string;
                                 }[];
                             }[];
                             /** @default 1 */
@@ -1282,7 +1282,7 @@ export interface operations {
                             title: string;
                             createdAt: unknown;
                             members?: {
-                                userId: string;
+                                userName: string;
                             }[];
                         };
                     };
@@ -1409,7 +1409,7 @@ export interface operations {
                             title: string;
                             createdAt: unknown;
                             members?: {
-                                userId: string;
+                                userName: string;
                             }[];
                         };
                     };
@@ -1460,7 +1460,7 @@ export interface operations {
                             items: {
                                 /** Format: uuid */
                                 teamMemberId: string;
-                                userId: string;
+                                userName: string;
                                 createdAt: unknown;
                                 createdBy: string;
                                 currentMember: boolean;

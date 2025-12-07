@@ -51,18 +51,24 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
   const members = team?.members ?? [];
   const loading = teamsLoading || teamsFetching;
 
-  const getInitials = (userId: string) => {
-    // Extract initials from userId or use first 2 characters
-    const parts = userId.split("@")[0].split(".");
-    if (parts.length > 1) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return userId.substring(0, 2).toUpperCase();
-  };
+const getInitials = (userName: string) => {
+  const namePart = userName.trim(); 
+  const parts = namePart.split(" ").filter(p => p.length > 0);
 
-  const getDisplayName = (userId: string) => {
-    // Format userId for display
-    const emailPart = userId.split("@")[0];
+  if (parts.length === 2) {
+    // Two words → take first letter of each
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+  // One word (or more than two words) → take first two letters
+  return namePart.substring(0, 2).toUpperCase();
+};
+
+
+
+  const getDisplayName = (userName: string) => {
+    // Format userName for display
+    const emailPart = userName.split("@")[0];
     return emailPart
       .split(".")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -82,18 +88,18 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
         <div className="space-y-3">
           {members.map((member) => (
             <div
-              key={member.userId}
+              key={member.userName}
               className="flex items-center gap-3 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
             >
               <div className="w-10 h-10 bg-blue-600 dark:bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                {getInitials(member.userId)}
+                {getInitials(member.userName)}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
-                  {getDisplayName(member.userId)}
+                  {getDisplayName(member.userName)}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400 truncate">
-                  {member.userId}
+                  {member.userName}
                 </p>
               </div>
             </div>

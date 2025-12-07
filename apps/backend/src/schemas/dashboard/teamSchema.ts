@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { page, pageSize, teamId, title, userId } from "./domainSchema.js";
+import { page, pageSize, teamId, title, userName } from "./domainSchema.js";
 
 export const GetTeamRequestSchema = z.object({
   page: page,
@@ -13,7 +13,7 @@ export const teamItemSchema = z.object({
   members: z
     .array(
       z.object({
-        userId: userId,
+        userName: userName,
       }),
     )
     .optional(),

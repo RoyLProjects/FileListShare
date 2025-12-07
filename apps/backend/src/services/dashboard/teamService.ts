@@ -16,6 +16,7 @@ import {
   NotFoundError,
 } from "../../lib/resultHandler.js";
 import { validPermissions } from "../../schemas/dashboard/permissionSchema.js";
+import { getUserNameById } from "../../lib/auth.js";
 
 export class TeamService {
   static async getTeam(
@@ -42,12 +43,18 @@ export class TeamService {
       }),
     ]);
 
-    const outItems = items.map((t) => ({
-      teamId: t.id,
-      title: t.title,
-      createdAt: t.createdAt,
-      members: t.members?.map((m) => ({ userId: m.userId })),
-    }));
+    const outItems = await Promise.all(
+      items.map(async (t) => ({
+        teamId: t.id,
+        title: t.title,
+        createdAt: t.createdAt,
+        members: await Promise.all(
+          t.members?.map(async (m) => ({ 
+            userName: (await getUserNameById(m.userId)) || "unknown user" 
+          })) || []
+        ),
+      }))
+    );
 
     return {
       items: outItems,
@@ -109,7 +116,11 @@ export class TeamService {
       teamId: newTeam!.id,
       title: newTeam!.title,
       createdAt: newTeam!.createdAt,
-      members: newTeam!.members?.map((m) => ({ userId: m.userId })),
+      members: await Promise.all(
+        newTeam!.members?.map(async (m) => ({
+          userName: (await getUserNameById(m.userId)) || "unknown user"
+        })) || []
+      ),
     };
   }
 
@@ -176,7 +187,11 @@ export class TeamService {
       teamId: updatedTeam.id,
       title: updatedTeam.title,
       createdAt: updatedTeam.createdAt,
-      members: updatedTeam.members?.map((m) => ({ userId: m.userId })),
+      members: await Promise.all(
+        updatedTeam.members?.map(async (m) => ({
+          userName: (await getUserNameById(m.userId)) || "unknown user"
+        })) || []
+      ),
     };
   }
 

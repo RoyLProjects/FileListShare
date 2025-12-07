@@ -42,7 +42,7 @@ const TeamSettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { teamId } = useParams<{ teamId: string }>();
   const [showAddMember, setShowAddMember] = useState(false);
-  const [newMemberUserId, setNewMemberUserId] = useState("");
+  const [newMemberUsername, setNewMemberUsername] = useState("");
   const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
   const [editingPermissions, setEditingPermissions] = useState<Permission[]>(
     [],
@@ -163,17 +163,21 @@ const TeamSettingsPage: React.FC = () => {
     }
   }, [teamDetail]);
 
-  const getInitials = (userId: string) => {
-    // Extract initials from userId or use first 2 characters
-    const parts = userId.split("@")[0].split(".");
-    if (parts.length > 1) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return userId.substring(0, 2).toUpperCase();
-  };
+const getInitials = (userName: string) => {
+  const namePart = userName.trim();              // remove accidental leading/trailing spaces
+  const parts = namePart.split(" ").filter(p => p.length > 0);
+
+  if (parts.length === 2) {
+    // Two words → take first letter of each
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+  // One word (or more than two words) → take first two letters
+  return namePart.substring(0, 2).toUpperCase();
+};
 
   const handleEditMemberPermissions = (member: TeamMember) => {
-    setEditingMemberId(member.userId);
+    setEditingMemberId(member.userName);
     setEditingPermissions(member.permissions.map((p) => p.permission));
   };
 
@@ -372,7 +376,7 @@ const TeamSettingsPage: React.FC = () => {
   const handleAddNewMember = useMutation<unknown, unknown>({
     mutationFn: async () => {
       const { data, error } = await Api.POST("/v1/dashboard/teamInvite", {
-        body: { teamId: teamId!, email: newMemberUserId },
+        body: { teamId: teamId!, email: newMemberUsername },
       });
 
       if (error) throw error;
@@ -382,7 +386,7 @@ const TeamSettingsPage: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: teamMemberQueryKey });
       setShowAddMember(false);
-      setNewMemberUserId("");
+      setNewMemberUsername("");
     },
     onError: (err: unknown) => {
       console.error("Failed to add new member:", err);
@@ -645,8 +649,8 @@ const TeamSettingsPage: React.FC = () => {
                   </label>
                   <input
                     type="email"
-                    value={newMemberUserId}
-                    onChange={(e) => setNewMemberUserId(e.target.value)}
+                    value={newMemberUsername}
+                    onChange={(e) => setNewMemberUsername(e.target.value)}
                     placeholder="user@example.com"
                     className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900"
                   />
@@ -655,14 +659,14 @@ const TeamSettingsPage: React.FC = () => {
                 <div className="flex gap-2 pt-2">
                   <button className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg"
                     onClick={() => handleAddNewMember.mutate()}
-                    disabled={!newMemberUserId.trim() || loading}
+                    disabled={!newMemberUsername.trim() || loading}
                   >
                     Add Member
                   </button>
                   <button
                     onClick={() => {
                       setShowAddMember(false);
-                      setNewMemberUserId("");
+                      setNewMemberUsername("");
                     }}
                     className="px-4 py-2 bg-neutral-200 dark:bg-neutral-700 rounded-lg"
                   >
@@ -676,20 +680,20 @@ const TeamSettingsPage: React.FC = () => {
             <div className="space-y-4">
               {members?.map((member) => (
                 <div
-                  key={member.userId}
+                  key={member.teamMemberId}
                   className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900/50 shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-neutral-300 dark:bg-neutral-700 rounded-full flex items-center justify-center">
                         <span className="font-bold text-neutral-800 dark:text-neutral-200">
-                          {getInitials(member.userId)}
+                          {getInitials(member.userName)}
                         </span>
                       </div>
 
                       <div>
                         <p className="font-medium text-neutral-900 dark:text-neutral-100">
-                          {member.userId}
+                          {member.userName}
                         </p>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
                           {member.permissions.length} permissions
@@ -699,7 +703,7 @@ const TeamSettingsPage: React.FC = () => {
 
                     {/* Actions */}
                     {canManageMemberRights &&
-                      editingMemberId !== member.userId && (
+                      editingMemberId !== member.teamMemberId && (
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEditMemberPermissions(member)}
@@ -721,7 +725,7 @@ const TeamSettingsPage: React.FC = () => {
                   </div>
 
                   {/* Permission edit mode */}
-                  {editingMemberId === member.userId ? (
+                  {editingMemberId === member.teamMemberId ? (
                     <div className="space-y-3 pt-3 border-t border-neutral-200 dark:border-neutral-700">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {AVAILABLE_PERMISSIONS.map((perm) => (
@@ -832,7 +836,7 @@ const TeamSettingsPage: React.FC = () => {
             message={
               <>
                 Are you sure you want to remove{" "}
-                <span className="font-medium">{memberToRemove?.userId}</span>{" "}
+                <span className="font-medium">{memberToRemove?.userName}</span>{" "}
                 from the team? This action cannot be undone.
               </>
             }

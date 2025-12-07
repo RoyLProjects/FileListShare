@@ -14,6 +14,7 @@ import {
   NotFoundError,
   InternalServerError,
 } from "../../lib/resultHandler.js";
+import { getUserNameById } from "../../lib/auth.js";
 
 export class TeamMemberService {
   static async getTeamMember(
@@ -66,10 +67,11 @@ export class TeamMemberService {
     const total = members.length;
 
     //better mapping
+    
 
-    const items = members.map((m) => ({
+    const items = await Promise.all(members.map(async (m) => ({
       teamMemberId: m.id,
-      userId: m.userId,
+      userName: await getUserNameById(m.userId) || "Unknown User",
       createdAt: m.createdAt,
       createdBy: m.createdBy,
       currentMember: Boolean(m.userId === userId),
@@ -77,7 +79,7 @@ export class TeamMemberService {
         teamMemberId: p.teamMemberId,
         permission: p.permission,
       })),
-    }));
+    })));
 
     return {
       items,

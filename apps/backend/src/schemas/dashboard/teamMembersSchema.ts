@@ -4,6 +4,7 @@ import {
   pageSize,
   teamId,
   teamMemberId,
+  userName,
   userId,
 } from "./domainSchema.js";
 import { validPermissionsEnum } from "./permissionSchema.js";
@@ -16,7 +17,7 @@ export const GetTeamMemberRequestSchema = z.object({
 
 export const GetTeamMemberItemSchema = z.object({
   teamMemberId: teamMemberId,
-  userId: userId,
+  userName: userName,
   createdAt: z.coerce.date(),
   createdBy: userId,
   currentMember: z.boolean(),
