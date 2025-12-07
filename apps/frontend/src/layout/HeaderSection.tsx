@@ -97,6 +97,16 @@ const HeaderSection: React.FC = () => {
                   >
                     Home
                   </button>
+                  <button
+                    onClick={() => navigate("/dashboard")}
+                    className={`text-gray-600 font-medium px-3 py-2 rounded-lg dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors ${
+                      location.pathname.startsWith("/dashboard")
+                        ? "bg-gray-100 dark:bg-gray-700"
+                        : ""
+                    }`}
+                  >
+                    Dashboard
+                  </button>
                  
                   <UserMenu userName={user?.name} userEmail={user?.email} />
                 </>
@@ -149,6 +159,20 @@ const HeaderSection: React.FC = () => {
                       }`}
                     >
                       Home
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigate("/dashboard");
+                        setIsMenuOpen(false);
+                      }}
+                      className={`text-left text-gray-600 font-medium py-2 px-3 rounded-lg dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${
+                        location.pathname.startsWith("/dashboard")
+                          ? "bg-gray-100 dark:bg-gray-700"
+                          : ""
+                      }`}
+                    >
+                      Dashboard
                     </button>
 
                     <button
