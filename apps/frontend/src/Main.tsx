@@ -14,13 +14,18 @@ import TeamPage from "./pages/TeamPage";
 import TeamSettingsPage from "./pages/TeamSettingsPage";
 import UserSettingsPage from "./pages/UserSettingsPage";
 import SharePage from "./pages/SharePage";
+import MaintenanceBanner from "./layout/MaintenanceBanner";
+import { AppStatusProvider } from "./components/AppStatusContext";
+
 
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={qc}>
-      <BrowserRouter>
-        <HeaderSection />
+      <AppStatusProvider>
+        <BrowserRouter>
+          <HeaderSection />
+          <MaintenanceBanner />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
@@ -38,6 +43,7 @@ createRoot(document.getElementById("root")!).render(
         </Routes>
         <FooterSection />
       </BrowserRouter>
+      </AppStatusProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );
