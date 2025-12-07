@@ -1,6 +1,6 @@
 
 
-import { useAppStatus } from "../components/AppStatusContext";
+import { useAppStatus } from "../hooks/AppStatusContext";
 
 const MaintenanceBanner: React.FC = () => {
   const { status } = useAppStatus();

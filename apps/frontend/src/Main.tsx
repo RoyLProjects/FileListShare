@@ -15,7 +15,7 @@ import TeamSettingsPage from "./pages/TeamSettingsPage";
 import UserSettingsPage from "./pages/UserSettingsPage";
 import SharePage from "./pages/SharePage";
 import MaintenanceBanner from "./layout/MaintenanceBanner";
-import { AppStatusProvider } from "./components/AppStatusContext";
+import { AppStatusProvider } from "./hooks/AppStatusContext";
 
 
 const qc = new QueryClient();
