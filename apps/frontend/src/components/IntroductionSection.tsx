@@ -10,19 +10,14 @@ const IntroductionSection: React.FC = () => {
         <p className="mt-6 text-xl md:text-2xl text-gray-600 dark:text-gray-300">
           Streamline document collection with secure, shareable file request
           lists. Save time, stay organized, and collaborate effortlessly.
+          Extend your file handling within the Dropbox ecosystem.
         </p>
         <div className="mt-10 sm:flex-row items-center justify-center flex flex-col gap-4">
           <a
-            href="/O3hFoUQaK8R9yNGElZVC#"
+            href="/login"
             className="w-full sm:w-auto bg-blue-600 dark:bg-blue-500 text-white font-semibold px-8 py-4 rounded-lg text-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
-            Get Started Free
-          </a>
-          <a
-            href="/O3hFoUQaK8R9yNGElZVC#"
-            className="w-full sm:w-auto bg-white dark:bg-gray-800 text-gray-900 font-semibold px-8 py-4 rounded-lg text-lg dark:text-white border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-          >
-            Watch Demo
+            Get Started
           </a>
         </div>
       </div>

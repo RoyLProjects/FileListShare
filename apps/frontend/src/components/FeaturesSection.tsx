@@ -40,8 +40,7 @@ const FeaturesSection: React.FC = () => {
             Work management
           </p>
           <p className="text-center text-gray-600 dark:text-gray-300">
-            Simplify your workflow with structured request lists, also known as
-            PBC lists. Collect all required documents in one place and eliminate
+            Simplify your workflow with structured request lists. Collect all required documents in one place and eliminate
             endless email threads. Keep your team and clients aligned while
             saving valuable time.
           </p>
@@ -66,9 +65,7 @@ const FeaturesSection: React.FC = () => {
             Collaboration
           </p>
           <p className="text-center text-gray-600 dark:text-gray-300">
-            Build and manage lists together with your teammates. Assign file
-            responsibilities, track progress, and make sure every request is
-            completed efficiently.
+            Build and manage lists together with your teammates. Track progress and make sure every request is completed efficiently.
           </p>
         </div>
         <div className="rounded-xl justify-center items-center mx-auto py-24 bg-white dark:bg-gray-800 p-10 border border-gray-300 dark:border-gray-700 flex flex-col gap-4 max-w-[30rem]">
@@ -160,9 +157,7 @@ const FeaturesSection: React.FC = () => {
             Apps Integration
           </p>
           <p className="text-center text-gray-600 dark:text-gray-300">
-            Connect seamlessly with Dropbox for file storage. More integrations
-            are coming soon, giving you full flexibility to work with your
-            preferred storage platforms.
+            Connect seamlessly with Dropbox for file storage. Easily save and organize all received files directly to your Dropbox account, where you can also apply powerful automation and file-handling logic to streamline your workflows.
           </p>
         </div>
         <div className="rounded-xl justify-center items-center mx-auto py-24 bg-white dark:bg-gray-800 p-10 border border-gray-300 dark:border-gray-700 flex flex-col gap-4 max-w-[30rem]">
@@ -242,8 +237,7 @@ const FeaturesSection: React.FC = () => {
             Smart Sharing
           </p>
           <p className="text-center text-gray-600 dark:text-gray-300">
-            Generate unique, secure links with optional passwords or expiration
-            dates. You stay in full control of who has access.
+            Generate unique, secure links with passwords, giving you full control over who has access.
           </p>
         </div>
         <div className="rounded-xl justify-center items-center mx-auto py-24 bg-white dark:bg-gray-800 p-10 border border-gray-300 dark:border-gray-700 flex flex-col gap-4 max-w-[30rem]">

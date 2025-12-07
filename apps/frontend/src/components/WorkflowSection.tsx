@@ -40,7 +40,7 @@ const WorkflowSection: React.FC = () => {
                     Share Securely
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Generate a secure link and send it to your clients or team.
+                    Generate a secure link and send it to your clients.
                   </p>
                 </div>
               </div>
@@ -53,7 +53,7 @@ const WorkflowSection: React.FC = () => {
                     Track Progress
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Monitor uploads in real-time and receive notifications.
+                    Monitor uploads.
                   </p>
                 </div>
               </div>

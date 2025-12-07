@@ -31,37 +31,6 @@ const FooterSection: React.FC = () => {
           </div>
           <div>
             <p className="font-semibold text-gray-900 mb-4 dark:text-white">
-              Product
-            </p>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="/O3hFoUQaK8R9yNGElZVC#"
-                  className="text-gray-600 text-sm dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                >
-                  Features
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/O3hFoUQaK8R9yNGElZVC#"
-                  className="text-gray-600 text-sm dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                >
-                  Integrations
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/O3hFoUQaK8R9yNGElZVC#"
-                  className="text-gray-600 text-sm dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                >
-                  Automations
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold text-gray-900 mb-4 dark:text-white">
               About
             </p>
             <ul className="space-y-2">
@@ -73,14 +42,6 @@ const FooterSection: React.FC = () => {
                   Github
                 </a>
               </li>
-              <li>
-                <a
-                  href="/contact"
-                  className="text-gray-600 text-sm dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                >
-                  Contact
-                </a>
-              </li>
             </ul>
           </div>
           <div>
@@ -90,7 +51,7 @@ const FooterSection: React.FC = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="/docs#"
+                  href="https://github.com/RoyLProjects/FileListShare"
                   className="text-gray-600 text-sm dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 >
                   Documentation
