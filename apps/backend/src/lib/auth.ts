@@ -45,18 +45,25 @@ export const auth = betterAuth({
     account: {
       create: {
         before: async (account) => {
-            if (account.refreshToken) {
-              account.refreshToken = encryptRefreshToken(account.refreshToken);
-            }
+          if (account.refreshToken) {
+            account.refreshToken = encryptRefreshToken(account.refreshToken);
+          }
+          if (account.accessToken) {
+            account.accessToken = encryptRefreshToken(account.accessToken);
+          }
         },
         after: async (account) => {
           if (account.providerId !== "dropbox") {
-            logger.warn(`Unsupported providerId ${account.providerId} in account create hook`);
+            logger.warn(
+              `Unsupported providerId ${account.providerId} in account create hook`,
+            );
             return;
-          } 
+          }
 
           if (!account.refreshToken) {
-            logger.error("No refresh token received from Dropbox! This means the OAuth flow did not request offline access properly.");
+            logger.error(
+              "No refresh token received from Dropbox! This means the OAuth flow did not request offline access properly.",
+            );
             return;
           }
 
@@ -75,11 +82,22 @@ export const auth = betterAuth({
               refreshToken: account.refreshToken,
             },
           });
-          
-          logger.info("Successfully stored Dropbox refresh token for user:", account.userId);
+
+          logger.info(
+            "Successfully stored Dropbox refresh token for user:",
+            account.userId,
+          );
         },
       },
       update: {
+        before: async (account) => {
+          if (account.refreshToken) {
+            account.refreshToken = encryptRefreshToken(account.refreshToken);
+          }
+          if (account.accessToken) {
+            account.accessToken = encryptRefreshToken(account.accessToken);
+          }
+        },
         after: async (account) => {
           if (account.providerId !== "dropbox") return;
 
@@ -107,9 +125,9 @@ export const auth = betterAuth({
 
   rateLimit: {
     enabled: true,
-    window: 60, 
-    max: 100, 
-    storage: "secondary-storage", 
+    window: 60,
+    max: 100,
+    storage: "secondary-storage",
     customRules: {
       "/sign-in/email": {
         window: 10,
@@ -119,10 +137,10 @@ export const auth = betterAuth({
         window: 60,
         max: 10,
       },
-      
+
       "/sign-up/email": {
-        window: 300, 
-        max: 3, 
+        window: 300,
+        max: 3,
       },
     },
   },
