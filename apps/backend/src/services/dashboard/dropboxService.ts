@@ -187,7 +187,7 @@ export class DropboxService {
           displayName: `Dropbox (${tokens.account_id})`,
           refreshToken: encryptedRefreshToken,
           userId,
-          storagePath: "/",
+          storagePath: "/FileListShare",
         },
         update: {
           displayName: `Dropbox (${tokens.account_id})`,
