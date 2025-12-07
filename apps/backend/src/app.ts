@@ -35,26 +35,23 @@ export async function createApp() {
         res.status(500).end((err as Error).message);
       }
     });
-  };
-  
-app.use(
-  "/v1/public",
-  (req, res, next) => {
+  }
+
+  app.use("/v1/public", (req, res, next) => {
     const secrets = [env.PUBLIC_ENDPOINT_COOKIE_SECRET];
 
     (req as any).cookies = new Cookies(req, res, { keys: secrets });
 
     next();
-  }
-);
-const config = createConfig({
-  app,
-  cors: false,
-  logger: {
-    level: env.LOG_LEVEL,
-    color: true,
-  }
-});
+  });
+  const config = createConfig({
+    app,
+    cors: false,
+    logger: {
+      level: env.LOG_LEVEL,
+      color: true,
+    },
+  });
 
   // Attach express-zod-api routing
   attachRouting(config, routing);

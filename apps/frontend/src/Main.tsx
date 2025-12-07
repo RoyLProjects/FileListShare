@@ -17,7 +17,6 @@ import SharePage from "./pages/SharePage";
 import MaintenanceBanner from "./layout/MaintenanceBanner";
 import { AppStatusProvider } from "./hooks/AppStatusContext";
 
-
 const qc = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -26,23 +25,26 @@ createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <HeaderSection />
           <MaintenanceBanner />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard/list/:listId" element={<ListDetailPage />} />
-          <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
-          <Route path="/dashboard/settings" element={<UserSettingsPage />} />
-          <Route path="/s/:token" element={<SharePage />} />
-          <Route
-            path="/dashboard/team/:teamId/settings"
-            element={<TeamSettingsPage />}
-          />
-          
-          <Route path="/dashboard/*" element={<ListPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <FooterSection />
-      </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/dashboard/list/:listId"
+              element={<ListDetailPage />}
+            />
+            <Route path="/dashboard/team/:teamId" element={<TeamPage />} />
+            <Route path="/dashboard/settings" element={<UserSettingsPage />} />
+            <Route path="/s/:token" element={<SharePage />} />
+            <Route
+              path="/dashboard/team/:teamId/settings"
+              element={<TeamSettingsPage />}
+            />
+
+            <Route path="/dashboard/*" element={<ListPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <FooterSection />
+        </BrowserRouter>
       </AppStatusProvider>
     </QueryClientProvider>
   </React.StrictMode>,

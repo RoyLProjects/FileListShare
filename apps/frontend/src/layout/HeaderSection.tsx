@@ -107,7 +107,7 @@ const HeaderSection: React.FC = () => {
                   >
                     Dashboard
                   </button>
-                 
+
                   <UserMenu userName={user?.name} userEmail={user?.email} />
                 </>
               )}

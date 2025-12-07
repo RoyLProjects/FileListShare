@@ -647,7 +647,8 @@ const TeamSettingsPage: React.FC = () => {
                 </div>
 
                 <div className="flex gap-2 pt-2">
-                  <button className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg"
+                  <button
+                    className="flex-1 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg"
                     onClick={() => handleAddNewMember.mutate()}
                     disabled={!newMemberUsername.trim() || loading}
                   >
@@ -683,7 +684,10 @@ const TeamSettingsPage: React.FC = () => {
 
                       <div>
                         <p className="font-medium text-neutral-900 dark:text-neutral-100">
-                          {getDisplayName(member.userName, session?.user?.name as string)}
+                          {getDisplayName(
+                            member.userName,
+                            session?.user?.name as string,
+                          )}
                         </p>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
                           {member.permissions.length} permissions

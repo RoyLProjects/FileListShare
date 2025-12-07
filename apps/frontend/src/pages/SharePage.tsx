@@ -26,53 +26,57 @@ const SharePage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-const { data: sessionData, isLoading: isSessionLoading, error: sessionError } = useQuery({
-  queryKey: ["publicAuth", token],
-  enabled: !!token,
-  retry: false,
-  queryFn: async () => {
-    const { data, error } = await Api.GET("/v1/public/auth");
+  const {
+    data: sessionData,
+    isLoading: isSessionLoading,
+    error: sessionError,
+  } = useQuery({
+    queryKey: ["publicAuth", token],
+    enabled: !!token,
+    retry: false,
+    queryFn: async () => {
+      const { data, error } = await Api.GET("/v1/public/auth");
 
-    if (error) throw error;
-    return data;
-  },
-});
+      if (error) throw error;
+      return data;
+    },
+  });
 
-const isAuthenticated = sessionData?.success === true;
+  const isAuthenticated = sessionData?.success === true;
 
-const {
-  data: listData,
-  isLoading: isItemsLoading,
-  error: itemsQueryError,
-} = useQuery({
-  queryKey: ["publicItems", token],
-  enabled: !!token && isAuthenticated,
-  queryFn: async () => {
-    if (!token) throw new Error("Missing token");
+  const {
+    data: listData,
+    isLoading: isItemsLoading,
+    error: itemsQueryError,
+  } = useQuery({
+    queryKey: ["publicItems", token],
+    enabled: !!token && isAuthenticated,
+    queryFn: async () => {
+      if (!token) throw new Error("Missing token");
 
-    const { data, error } = await Api.GET("/v1/public/items", {
-      params: { query: { token } },
-    });
+      const { data, error } = await Api.GET("/v1/public/items", {
+        params: { query: { token } },
+      });
 
-    if (error) throw error;
-  
-    return data;
-  },
-});
+      if (error) throw error;
 
-const listDataBody = listData?.data || null;
+      return data;
+    },
+  });
 
-const listTitle = listDataBody?.title || "";
-const listId = listDataBody?.listId || null;
-const items = listDataBody?.items.map(mapApiItemToPublicListItem) || [];
+  const listDataBody = listData?.data || null;
 
-useEffect(() => {
-  if(itemsQueryError) {
-    setError(getErrorMessage(itemsQueryError) ?? "Failed to load list");
-  } 
-} , [itemsQueryError]);
+  const listTitle = listDataBody?.title || "";
+  const listId = listDataBody?.listId || null;
+  const items = listDataBody?.items.map(mapApiItemToPublicListItem) || [];
 
-const loading = isSessionLoading || isItemsLoading;
+  useEffect(() => {
+    if (itemsQueryError) {
+      setError(getErrorMessage(itemsQueryError) ?? "Failed to load list");
+    }
+  }, [itemsQueryError]);
+
+  const loading = isSessionLoading || isItemsLoading;
 
   const authMutation = useMutation({
     mutationKey: ["publicAuth", token],

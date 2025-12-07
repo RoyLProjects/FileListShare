@@ -9,8 +9,8 @@ const IntroductionSection: React.FC = () => {
         </p>
         <p className="mt-6 text-xl md:text-2xl text-gray-600 dark:text-gray-300">
           Streamline document collection with secure, shareable file request
-          lists. Save time, stay organized, and collaborate effortlessly.
-          Extend your file handling within the Dropbox ecosystem.
+          lists. Save time, stay organized, and collaborate effortlessly. Extend
+          your file handling within the Dropbox ecosystem.
         </p>
         <div className="mt-10 sm:flex-row items-center justify-center flex flex-col gap-4">
           <a

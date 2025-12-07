@@ -1,5 +1,3 @@
-
-
 import { useAppStatus } from "../hooks/AppStatusContext";
 
 const MaintenanceBanner: React.FC = () => {
@@ -12,7 +10,6 @@ const MaintenanceBanner: React.FC = () => {
           Backend is currently unavailable. Some features may not work.
         </div>
       )}
-
     </div>
   );
 };

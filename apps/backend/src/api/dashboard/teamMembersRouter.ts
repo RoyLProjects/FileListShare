@@ -66,4 +66,3 @@ export const TeamMemberRouting = new DependsOnMethod({
   patch: updateTeamMemberEndpoint,
   delete: deleteTeamMemberEndpoint,
 });
-

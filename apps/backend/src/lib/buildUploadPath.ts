@@ -6,7 +6,7 @@ function buildUploadPath(
   storagePath: string,
   itemnumber: number,
   title: string,
-  fileName: string ,
+  fileName: string,
   uploadDate?: string,
 ) {
   const baseDir = normalizeDropboxPath(storagePath, title);
@@ -41,10 +41,7 @@ function buildUploadPath(
   }
 
   // 3) Smallest: /listname/itemnumber [extension]
-  const variant3 = normalizeDropboxPath(
-    baseDir,
-    `${itemnumber}${extPart}`,
-  );
+  const variant3 = normalizeDropboxPath(baseDir, `${itemnumber}${extPart}`);
 
   if (variant3.length <= MAX_PATH_LENGTH) {
     return variant3;
@@ -57,4 +54,3 @@ function buildUploadPath(
 }
 
 export default buildUploadPath;
-

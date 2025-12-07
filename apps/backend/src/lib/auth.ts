@@ -45,7 +45,7 @@ export const auth = betterAuth({
     account: {
       create: {
         after: async (account) => {
-          if (account.providerId !== "dropbox") return; 
+          if (account.providerId !== "dropbox") return;
 
           if (!account.refreshToken) return;
           const encryptedRefreshToken = encryptRefreshToken(
@@ -156,28 +156,34 @@ export const auth = betterAuth({
     dropbox: {
       clientId: env.DROPBOX_CLIENT_ID,
       clientSecret: env.DROPBOX_CLIENT_SECRET,
-      scope: ["files.metadata.read", "files.content.write"],
-      tokenAccessType: "offline",
+      scope: [
+        "files.metadata.read",
+        "files.content.write",
+        "files.content.read",
+      ],
+      authorizationParams: {
+        token_access_type: "offline",
+        force_reapprove: "true",
+      },
     },
   },
 });
 
-
-export async function getUserByEmail(email: string) : Promise<string | null> {
+export async function getUserByEmail(email: string): Promise<string | null> {
   const prisma = getAuthPrismaClient();
 
   const user = await prisma.user.findUnique({
-    where: { email }, 
+    where: { email },
   });
 
   return user ? user.id : null;
 }
 
-export async function getUserNameById(userId: string) : Promise<string | null> {
+export async function getUserNameById(userId: string): Promise<string | null> {
   const prisma = getAuthPrismaClient();
 
   const user = await prisma.user.findUnique({
-    where: { id: userId }, 
+    where: { id: userId },
   });
 
   return user ? user.name : null;

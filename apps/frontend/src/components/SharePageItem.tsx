@@ -54,7 +54,7 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
 
   const markDeliveredMutation = useMutation({
     mutationKey: ["publicMarkDelivered", token, itemId],
-    mutationFn: async (newDelivered: boolean ) => {
+    mutationFn: async (newDelivered: boolean) => {
       const { data, error } = await Api.POST(
         "/v1/public/action/markDelivered",
         {
@@ -66,17 +66,17 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
         },
       );
 
-     if (error) throw error;
+      if (error) throw error;
 
       return data;
     },
-  onMutate: () => {
+    onMutate: () => {
       setActionError(null);
       setActionSuccess(null);
     },
     onSuccess: (_data, variables) => {
       queryClient.setQueryData(["publicItems", token], (oldData: any) => {
-        const updatedDelivered = variables; 
+        const updatedDelivered = variables;
         if (!oldData) return oldData;
         if (oldData.success === true) {
           const updatedItems = oldData.data.items.map((item: ApiItem) => {
@@ -100,7 +100,6 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
 
         return oldData;
       });
-
     },
     onError: (err) => {
       setActionError(getErrorMessage(err) || "Failed to update item");
@@ -112,16 +111,13 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
   const addCommentMutation = useMutation({
     mutationKey: ["publicAddComment", token, itemId],
     mutationFn: async (newComment: string) => {
-      const { data, error } = await Api.POST(
-        "/v1/public/action/addComment",
-        {
-          body: {
-            token,
-            itemId,
-            comment: newComment,
-          },
+      const { data, error } = await Api.POST("/v1/public/action/addComment", {
+        body: {
+          token,
+          itemId,
+          comment: newComment,
         },
-      );
+      });
 
       if (error) throw error;
 
@@ -132,8 +128,8 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
       setActionSuccess(null);
     },
     onSuccess: (_data, variables) => {
-       queryClient.setQueryData(["publicItems", token], (oldData: any) => {
-        const newComment = variables; 
+      queryClient.setQueryData(["publicItems", token], (oldData: any) => {
+        const newComment = variables;
         if (!oldData) return oldData;
         if (oldData.success === true) {
           const updatedItems = oldData.data.items.map((item: ApiItem) => {
@@ -157,7 +153,6 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
 
         return oldData;
       });
-
     },
     onError: (err) => {
       setActionError(getErrorMessage(err) || "Failed to add comment");
@@ -167,7 +162,9 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
   });
 
   const actionLoading =
-    markDeliveredMutation.isPending || addCommentMutation.isPending || uploading;
+    markDeliveredMutation.isPending ||
+    addCommentMutation.isPending ||
+    uploading;
 
   const handleMarkDelivered = () => {
     const newDelivered = !item.delivered;
@@ -204,24 +201,20 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
       }
 
       try {
-        const { data, error } = await Api.POST(
-          "/v1/public/action/uploadUrl",
-          {
-            body: {
-              token,
-              listId,
-              itemId,
-              fileName: file.name,
-              fileSize: file.size,
-            },
+        const { data, error } = await Api.POST("/v1/public/action/uploadUrl", {
+          body: {
+            token,
+            listId,
+            itemId,
+            fileName: file.name,
+            fileSize: file.size,
           },
-        );
+        });
 
         if (error) {
           const errBody = (error as any).data as UploadUrlError | undefined;
           throw new Error(
-            errBody?.message ??
-              `Failed to get upload URL for ${file.name}`,
+            errBody?.message ?? `Failed to get upload URL for ${file.name}`,
           );
         }
 
@@ -255,47 +248,46 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
         );
 
         if (addFileError) {
-          const errBody = (addFileError as any)
-            .data as AddUploadedFileError | undefined;
+          const errBody = (addFileError as any).data as
+            | AddUploadedFileError
+            | undefined;
           throw new Error(
             errBody?.message ?? `Failed to register ${file.name}`,
           );
         }
 
         queryClient.setQueryData(["publicItems", token], (oldData: any) => {
-        const newFile = file.name; 
-        if (!oldData) return oldData;
-        if (oldData.success === true) {
-          const updatedItems = oldData.data.items.map((item: ApiItem) => {
-            if (item.itemId === itemId) {
-              return {
-                ...item,
-                uploadedFiles: [...item.uploadedFiles, newFile],
-              };
-            }
-            return item;
-          });
+          const newFile = file.name;
+          if (!oldData) return oldData;
+          if (oldData.success === true) {
+            const updatedItems = oldData.data.items.map((item: ApiItem) => {
+              if (item.itemId === itemId) {
+                return {
+                  ...item,
+                  uploadedFiles: [...item.uploadedFiles, newFile],
+                };
+              }
+              return item;
+            });
 
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              items: updatedItems,
-            },
-          };
-        }
+            return {
+              ...oldData,
+              data: {
+                ...oldData.data,
+                items: updatedItems,
+              },
+            };
+          }
 
-        return oldData;
-      });
+          return oldData;
+        });
 
         successCount++;
         setUploadProgress((prev) => ({ ...prev, [file.name]: 100 }));
       } catch (err) {
         console.error(`Upload error for ${file.name}:`, err);
         setActionError(
-          err instanceof Error
-            ? err.message
-            : `Failed to upload ${file.name}`,
+          err instanceof Error ? err.message : `Failed to upload ${file.name}`,
         );
       }
     }
@@ -522,43 +514,43 @@ export const SharePageItem: React.FC<SharePageItemProps> = ({
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Comment
               </label>
- <div className="flex gap-2">
-    <div className="flex-1">
-      <textarea
-        value={comment}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (value.length <= 1000) {
-            setComment(value);
-          }
-        }}
-        onBlur={handleCommentBlur}
-        onClick={(e) => e.stopPropagation()}
-        placeholder="Enter your comment..."
-        rows={3}
-        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none"
-        disabled={actionLoading}
-      />
-      <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 text-right">
-        {comment.length}/1000
-      </div>
-    </div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <textarea
+                    value={comment}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.length <= 1000) {
+                        setComment(value);
+                      }
+                    }}
+                    onBlur={handleCommentBlur}
+                    onClick={(e) => e.stopPropagation()}
+                    placeholder="Enter your comment..."
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent resize-none"
+                    disabled={actionLoading}
+                  />
+                  <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 text-right">
+                    {comment.length}/1000
+                  </div>
+                </div>
 
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        handleAddComment();
-      }}
-      disabled={
-        actionLoading ||
-        !comment.trim() ||
-        comment.trim() === (item.comment || "").trim()
-      }
-      className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm self-start"
-    >
-      Save
-    </button>
-  </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddComment();
+                  }}
+                  disabled={
+                    actionLoading ||
+                    !comment.trim() ||
+                    comment.trim() === (item.comment || "").trim()
+                  }
+                  className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm self-start"
+                >
+                  Save
+                </button>
+              </div>
             </div>
 
             {/* Upload Files */}

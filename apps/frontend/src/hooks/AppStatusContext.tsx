@@ -13,18 +13,19 @@ const AppStatusContext = createContext<AppStatusContextValue>({ status: "ok" });
 
 export const useAppStatus = () => useContext(AppStatusContext);
 
-export const AppStatusProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AppStatusProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { error } = useQuery({
     queryKey: ["health"],
     queryFn: async () => {
-
-      const {data, error} = await Api.GET("/v1/health");
+      const { data, error } = await Api.GET("/v1/health");
 
       if (error) throw error;
-     
-    return data;
+
+      return data;
     },
-    refetchInterval: 60_000, 
+    refetchInterval: 60_000,
     retry: 0,
   });
 

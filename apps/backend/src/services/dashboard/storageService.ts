@@ -8,10 +8,7 @@ import {
   UpdateStorageRequestSchema,
 } from "../../schemas/dashboard/storageSchema.js";
 import { logger } from "../../lib/log.js";
-import {
-  ForbiddenError,
-  NotFoundError,
-} from "../../lib/resultHandler.js";
+import { ForbiddenError, NotFoundError } from "../../lib/resultHandler.js";
 
 export class StorageService {
   static async getStorage(
@@ -192,17 +189,17 @@ export class StorageService {
       }
     }
 
-      await prisma.storage.delete({ where: { id: input.storageId } });
-     await prisma.publicLink.deleteMany({
-  where: {
-    OR: [
-      { list: { user: { storage: { id: input.storageId } } } },
-      { list: { team: { storage: { id: input.storageId } } } },
-    ],
-  },
-});
+    await prisma.storage.delete({ where: { id: input.storageId } });
+    await prisma.publicLink.deleteMany({
+      where: {
+        OR: [
+          { list: { user: { storage: { id: input.storageId } } } },
+          { list: { team: { storage: { id: input.storageId } } } },
+        ],
+      },
+    });
 
-      logger.info("Storage deleted successfully");
-      return { success: true };
+    logger.info("Storage deleted successfully");
+    return { success: true };
   }
 }

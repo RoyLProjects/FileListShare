@@ -2,7 +2,10 @@ import { endpointsFactory } from "../../lib/resultHandler.js";
 import { requireAuth } from "../../middelware/requireAuth.js";
 import { DependsOnMethod } from "express-zod-api";
 import { TeamInviteService } from "../../services/dashboard/teamInviteService.js";
-import { inviteMemberRequestSchema, inviteMemberResponseSchema } from "../../schemas/dashboard/teamInviteSchema.js";
+import {
+  inviteMemberRequestSchema,
+  inviteMemberResponseSchema,
+} from "../../schemas/dashboard/teamInviteSchema.js";
 
 export const authedEndpointsFactory =
   endpointsFactory.addMiddleware(requireAuth);
@@ -25,4 +28,3 @@ const InviteMember = authedEndpointsFactory.build({
 export const teamInviteRouting = new DependsOnMethod({
   post: InviteMember,
 });
-

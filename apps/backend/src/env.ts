@@ -17,7 +17,7 @@ const defaultAuthSecret =
     ? undefined
     : randomBytes(48).toString("hex"));
 
-    const defaultPublicEndpointCookieSecret =
+const defaultPublicEndpointCookieSecret =
   process.env.PUBLIC_ENDPOINT_COOKIE_SECRET ??
   (process.env.NODE_ENV === "production"
     ? undefined
@@ -59,9 +59,7 @@ export const baseEnv = z
     REDIS_URL: z.string().url().default("redis://localhost:6379"),
     LOKI_URL: z.string().url().default("http://localhost:3100"),
     PROMETHEUS_ENABLED: z.coerce.boolean().default(false),
-    LOG_LEVEL: z
-      .enum(["warn", "info", "debug", "silent"])
-      .default("info"),
+    LOG_LEVEL: z.enum(["warn", "info", "debug", "silent"]).default("info"),
     PUBLIC_SESSION_MAX_AGE: z.coerce.number().default(600000),
     DROPBOX_CLIENT_ID: z.string(),
     DROPBOX_CLIENT_SECRET: z.string(),
@@ -88,7 +86,11 @@ export const baseEnv = z
       .string()
       .min(32, "PUBLIC_ENDPOINT_COOKIE_SECRET must be at least 32 characters"),
   })
-  .parse({ ...process.env, AUTH_SECRET: defaultAuthSecret, PUBLIC_ENDPOINT_COOKIE_SECRET: defaultPublicEndpointCookieSecret });
+  .parse({
+    ...process.env,
+    AUTH_SECRET: defaultAuthSecret,
+    PUBLIC_ENDPOINT_COOKIE_SECRET: defaultPublicEndpointCookieSecret,
+  });
 
 // Build Postgres connection URLs from individual pieces. We keep these
 // computed values out of the zod schema since they are derived.

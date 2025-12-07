@@ -1,9 +1,6 @@
 import { Middleware } from "express-zod-api";
 import { z } from "zod";
-import {
-
-  PublicSessionStore,
-} from "../lib/PublicSessionStore.js";
+import { PublicSessionStore } from "../lib/PublicSessionStore.js";
 import { UnauthorizedError } from "../lib/resultHandler.js";
 import Cookies from "cookies";
 import { AuthRequestSchema } from "../schemas/public/authSchema.js";

@@ -8,7 +8,11 @@ export const itemId = zId;
 export const teamMemberId = zId;
 export const storageId = zId;
 export const userId = z.string().trim();
-export const userName = z.string().trim().min(1, "User name is required").max(255, "User name must be at most 255 characters");
+export const userName = z
+  .string()
+  .trim()
+  .min(1, "User name is required")
+  .max(255, "User name must be at most 255 characters");
 
 export const urlSchema = z.string().trim().url("Must be a valid URL");
 export const pathSchema = z

@@ -49,11 +49,11 @@ export class TeamService {
         title: t.title,
         createdAt: t.createdAt,
         members: await Promise.all(
-          t.members?.map(async (m) => ({ 
-            userName: (await getUserNameById(m.userId)) || "unknown user" 
-          })) || []
+          t.members?.map(async (m) => ({
+            userName: (await getUserNameById(m.userId)) || "unknown user",
+          })) || [],
         ),
-      }))
+      })),
     );
 
     return {
@@ -118,8 +118,8 @@ export class TeamService {
       createdAt: newTeam!.createdAt,
       members: await Promise.all(
         newTeam!.members?.map(async (m) => ({
-          userName: (await getUserNameById(m.userId)) || "unknown user"
-        })) || []
+          userName: (await getUserNameById(m.userId)) || "unknown user",
+        })) || [],
       ),
     };
   }
@@ -189,8 +189,8 @@ export class TeamService {
       createdAt: updatedTeam.createdAt,
       members: await Promise.all(
         updatedTeam.members?.map(async (m) => ({
-          userName: (await getUserNameById(m.userId)) || "unknown user"
-        })) || []
+          userName: (await getUserNameById(m.userId)) || "unknown user",
+        })) || [],
       ),
     };
   }

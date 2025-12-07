@@ -54,7 +54,6 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
   const members = team?.members ?? [];
   const loading = teamsLoading || teamsFetching;
 
-
   return (
     <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
       <p className="text-lg font-bold text-neutral-900 mb-4 dark:text-neutral-100">
@@ -76,7 +75,10 @@ const TeamMembersSection: React.FC<TeamMembersSectionProps> = ({ teamId }) => {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
-                  {getDisplayName(member.userName, session?.user?.name as string)}
+                  {getDisplayName(
+                    member.userName,
+                    session?.user?.name as string,
+                  )}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400 truncate">
                   {member.userName}

@@ -128,12 +128,16 @@ export class ActionService {
       throw new ConflictError("Unsupported storage type");
     }
 
-const now = new Date();
-const uploadDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+    const now = new Date();
+    const uploadDate = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
 
-    const uploadPath = buildUploadPath(storage.storagePath || "", item.itemnumber, item.list.title, input.fileName, uploadDate);
-
-
+    const uploadPath = buildUploadPath(
+      storage.storagePath || "",
+      item.itemnumber,
+      item.list.title,
+      input.fileName,
+      uploadDate,
+    );
 
     const uploadUrl = await getDropboxUploadLink(
       storage.refreshToken,
