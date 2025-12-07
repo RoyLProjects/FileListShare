@@ -11,6 +11,7 @@ import { PublicAuthRouting } from "./public/authRouting.js";
 import { ItemsRouting } from "./public/itemsRouting.js";
 import { ActionRouting } from "./public/actionsRouting.js";
 import { DropboxRouting } from "./dashboard/dropboxRouting.js";
+import { teamInviteRouting } from "./dashboard/teamInviteRouting.js";
 
 const healthEndpoint = endpointsFactory.build({
   method: "get",
@@ -38,6 +39,7 @@ export const routing = {
       listDetails: listDetailsRouting,
       team: TeamRouting,
       teammember: TeamMemberRouting,
+      teamInvite: teamInviteRouting,
       storage: StorageRouting,
       dropbox: DropboxRouting,
     },
@@ -50,23 +52,3 @@ export const routing = {
   },
 };
 
-/*
-export const routing = {
-  v1: {
-    dashboard: {
-      link: linkRouting,
-      list: listRouting,
-      listDetails: listDetailsRouting,
-      team: TeamRouting,
-      teammember: TeamMemberRouting,
-      storage: StorageRouting,
-      dropbox: DropboxRouting,
-    },
-    public: {
-      action: ActionRouting,
-      auth: PublicAuthRouting,
-      items: ItemsRouting,
-    },
-    health: healthEndpoint,
-  },
-};*/

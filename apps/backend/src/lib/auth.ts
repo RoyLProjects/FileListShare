@@ -161,3 +161,14 @@ export const auth = betterAuth({
     },
   },
 });
+
+
+export async function getUserByEmail(email: string) : Promise<string | null> {
+  const prisma = getAuthPrismaClient();
+
+  const user = await prisma.user.findUnique({
+    where: { email }, 
+  });
+
+  return user ? user.id : null;
+}

@@ -67,4 +67,3 @@ export const TeamMemberRouting = new DependsOnMethod({
   delete: deleteTeamMemberEndpoint,
 });
 
-//todo team member invite

@@ -9,7 +9,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "api:client:gen": "openapi-typescript ../../apps/backend/openapi.json -o src/api.gen.ts"
+    "api:gen": "openapi-typescript ../../apps/backend/openapi.json -o src/api.gen.ts"
   },
   "dependencies": {},
   "devDependencies": {

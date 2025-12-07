@@ -176,6 +176,26 @@ export interface paths {
         patch: operations["PatchV1DashboardTeammember"];
         trace?: never;
     };
+    "/v1/dashboard/teamInvite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * invite a team member based on email.
+         * @description posts a team member invite for specified team
+         */
+        post: operations["PostV1DashboardTeamInvite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dashboard/storage": {
         parameters: {
             query?: never;
@@ -1601,6 +1621,65 @@ export interface operations {
                 };
             };
             /** @description PATCH /v1/dashboard/teammember Negative response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: false;
+                        statusCode: number;
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
+    PostV1DashboardTeamInvite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description POST /v1/dashboard/teamInvite Request body */
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * Format: email
+                     * @description Email of the member to invite
+                     */
+                    email: string;
+                    /**
+                     * Format: uuid
+                     * @description ID of the team to which the member is invited
+                     */
+                    teamId: string;
+                };
+            };
+        };
+        responses: {
+            /** @description POST /v1/dashboard/teamInvite Positive response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        success: true;
+                        data: {
+                            /** @description Indicates if the invitation was sent successfully */
+                            success: boolean;
+                            /** @description Additional information about the invitation process */
+                            message?: string;
+                        };
+                    };
+                };
+            };
+            /** @description POST /v1/dashboard/teamInvite Negative response */
             400: {
                 headers: {
                     [name: string]: unknown;
