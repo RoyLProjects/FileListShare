@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { linkId, listId, password, token, userId } from "./domainSchema.js";
+import { linkId, listId, password, token } from "./domainSchema.js";
 
 export const GetLinkRequestSchema = z.object({
   listId: listId,
@@ -10,9 +10,6 @@ export const LinkResponseSchema = z.object({
   linkId: linkId.optional(),
   token: token.optional(),
   hasPassword: z.boolean(),
-  createdAt: z.coerce.date().optional(),
-  createdBy: userId.optional(),
-  updatedAt: z.coerce.date().optional(),
 });
 
 export const CreateLinkRequestSchema = GetLinkRequestSchema.extend({
