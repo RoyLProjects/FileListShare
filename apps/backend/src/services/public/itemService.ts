@@ -10,6 +10,7 @@ import {
 } from "../../schemas/public/itemSchema.js";
 import { logger } from "../../lib/log.js";
 import { z } from "zod";
+import { getUserNameById } from "../../lib/auth.js";
 
 export class ItemService {
   static async getItems(
@@ -43,7 +44,13 @@ export class ItemService {
       );
       throw new InternalServerError("List not found");
     }
-    logger.info("Public items: list fetched successfully");
+    let createdByUser;
+    if(list.createdBy != null) {
+      const user = await getUserNameById(list.createdBy);
+      createdByUser = user ? user : "Unknown";
+    } else {
+      createdByUser = "Unknown";
+    }
 
     const responseData = {
       listId: list.id,
@@ -57,7 +64,7 @@ export class ItemService {
         status: item.status,
         delivered: item.delivered,
         deadline: item.deadline,
-        createdBy: item.createdBy,
+        createdBy: createdByUser,
       })),
     };
 
