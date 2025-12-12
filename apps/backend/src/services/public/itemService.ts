@@ -1,6 +1,5 @@
 import { getAppPrismaClient } from "../../lib/db.js";
 import {
-  ForbiddenError,
   InternalServerError,
   UnauthorizedError,
 } from "../../lib/resultHandler.js";
