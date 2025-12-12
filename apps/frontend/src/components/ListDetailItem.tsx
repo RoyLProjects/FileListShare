@@ -169,7 +169,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
         className="p-4 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="grid grid-cols-12 lg:grid-cols-15 gap-2 md:gap-4 items-center">
+        <div className="grid grid-cols-7 md:grid-cols-15 gap-2 md:gap-4 items-center">
           {/* Item Number */}
           <div className="col-span-1 shrink-0 min-w-10">
             <div className="w-10 h-10 bg-white dark:bg-neutral-900 rounded-lg flex items-center justify-center border border-neutral-200 dark:border-neutral-700">
@@ -180,7 +180,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
           </div>
 
           {/* Description */}
-          <div className="col-span-4 min-w-0 pl-5">
+          <div className="col-span-3 md:col-span-4 min-w-0 pl-2 md:pl-8">
             <p className="text-neutral-900 dark:text-neutral-100 font-medium wrap-break-word">
               {item.description}
             </p>
@@ -210,16 +210,16 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
           </div>
 
           {/* Status */}
-          <div className="col-span-3 md:col-span-2 text-center px-1">
+          <div className="hidden md:block md:col-span-2 text-center px-1">
             <span
-              className={`px-2 md:px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusStyles()}`}
+              className={`px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusStyles()}`}
             >
               {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
             </span>
           </div>
 
           {/* Delivery Status */}
-          <div className="col-span-3 md:col-span-2 text-center px-1">
+          <div className="col-span-2 md:col-span-2 text-center px-1">
             <span
               className={`px-2 md:px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getDeliveryStyles()}`}
             >
@@ -228,7 +228,7 @@ const ListDetailItem: React.FC<ListDetailItemProps> = ({
           </div>
 
           {/* Created By */}
-          <div className="col-span-2 text-center hidden lg:block">
+          <div className="col-span-2 text-center hidden md:block">
             <p className="text-sm text-neutral-700 dark:text-neutral-300 truncate">
               {item.createdBy}
             </p>

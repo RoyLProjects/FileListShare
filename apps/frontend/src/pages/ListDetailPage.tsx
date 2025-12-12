@@ -210,30 +210,46 @@ const ListDetailPage: React.FC = () => {
 
                 {/* Column Headers */}
                 {items?.length > 0 && (
-                  <div className="hidden lg:grid grid-cols-15 gap-4 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700">
-                    <div className="col-span-1 shrink-0 min-w-10 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
-                      #
+                  <>
+                    {/* Mobile Headers */}
+                    <div className="grid md:hidden grid-cols-7 gap-2 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700">
+                      <div className="col-span-1 shrink-0 min-w-10 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+                        #
+                      </div>
+                      <div className="col-span-3 min-w-0 pl-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+                        Description
+                      </div>
+                      <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
+                        Delivery
+                      </div>
+                      <div className="col-span-1 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-right"></div>
                     </div>
-                    <div className="col-span-4 min-w-0 pl-8 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
-                      Description
+                    {/* Desktop Headers */}
+                    <div className="hidden md:grid grid-cols-15 gap-4 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700">
+                      <div className="col-span-1 shrink-0 min-w-10 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+                        #
+                      </div>
+                      <div className="col-span-4 min-w-0 pl-8 text-sm font-semibold text-neutral-600 dark:text-neutral-400">
+                        Description
+                      </div>
+                      <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
+                        Uploads
+                      </div>
+                      <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
+                        Status
+                      </div>
+                      <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
+                        Delivery
+                      </div>
+                      <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
+                        Requested by
+                      </div>
+                      <div className="col-span-1 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-right">
+                        Deadline
+                      </div>
+                      <div className="col-span-1 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-right"></div>
                     </div>
-                    <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
-                      Uploads
-                    </div>
-                    <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
-                      Status
-                    </div>
-                    <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
-                      Delivery
-                    </div>
-                    <div className="col-span-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-center">
-                      Requested by
-                    </div>
-                    <div className="col-span-1 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-right">
-                      Deadline
-                    </div>
-                    <div className="col-span-1 text-sm font-semibold text-neutral-600 dark:text-neutral-400 text-right"></div>
-                  </div>
+                  </>
                 )}
 
                 {/* Loading State */}
