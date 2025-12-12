@@ -10,7 +10,6 @@ import {
   pageSize,
   teamId,
   title,
-  userId,
 } from "./domainSchema.js";
 
 export const GetListDetailsRequestSchema = z.object({
@@ -30,7 +29,7 @@ const listItemDetailSchema = z.object({
   delivered: z.boolean(),
   deadline: z.coerce.date().nullable(),
   createdAt: z.coerce.date(),
-  createdBy: userId,
+  createdBy: z.string(),
   updatedAt: z.coerce.date(),
 });
 
@@ -51,7 +50,17 @@ export const CreateListDetailsRequestSchema = z.object({
   status: itemstatus,
 });
 
-export const createListDetailsResponseSchema = listItemDetailSchema;
+export const createListDetailsResponseSchema = z.object({
+  itemId: itemId,
+  itemnumber: itemnumber,
+  listId: listId,
+  description: description,
+  uploadedFiles: z.array(z.string()),
+  comment: comment.optional(),
+  status: itemstatus,
+  delivered: z.boolean(),
+  deadline: z.coerce.date().nullable(),
+});
 
 export const UpdateListDetailsRequestSchema = z.object({
   itemId: itemId,

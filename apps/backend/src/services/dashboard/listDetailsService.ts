@@ -14,6 +14,7 @@ import {
   ListDetailsResponseSchema,
   UpdateListDetailsRequestSchema,
 } from "../../schemas/dashboard/listDetailsSchema.js";
+import { getUserNameById } from "../../lib/auth.js";
 
 export class ListDetailsService {
   static async getDetails(
@@ -52,6 +53,11 @@ export class ListDetailsService {
           "Unauthorized: User does not have access to this list",
         );
       }
+      let createdbyusername = "unknown";
+      if(list.createdBy) {
+        const user = await getUserNameById(list.createdBy);
+        createdbyusername = user || "";
+      }
 
       return {
         title: list.title,
@@ -67,7 +73,7 @@ export class ListDetailsService {
           delivered: it.delivered,
           deadline: it.deadline,
           createdAt: it.createdAt,
-          createdBy: it.createdBy,
+          createdBy: createdbyusername,
           updatedAt: it.updatedAt,
         })),
         totalItems: list._count.items ?? 0,
@@ -164,9 +170,6 @@ export class ListDetailsService {
       status: createdItem.status,
       delivered: createdItem.delivered,
       deadline: createdItem.deadline,
-      createdAt: createdItem.createdAt,
-      createdBy: createdItem.createdBy,
-      updatedAt: createdItem.updatedAt,
     };
   }
 
@@ -267,9 +270,6 @@ export class ListDetailsService {
         status: updated.status,
         delivered: updated.delivered,
         deadline: updated.deadline,
-        createdAt: updated.createdAt,
-        createdBy: updated.createdBy,
-        updatedAt: updated.updatedAt,
       };
     } catch (e: unknown) {
       logger.error({ err: e }, "updateListItem unexpected error");
