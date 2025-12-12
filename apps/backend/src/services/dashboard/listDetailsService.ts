@@ -54,7 +54,7 @@ export class ListDetailsService {
         );
       }
       let createdbyusername = "unknown";
-      if(list.createdBy) {
+      if (list.createdBy) {
         const user = await getUserNameById(list.createdBy);
         createdbyusername = user || "";
       }

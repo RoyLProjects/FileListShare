@@ -21,7 +21,6 @@ const FeaturesSection: React.FC = () => {
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              id="Windframe_04HW7QK2B"
             >
               {" "}
               <g>
@@ -51,7 +50,6 @@ const FeaturesSection: React.FC = () => {
               className="w-full h-full"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
-              id="Windframe_9ru6zEDPJ"
             >
               {" "}
               <path
@@ -76,7 +74,6 @@ const FeaturesSection: React.FC = () => {
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              id="Windframe_62qGuVsxH"
             >
               {" "}
               <circle
@@ -172,7 +169,6 @@ const FeaturesSection: React.FC = () => {
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 511 511"
-              id="Windframe_cHteWUuV3"
             >
               {" "}
               <g>
@@ -214,7 +210,6 @@ const FeaturesSection: React.FC = () => {
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              id="Windframe_9e5ZmRN34"
             >
               {" "}
               <path
@@ -253,7 +248,6 @@ const FeaturesSection: React.FC = () => {
               viewBox="0 0 36 36"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
-              id="Windframe_VHw1vQrXk"
             >
               {" "}
               <rect

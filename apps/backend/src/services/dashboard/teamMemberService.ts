@@ -66,15 +66,14 @@ export class TeamMemberService {
     const pageSize = input.pageSize ?? members.length;
     const total = members.length;
 
-
     const items = await Promise.all(
       members.map(async (m) => {
         let createdbyusername = "unknown";
-        if(m.createdBy) {
+        if (m.createdBy) {
           const user = await getUserNameById(m.createdBy);
           createdbyusername = user || "";
         }
-        
+
         return {
           teamMemberId: m.id,
           userName: (await getUserNameById(m.userId)) || "Unknown User",

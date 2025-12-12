@@ -496,9 +496,6 @@ export interface operations {
                             linkId?: string;
                             token?: string;
                             hasPassword: boolean;
-                            createdAt?: unknown;
-                            createdBy?: string;
-                            updatedAt?: unknown;
                         };
                     };
                 };
@@ -552,9 +549,6 @@ export interface operations {
                             linkId?: string;
                             token?: string;
                             hasPassword: boolean;
-                            createdAt?: unknown;
-                            createdBy?: string;
-                            updatedAt?: unknown;
                         };
                     };
                 };
@@ -1028,9 +1022,6 @@ export interface operations {
                             status: "published" | "draft";
                             delivered: boolean;
                             deadline: unknown;
-                            createdAt: unknown;
-                            createdBy: string;
-                            updatedAt: unknown;
                         };
                     };
                 };
@@ -1170,9 +1161,6 @@ export interface operations {
                             status: "published" | "draft";
                             delivered: boolean;
                             deadline: unknown;
-                            createdAt: unknown;
-                            createdBy: string;
-                            updatedAt: unknown;
                         };
                     };
                 };
@@ -1612,7 +1600,6 @@ export interface operations {
                                 createdAt: unknown;
                                 /** Format: uuid */
                                 id: string;
-                                createdBy: string;
                                 /** Format: uuid */
                                 teamId: string;
                             };

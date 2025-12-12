@@ -44,7 +44,7 @@ export class ItemService {
       throw new InternalServerError("List not found");
     }
     let createdByUser;
-    if(list.createdBy != null) {
+    if (list.createdBy != null) {
       const user = await getUserNameById(list.createdBy);
       createdByUser = user ? user : "Unknown";
     } else {

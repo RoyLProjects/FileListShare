@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { authClient } from "../apiClient/authClient";
 import { env } from "../env";
+import useAuth from "../hooks/User";
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const user = useAuth();
 
+  useMemo(() => {
+    if (user.user) {
+      window.location.href = "/dashboard";
+    }
+  }, [user]);
   async function handleDropboxLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);

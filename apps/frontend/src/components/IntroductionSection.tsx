@@ -18,11 +18,11 @@ const IntroductionSection: React.FC = () => {
             className="w-full sm:w-auto bg-blue-600 dark:bg-blue-500 text-white font-semibold px-8 py-4 rounded-lg text-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
             Get Started
-        </a>
+          </a>
+        </div>
       </div>
-    </div>
-    {/* Image */}
-     {/*  <div className="mt-12 rounded-xl shadow-xl overflow-hidden border border-gray-300 dark:border-gray-700 max-w-3xl mx-auto">
+      {/* Image */}
+      {/*  <div className="mt-12 rounded-xl shadow-xl overflow-hidden border border-gray-300 dark:border-gray-700 max-w-3xl mx-auto">
         <img
           alt="explainer how file requests work. first a user creates a file request list, then shares the link with others to collect files into their dropbox."
           src="/preview/intro-section.png"
