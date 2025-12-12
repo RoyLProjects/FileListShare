@@ -55,7 +55,6 @@ export const UpdateTeamMemberResponseSchema = z.object({
       userId: userId,
       createdAt: z.coerce.date(),
       id: teamMemberId,
-      createdBy: userId,
       teamId: teamId,
     }),
   ]),

@@ -66,20 +66,27 @@ export class TeamMemberService {
     const pageSize = input.pageSize ?? members.length;
     const total = members.length;
 
-    //better mapping
 
     const items = await Promise.all(
-      members.map(async (m) => ({
-        teamMemberId: m.id,
-        userName: (await getUserNameById(m.userId)) || "Unknown User",
-        createdAt: m.createdAt,
-        createdBy: m.createdBy,
-        currentMember: Boolean(m.userId === userId),
-        permissions: m.permissions.map((p: any) => ({
-          teamMemberId: p.teamMemberId,
-          permission: p.permission,
-        })),
-      })),
+      members.map(async (m) => {
+        let createdbyusername = "unknown";
+        if(m.createdBy) {
+          const user = await getUserNameById(m.createdBy);
+          createdbyusername = user || "";
+        }
+        
+        return {
+          teamMemberId: m.id,
+          userName: (await getUserNameById(m.userId)) || "Unknown User",
+          createdAt: m.createdAt,
+          createdBy: createdbyusername,
+          currentMember: Boolean(m.userId === userId),
+          permissions: m.permissions.map((p: any) => ({
+            teamMemberId: p.teamMemberId,
+            permission: p.permission,
+          })),
+        };
+      }),
     );
 
     return {
@@ -214,7 +221,6 @@ export class TeamMemberService {
       userId: updatedMember.userId,
       createdAt: updatedMember.createdAt,
       id: updatedMember.id,
-      createdBy: updatedMember.createdBy,
       teamId: updatedMember.teamId,
     };
 
