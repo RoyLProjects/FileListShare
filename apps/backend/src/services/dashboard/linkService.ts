@@ -59,9 +59,6 @@ export class LinkService {
       linkId: linkId,
       token: token,
       hasPassword: hasPassword,
-      createdAt: result?.createdAt ?? undefined,
-      createdBy: result?.createdBy ?? undefined,
-      updatedAt: result?.updatedAt ?? undefined,
     };
   }
 
@@ -170,9 +167,6 @@ export class LinkService {
         linkId: creation.id,
         token: creation.token,
         hasPassword: Boolean(creation.passwordHash),
-        createdAt: creation.createdAt ?? undefined,
-        createdBy: creation.createdBy,
-        updatedAt: creation.updatedAt ?? undefined,
       };
     }
   }
