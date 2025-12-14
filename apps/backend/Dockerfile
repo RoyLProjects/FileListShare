@@ -35,7 +35,7 @@ RUN pnpm --filter backend run generate:all || true
 RUN npm install -g typescript
 # Invoke the TypeScript compiler directly to avoid pnpm's package-scoped wrapper resolving a missing local
 # `node_modules/typescript` path inside the backend package during image build.
-RUN tsc -p apps/backend/tsconfig.build.json
+RUN pnpm -w exec tsc -p apps/backend/tsconfig.build.json
 
 
 # --- Runtime stage ---------------------------------------------------------
