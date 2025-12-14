@@ -1,0 +1,24 @@
+# Dependabot configuration
+# - Runs once a week
+# - Groups (bundles) updates by type (minor + patch)
+# - Targets the `main` branch for created pull requests
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    groups:
+      update-types:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+# If you want Dependabot to only open patch updates for now,
+# change the `update-types` value above to just:
+#   update-types:
+#     - "patch"

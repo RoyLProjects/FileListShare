@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pnpm: build - apps/backend",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["--filter", "backend", "build"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
