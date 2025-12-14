@@ -13,6 +13,9 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 # Copy backend package manifest and TS configs to allow installing deps only for backend
 COPY apps/backend/package.json apps/backend/tsconfig.json apps/backend/tsconfig.build.json ./apps/backend/
 
+# set NODE_ENV to development to ensure devDependencies are installed
+ENV NODE_ENV=development
+
 # Install dependencies (will install workspace deps as needed)
 # Use shamefully-hoist so binaries like `tsc` are available where scripts expect them
 RUN pnpm install --frozen-lockfile --shamefully-hoist
@@ -33,6 +36,7 @@ RUN pnpm --filter backend run generate:all || true
 # Build the backend (TypeScript compilation)
 # Ensure `tsc` is available in the build image (some pnpm workspace layouts don't expose it at package/node_modules)
 RUN npm install -g typescript
+
 # Invoke the TypeScript compiler directly to avoid pnpm's package-scoped wrapper resolving a missing local
 # `node_modules/typescript` path inside the backend package during image build.
 RUN pnpm -w exec tsc -p apps/backend/tsconfig.build.json
