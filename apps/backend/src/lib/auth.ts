@@ -213,3 +213,18 @@ export async function getUserNameById(userId: string): Promise<string | null> {
 
   return user ? user.name : null;
 }
+
+export async function getUserStorageAccount(userId: string, providerId: string): Promise<string[]> {
+  const prisma = getAuthPrismaClient();
+  try{
+  const providers = await prisma.account.findMany({
+    where: { userId: userId, providerId: providerId },
+  });
+    const accountIds = providers.map((provider) => provider.accountId);
+
+  return accountIds;
+  } catch (error) {
+    logger.error("Error fetching user storage accounts:", error);
+    return [];
+  }
+}

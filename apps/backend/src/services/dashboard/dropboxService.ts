@@ -20,6 +20,7 @@ import { PKCEStore } from "../../lib/PKCEStore.js";
 import { encryptRefreshToken } from "../../lib/crypto.js";
 import { TokenStore } from "../../lib/TokenStore.js";
 import { getDropboxAccessToken } from "../../lib/dropboxUntils.js";
+import { getUserStorageAccount } from "../../lib/auth.js";
 
 export class DropboxService {
   static async start(
@@ -177,6 +178,12 @@ export class DropboxService {
     const encryptedRefreshToken = encryptRefreshToken(tokens.refresh_token);
 
     if (pkceUser) {
+      const user = await getUserStorageAccount(userId, "dropbox");
+      if (!user.includes(tokens.account_id)) {
+        logger.error ("cannot connect other dropbox account than the one authenticated")
+        return { url: frontendUrl.toString() };
+      }
+
       await TokenStore.create(userId, { refreshToken: encryptedRefreshToken });
       logger.info("Stored Dropbox refresh token for user");
 
