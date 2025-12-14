@@ -3,8 +3,8 @@ version: "3.9"
 services:
   backend:
     build:
-      context: ../..
-      dockerfile: ./apps/backend/Dockerfile
+      context: .
+      dockerfile: apps/backend/Dockerfile
     container_name: my-backend
     depends_on:
       - postgres
