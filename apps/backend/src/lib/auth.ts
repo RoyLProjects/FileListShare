@@ -51,6 +51,7 @@ export const auth = betterAuth({
           if (account.accessToken) {
             account.accessToken = encryptRefreshToken(account.accessToken);
           }
+          return { data: account };
         },
         after: async (account) => {
           if (account.providerId !== "dropbox") {
@@ -97,6 +98,7 @@ export const auth = betterAuth({
           if (account.accessToken) {
             account.accessToken = encryptRefreshToken(account.accessToken);
           }
+          return { data: account };
         },
         after: async (account) => {
           if (account.providerId !== "dropbox") return;
@@ -189,7 +191,6 @@ export const auth = betterAuth({
       ],
       token_access_type: "offline",
       accessType: "offline",
-      force_reapprove: true,
     },
   },
 });
