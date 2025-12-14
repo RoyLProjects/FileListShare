@@ -11,32 +11,44 @@ services:
       - redis
       - loki
       - prometheus
+      - grafana
     environment:
       # Run in default
-      NODE_ENV: production
-      PORT: 3001
-      BASE_URL: http://localhost:3001
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3001}
+      BASE_URL: ${BASE_URL:-http://localhost:3001}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
       # app database
-      APP_DB_Name: customdb
-      DATABASE_HOST: postgres:5432
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: mysecretpassword
+      APP_DB_Name: ${APP_DB_NAME:-customdb}
+      DATABASE_HOST: ${DATABASE_HOST:-postgres:5432}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-mysecretpassword}
       # auth database
-      AUTH_DB_Name: authdb
-      AUTH_DATABASE_HOST: postgres:5432
-      AUTH_DATABASE_USER: postgres
-      AUTH_DATABASE_PASSWORD: mysecretpassword
+      AUTH_DB_Name: ${AUTH_DB_NAME:-authdb}
+      AUTH_DATABASE_HOST: ${AUTH_DATABASE_HOST:-postgres:5432}
+      AUTH_DATABASE_USER: ${AUTH_DATABASE_USER:-postgres}
+      AUTH_DATABASE_PASSWORD: ${AUTH_DATABASE_PASSWORD:-mysecretpassword}
       # database passwords (for internal use in the app)
-      APP_DB_PASSWORD: mysecretpassword
-      AUTH_DB_PASSWORD: mysecretpassword
-      MIGRATOR_DB_PASSWORD: mysecretpassword
-      #auth secret
-      AUTH_SECRET: O0ZhRHEP8ccCq7wSfheBnhY5JIqkLjjJ
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:-mysecretpassword}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:-mysecretpassword}
+      MIGRATOR_DB_PASSWORD: ${MIGRATOR_DB_PASSWORD:-mysecretpassword}
+      # auth secret
+      AUTH_SECRET: ${AUTH_SECRET:-O0ZhRHEP8ccCq7wSfheBnhY5JIqkLjjJ}
+      # Storage Encryption
+      STORAGE_ENCRYPTION_KEY: ${STORAGE_ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      REDIS_ENCRYPTION_KEY: ${REDIS_ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      SESSION_SECRET: ${SESSION_SECRET:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      SESSION_MAX_AGE: ${SESSION_MAX_AGE:-86400000}
+      PUBLIC_SESSION_MAX_AGE: ${PUBLIC_SESSION_MAX_AGE:-600000}
+      PUBLIC_ENDPOINT_COOKIE_SECRET: ${PUBLIC_ENDPOINT_COOKIE_SECRET:-your_public_endpoint_cookie_secret_min_32_chars}
+      # Dropbox Integration
+      DROPBOX_CLIENT_ID: ${DROPBOX_CLIENT_ID}
+      DROPBOX_CLIENT_SECRET: ${DROPBOX_CLIENT_SECRET}
       # other vars
-      REDIS_URL: redis://redis:6379
-      LOKI_URL: http://loki:3100
-      LOG_LEVEL: info
-      PROMETHEUS_ENABLED: true
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      LOKI_URL: ${LOKI_URL:-http://loki:3100}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      PROMETHEUS_ENABLED: ${PROMETHEUS_ENABLED:-true}
 
     volumes:
       - ./generated:/shared
@@ -48,16 +60,14 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: postgres
-    ports:
-      - "5432:5432" #REMOVE IN PRODUCTION, ONLY FOR LOCAL DEV
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      APP_DB_PASSWORD: mysecretpassword
-      AUTH_DB_PASSWORD: mysecretpassword
-      MIGRATOR_DB_PASSWORD: mysecretpassword
-      AUTH_DB_Name: authdb
-      APP_DB_Name: customdb
+      POSTGRES_USER: ${POSTGRES_USER:-myuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mypassword}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:-mysecretpassword}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:-mysecretpassword}
+      MIGRATOR_DB_PASSWORD: ${MIGRATOR_DB_PASSWORD:-mysecretpassword}
+      AUTH_DB_Name: ${AUTH_DB_NAME:-authdb}
+      APP_DB_Name: ${APP_DB_NAME:-customdb}
     volumes:
       - ./db-init:/docker-entrypoint-initdb.d:ro
     networks:
@@ -65,10 +75,8 @@ services:
 
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379" #REMOVE IN PRODUCTION, ONLY FOR LOCAL DEV
     container_name: redis
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server"]
     volumes:
       - redis_data:/data
     networks:
@@ -77,8 +85,6 @@ services:
   loki:
     image: grafana/loki:2.9.4
     container_name: loki
-    ports:
-      - "3100:3100"
     volumes:
       - loki_data:/loki
     networks:
@@ -92,8 +98,25 @@ services:
       - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - backend-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
     ports:
-      - "9090:9090"
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_SERVER_ROOT_URL=${GRAFANA_ROOT_URL:-http://localhost:3000}
+      - GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS:-}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+      - loki
     networks:
       - backend-net
 
@@ -102,6 +125,7 @@ volumes:
   redis_data:
   loki_data:
   prometheus_data:
+  grafana_data:
 
 networks:
   backend-net:
