@@ -51,7 +51,9 @@ services:
       PROMETHEUS_ENABLED: ${PROMETHEUS_ENABLED:-true}
 
     volumes:
-      - ./generated:/shared
+      - type: bind
+        source: ../../generated
+        target: /shared
     ports:
       - "3001:3001" # Expose naar buiten (Coolify kan dit ook zelf mappen)
     networks:
@@ -69,7 +71,10 @@ services:
       AUTH_DB_Name: ${AUTH_DB_NAME:-authdb}
       APP_DB_Name: ${APP_DB_NAME:-customdb}
     volumes:
-      - ./db-init:/docker-entrypoint-initdb.d:ro
+      - type: bind
+        source: ./db-init
+        target: /docker-entrypoint-initdb.d
+        read_only: true
     networks:
       - backend-net
 
@@ -94,7 +99,10 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - type: bind
+        source: ./prometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
       - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
@@ -113,7 +121,10 @@ services:
       - GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS:-}
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - type: bind
+        source: ./grafana/provisioning
+        target: /etc/grafana/provisioning
+        read_only: true
     depends_on:
       - prometheus
       - loki
