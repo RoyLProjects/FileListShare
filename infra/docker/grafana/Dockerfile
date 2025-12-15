@@ -1,2 +1,2 @@
 FROM grafana/grafana:latest
-COPY grafana/provisioning /etc/grafana/provisioning
+COPY provisioning /etc/grafana/provisioning

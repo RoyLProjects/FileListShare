@@ -61,8 +61,8 @@ services:
 
   postgres:
     build:
-      context: .
-      dockerfile: db-init/Dockerfile
+      context: ./db-init
+      dockerfile: Dockerfile
     container_name: postgres
     environment:
       POSTGRES_USER: ${DATABASE_USER:-myuser}
@@ -96,8 +96,8 @@ services:
 
   prometheus:
     build:
-      context: .
-      dockerfile: prometheus/Dockerfile
+      context: ./prometheus
+      dockerfile: Dockerfile
     container_name: prometheus
     volumes:
       - prometheus_data:/prometheus
@@ -108,8 +108,8 @@ services:
 
   grafana:
     build:
-      context: .
-      dockerfile: grafana/Dockerfile
+      context: ./grafana
+      dockerfile: Dockerfile
     container_name: grafana
     ports:
       - "${GRAFANA_PORT:-3000}:3000"
