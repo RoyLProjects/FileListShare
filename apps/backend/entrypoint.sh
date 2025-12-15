@@ -44,7 +44,11 @@ echo "Postgres is ready, running migrations..."
 export DATABASE_URL_CUSTOM="postgresql://${MIGRATOR_USER}:${MIGRATOR_PW}@${APP_DB_HOSTPORT}/${APP_DB_Name}"
 export DATABASE_URL_AUTH="postgresql://${MIGRATOR_USER}:${MIGRATOR_PW}@${AUTH_DB_HOSTPORT}/${AUTH_DB_Name}"
 
-echo "Running pnpm migrate:all:prod"
+echo "Generating Prisma clients..."
+
+pnpm --filter backend generate:all
+
+echo "Running database migrations (migrate:all:prod)..."
 
 pnpm --filter backend migrate:all:prod
 

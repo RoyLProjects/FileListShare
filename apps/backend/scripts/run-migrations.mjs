@@ -57,18 +57,18 @@ async function main() {
   const target = process.argv[2] ?? "all";
 
   if (target === "custom" || target === "all") {
-    console.log("\n📦 Running Custom DB migrations with:");
-    console.log("   DATABASE_URL =", CUSTOM_DB_URL);
-    // prisma.config.ts will read DATABASE_URL from environment
+    console.log("\n📦 Running Custom DB migrations...");
+    console.log("   Schema: prisma/app/schema.prisma");
+    console.log("   DATABASE_URL: postgresql://app_migrator:***@", DB_HOST, "/", APP_DB_NAME);
     await run("npx prisma migrate deploy --schema=prisma/app/schema.prisma", {
       DATABASE_URL: CUSTOM_DB_URL,
     });
   }
 
   if (target === "auth" || target === "all") {
-    console.log("\n🔐 Running Auth DB migrations with:");
-    console.log("   AUTH_DATABASE_URL =", AUTH_DB_URL);
-    // prisma.config.ts will read AUTH_DATABASE_URL from environment
+    console.log("\n🔐 Running Auth DB migrations...");
+    console.log("   Schema: prisma/auth/schema.prisma");
+    console.log("   AUTH_DATABASE_URL: postgresql://auth_app_migrator:***@", DB_HOST, "/", AUTH_DB_NAME);
     await run("npx prisma migrate deploy --schema=prisma/auth/schema.prisma", {
       AUTH_DATABASE_URL: AUTH_DB_URL,
     });
