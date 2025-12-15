@@ -1,2 +1,2 @@
 FROM postgres:16-alpine
-COPY *.sh /docker-entrypoint-initdb.d/
+COPY db-init/*.sh /docker-entrypoint-initdb.d/

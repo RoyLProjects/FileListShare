@@ -61,12 +61,12 @@ services:
 
   postgres:
     build:
-      context: ./db-init
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: db-init/Dockerfile
     container_name: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-myuser}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mypassword}
+      POSTGRES_USER: ${DATABASE_USER:-myuser}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-mypassword}
       APP_DB_PASSWORD: ${APP_DB_PASSWORD:-mysecretpassword}
       AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:-mysecretpassword}
       MIGRATOR_DB_PASSWORD: ${MIGRATOR_DB_PASSWORD:-mysecretpassword}
@@ -96,8 +96,8 @@ services:
 
   prometheus:
     build:
-      context: ./prometheus
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: prometheus/Dockerfile
     container_name: prometheus
     volumes:
       - prometheus_data:/prometheus
@@ -108,8 +108,8 @@ services:
 
   grafana:
     build:
-      context: ./grafana
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: grafana/Dockerfile
     container_name: grafana
     ports:
       - "${GRAFANA_PORT:-3000}:3000"
