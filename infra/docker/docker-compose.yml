@@ -61,7 +61,7 @@ services:
 
   postgres:
     build:
-      context: ./db-init
+      context: ./infra/docker/db-init
       dockerfile: Dockerfile
     container_name: postgres
     environment:
@@ -96,7 +96,7 @@ services:
 
   prometheus:
     build:
-      context: ./prometheus
+      context: ./infra/docker/prometheus
       dockerfile: Dockerfile
     container_name: prometheus
     volumes:
@@ -108,7 +108,7 @@ services:
 
   grafana:
     build:
-      context: ./grafana
+      context: ./infra/docker/grafana
       dockerfile: Dockerfile
     container_name: grafana
     ports:
