@@ -67,7 +67,9 @@ function ensureCustomHttpError(error: unknown): CustomHttpError {
   const e = error instanceof Error ? error : new Error(String(error));
 
   if (e instanceof Prisma.PrismaClientKnownRequestError) {
-    switch (e.code) {
+    // Type assertion for Prisma error code property
+    const prismaError = e as Prisma.PrismaClientKnownRequestError & { code: string };
+    switch (prismaError.code) {
       case "P2002":
         return new ConflictError("A record with this value already exists.");
 

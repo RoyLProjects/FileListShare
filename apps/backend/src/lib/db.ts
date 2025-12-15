@@ -4,6 +4,9 @@ import { PrismaClient as AuthPrismaClient } from "../../prisma/auth/generated/au
 import { logger } from "./log.js";
 import { env } from "../env.js";
 import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
+
+const { Pool } = pg;
 
 let prisma: AppPrismaClient | null = null;
 let authPrisma: AuthPrismaClient | null = null;
@@ -36,9 +39,10 @@ async function retryConnection(
 
 export const InitDatabase = async () => {
   if (!prisma) {
-    const adapter = new PrismaPg({
-      url: env.DATABASE_URL,
+    const pool = new Pool({
+      connectionString: env.DATABASE_URL,
     });
+    const adapter = new PrismaPg(pool);
     // Initialize application (PostgreSQL) database
     prisma = new AppPrismaClient({
       adapter: adapter,
@@ -47,9 +51,10 @@ export const InitDatabase = async () => {
   }
 
   if (!authPrisma) {
-    const adapter = new PrismaPg({
-      url: env.AUTH_DATABASE_URL,
+    const authPool = new Pool({
+      connectionString: env.AUTH_DATABASE_URL,
     });
+    const adapter = new PrismaPg(authPool);
     // Initialize Better Auth (PostgreSQL) auth database
     authPrisma = new AuthPrismaClient({
       adapter: adapter,
@@ -60,9 +65,10 @@ export const InitDatabase = async () => {
 
 export const getAppPrismaClient = (): AppPrismaClient => {
   if (!prisma) {
-    const adapter = new PrismaPg({
-      url: env.DATABASE_URL,
+    const pool = new Pool({
+      connectionString: env.DATABASE_URL,
     });
+    const adapter = new PrismaPg(pool);
     prisma = new AppPrismaClient({
       adapter: adapter,
     });
@@ -72,9 +78,10 @@ export const getAppPrismaClient = (): AppPrismaClient => {
 
 export const getAuthPrismaClient = (): AuthPrismaClient => {
   if (!authPrisma) {
-    const adapter = new PrismaPg({
-      url: env.AUTH_DATABASE_URL,
+    const authPool = new Pool({
+      connectionString: env.AUTH_DATABASE_URL,
     });
+    const adapter = new PrismaPg(authPool);
     authPrisma = new AuthPrismaClient({
       adapter: adapter,
     });
@@ -84,9 +91,10 @@ export const getAuthPrismaClient = (): AuthPrismaClient => {
 
 export const getDatabaseAppStatus = async (): Promise<boolean> => {
   try {
-    const adapter = new PrismaPg({
-      url: env.DATABASE_URL,
+    const pool = new Pool({
+      connectionString: env.DATABASE_URL,
     });
+    const adapter = new PrismaPg(pool);
     // Use existing client if present, otherwise use a transient client for the check
     const client =
       prisma ??
@@ -98,6 +106,7 @@ export const getDatabaseAppStatus = async (): Promise<boolean> => {
       // transient connect/disconnect to validate connectivity
       await client.$connect();
       await client.$disconnect();
+      await pool.end();
     } else {
       // If a shared client exists, run a lightweight query
       // SELECT 1 is a minimal, no-op check for PostgreSQL
@@ -115,9 +124,10 @@ export const getDatabaseAppStatus = async (): Promise<boolean> => {
 
 export const getDatabaseAuthStatus = async (): Promise<boolean> => {
   try {
-    const adapter = new PrismaPg({
-      url: env.AUTH_DATABASE_URL,
+    const authPool = new Pool({
+      connectionString: env.AUTH_DATABASE_URL,
     });
+    const adapter = new PrismaPg(authPool);
     // Use existing client if present, otherwise use a transient client for the check
     const client =
       authPrisma ??
@@ -128,6 +138,7 @@ export const getDatabaseAuthStatus = async (): Promise<boolean> => {
     if (!authPrisma) {
       await client.$connect();
       await client.$disconnect();
+      await authPool.end();
     } else {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

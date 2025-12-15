@@ -56,19 +56,20 @@ function run(command, extraEnv) {
 async function main() {
   const target = process.argv[2] ?? "all";
 
-  if (target === "custom") {
+  if (target === "custom" || target === "all") {
     console.log("\n📦 Running Custom DB migrations with:");
     console.log("   DATABASE_URL =", CUSTOM_DB_URL);
-    await run("prisma migrate deploy --schema=prisma/app/schema.prisma", {
+    // prisma.config.ts will read DATABASE_URL from environment
+    await run("npx prisma migrate deploy --schema=prisma/app/schema.prisma", {
       DATABASE_URL: CUSTOM_DB_URL,
     });
   }
 
-  if (target === "auth") {
+  if (target === "auth" || target === "all") {
     console.log("\n🔐 Running Auth DB migrations with:");
     console.log("   AUTH_DATABASE_URL =", AUTH_DB_URL);
-    // auth schema and its migrations are kept in prisma/auth so they don't
-    await run("prisma migrate deploy --schema=prisma/auth/schema.prisma", {
+    // prisma.config.ts will read AUTH_DATABASE_URL from environment
+    await run("npx prisma migrate deploy --schema=prisma/auth/schema.prisma", {
       AUTH_DATABASE_URL: AUTH_DB_URL,
     });
   }
