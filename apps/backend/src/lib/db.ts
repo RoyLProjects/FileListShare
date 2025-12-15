@@ -3,6 +3,7 @@ import { PrismaClient as AppPrismaClient } from "../../prisma/app/generated/app/
 import { PrismaClient as AuthPrismaClient } from "../../prisma/auth/generated/auth/index.js";
 import { logger } from "./log.js";
 import { env } from "../env.js";
+import { PrismaPg } from '@prisma/adapter-pg';
 
 let prisma: AppPrismaClient | null = null;
 let authPrisma: AuthPrismaClient | null = null;
@@ -35,25 +36,23 @@ async function retryConnection(
 
 export const InitDatabase = async () => {
   if (!prisma) {
-    // Initialize Prisma (PostgreSQL) app database
+    const adapter = new PrismaPg({
+      url: env.DATABASE_URL,
+    });
+    // Initialize application (PostgreSQL) database
     prisma = new AppPrismaClient({
-      datasources: {
-        db: {
-          url: env.DATABASE_URL, // your URL here
-        },
-      },
+      adapter: adapter,
     });
     await retryConnection(() => prisma!.$connect(), "PostgreSQL");
   }
 
   if (!authPrisma) {
+    const adapter = new PrismaPg({
+      url: env.AUTH_DATABASE_URL,
+    });
     // Initialize Better Auth (PostgreSQL) auth database
     authPrisma = new AuthPrismaClient({
-      datasources: {
-        db: {
-          url: env.AUTH_DATABASE_URL, // your URL here
-        },
-      },
+      adapter: adapter,
     });
     await retryConnection(() => authPrisma!.$connect(), "Auth PostgreSQL");
   }
@@ -61,12 +60,11 @@ export const InitDatabase = async () => {
 
 export const getAppPrismaClient = (): AppPrismaClient => {
   if (!prisma) {
+    const adapter = new PrismaPg({
+      url: env.DATABASE_URL,
+    });
     prisma = new AppPrismaClient({
-      datasources: {
-        db: {
-          url: env.DATABASE_URL, // your URL here
-        },
-      },
+      adapter: adapter,
     });
   }
   return prisma;
@@ -74,12 +72,11 @@ export const getAppPrismaClient = (): AppPrismaClient => {
 
 export const getAuthPrismaClient = (): AuthPrismaClient => {
   if (!authPrisma) {
+    const adapter = new PrismaPg({
+      url: env.AUTH_DATABASE_URL,
+    });
     authPrisma = new AuthPrismaClient({
-      datasources: {
-        db: {
-          url: env.AUTH_DATABASE_URL, // your URL here
-        },
-      },
+      adapter: adapter,
     });
   }
   return authPrisma;
@@ -87,15 +84,14 @@ export const getAuthPrismaClient = (): AuthPrismaClient => {
 
 export const getDatabaseAppStatus = async (): Promise<boolean> => {
   try {
+    const adapter = new PrismaPg({
+      url: env.DATABASE_URL,
+    });
     // Use existing client if present, otherwise use a transient client for the check
     const client =
       prisma ??
       new AppPrismaClient({
-        datasources: {
-          db: {
-            url: env.DATABASE_URL, // your URL here
-          },
-        },
+        adapter: adapter,
       });
 
     if (!prisma) {
@@ -119,14 +115,14 @@ export const getDatabaseAppStatus = async (): Promise<boolean> => {
 
 export const getDatabaseAuthStatus = async (): Promise<boolean> => {
   try {
+    const adapter = new PrismaPg({
+      url: env.AUTH_DATABASE_URL,
+    });
+    // Use existing client if present, otherwise use a transient client for the check
     const client =
       authPrisma ??
       new AuthPrismaClient({
-        datasources: {
-          db: {
-            url: env.AUTH_DATABASE_URL, // your URL here
-          },
-        },
+        adapter: adapter,
       });
 
     if (!authPrisma) {
