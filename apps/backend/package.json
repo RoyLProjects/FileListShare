@@ -33,7 +33,7 @@
     "cookies": "^0.9.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "express-zod-api": "^25.6.1",
+    "express-zod-api": "^26.0.0",
     "helmet": "^8.1.0",
     "install": "^0.13.0",
     "nanoid": "^5.1.6",
